@@ -1,0 +1,1976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Music Player</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Courgette&family=Elsie:wght@400;900&family=Gamja+Flower&family=Hachi+Maru+Pop&family=Just+Another+Hand&family=Montserrat:wght@400;500;600;700&family=Pathway+Gothic+One&family=Pixelify+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Pompiere&family=Press+Start+2P&family=Schoolbell&family=Sue+Ellen+Francisco&family=Yomogi&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+  --header-color:#8a8a8a;
+  --title-color:#1a1a1a;
+  --song-title-color:#1a1a1a;
+  --artist-color:#767676;
+  --bg-color:#ffffff;
+  --font-family:'Montserrat',sans-serif;
+  --scale:1;
+  --text-scale:1;
+  --pattern-opacity:0.35;
+  --accent-color:#1a1a1a;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
+  background:transparent !important;
+}
+
+body{
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:4px;
+  overflow:hidden;
+  font-family:Arial,sans-serif;
+}
+
+
+/* PLAYER */
+
+.player{
+  width:290px;
+  transform:scale(var(--scale));
+  transform-origin:top center;
+  background-color:var(--bg-color);
+  background-image:none;
+  border:1px solid #222;
+  border-radius:8px;
+  overflow:hidden;
+  box-shadow:0 6px 18px rgba(0,0,0,0.1);
+  position:relative;
+}
+
+.player[data-pattern="grid"]{
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(120,120,120,var(--pattern-opacity)) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(120,120,120,var(--pattern-opacity)) 1px,
+      transparent 1px
+    );
+  background-size:20px 20px;
+}
+
+.player[data-pattern="dots"]{
+  background-image:
+    radial-gradient(
+      rgba(120,120,120,var(--pattern-opacity)) 1.4px,
+      transparent 1.4px
+    );
+  background-size:16px 16px;
+}
+
+
+/* HEADER */
+
+.header{
+  background:var(--header-color);
+  padding:12px 14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  border-bottom:1px solid #222;
+}
+
+.header .title{
+  color:var(--title-color);
+  font-family:var(--font-family);
+  font-weight:600;
+  font-size:calc(16px * var(--text-scale));
+  letter-spacing:.3px;
+  outline:none;
+  border-radius:4px;
+  padding:2px 6px;
+  margin:-2px -6px;
+  cursor:text;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  flex:1;
+  min-width:0;
+}
+
+.header .title:hover{
+  background:rgba(255,255,255,.25);
+}
+
+.header .title:focus{
+  background:rgba(255,255,255,.4);
+}
+
+
+/* MENU */
+
+.menu-btn{
+  width:26px;
+  height:26px;
+  background:#fff;
+  border:1px solid #222;
+  border-radius:5px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  font-size:14px;
+  line-height:1;
+  user-select:none;
+  flex-shrink:0;
+}
+
+.menu-btn:hover{
+  background:#f0f0f0;
+  transform:rotate(45deg);
+}
+
+
+/* COVER */
+
+.cover{
+  margin:16px auto 8px;
+  width:170px;
+  height:160px;
+  border:1px solid #222;
+  border-radius:6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#aaa;
+  font-size:13px;
+  overflow:hidden;
+  background:#fafafa;
+  flex-direction:column;
+  gap:6px;
+}
+
+.cover .cover-icon{
+  font-size:26px;
+  opacity:.5;
+}
+
+.cover img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+
+/* SCRUBBER */
+
+.scrub-wrap{
+  padding:0 18px;
+  margin-top:4px;
+}
+
+.time-row{
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  color:#333;
+  margin-bottom:4px;
+}
+
+.scrub{
+  -webkit-appearance:none;
+  appearance:none;
+  width:100%;
+  height:2px;
+  background:#222;
+  border-radius:3px;
+  outline:none;
+  cursor:pointer;
+}
+
+.scrub::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  appearance:none;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:var(--accent-color);
+  cursor:pointer;
+  margin-top:-5px;
+}
+
+.scrub::-moz-range-thumb{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:var(--accent-color);
+  border:none;
+  cursor:pointer;
+}
+
+
+/* CONTROLS */
+
+.controls{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  padding:10px 0 14px;
+}
+
+.controls button{
+  background:none;
+  border:none;
+  font-size:20px;
+  cursor:pointer;
+  color:#111;
+  padding:4px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:6px;
+}
+
+.controls button:hover{
+  opacity:.6;
+}
+
+.controls .play-btn{
+  font-size:24px;
+}
+
+.controls .toggle-btn{
+  font-size:16px;
+  color:#999;
+}
+
+.controls .toggle-btn.active{
+  color:var(--accent-color);
+}
+
+
+/* SONG LIST */
+
+.song-list{
+  padding:0 14px 16px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  max-height:260px;
+  overflow-y:auto;
+  scrollbar-width:thin;
+  scrollbar-color:#d0d0d0 transparent;
+}
+
+.song-list::-webkit-scrollbar{
+  width:6px;
+}
+
+.song-list::-webkit-scrollbar-track{
+  background:transparent;
+}
+
+.song-list::-webkit-scrollbar-thumb{
+  background:#d0d0d0;
+  border-radius:3px;
+}
+
+.song{
+  border:1px solid #222;
+  border-radius:5px;
+  padding:8px 10px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:#fff;
+  cursor:pointer;
+  position:relative;
+}
+
+.song.dragging{
+  z-index:5;
+  box-shadow:0 6px 14px rgba(0,0,0,.18);
+  cursor:grabbing;
+}
+
+.song.drag-over{
+  border-color:#555;
+}
+
+.drag-handle{
+  width:14px;
+  height:18px;
+  position:relative;
+  flex-shrink:0;
+  cursor:grab;
+  touch-action:none;
+}
+
+.drag-handle::before{
+  content:'';
+  position:absolute;
+  top:1px;
+  left:2px;
+  width:3px;
+  height:3px;
+  border-radius:50%;
+  background:#c4c4c4;
+  box-shadow:
+    0 5px 0 #c4c4c4,
+    0 10px 0 #c4c4c4,
+    6px 0 0 #c4c4c4,
+    6px 5px 0 #c4c4c4,
+    6px 10px 0 #c4c4c4;
+}
+
+.song .note{
+  font-size:15px;
+  color:var(--song-title-color);
+  flex-shrink:0;
+}
+
+.song .song-info{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  text-align:left;
+}
+
+.song .song-name{
+  color:var(--song-title-color);
+  font-family:var(--font-family);
+  font-size:calc(13px * var(--text-scale));
+  font-weight:600;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.song .artist-name{
+  color:var(--artist-color);
+  font-family:var(--font-family);
+  font-size:calc(11px * var(--text-scale));
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.song.active{
+  background:var(--header-color);
+}
+
+
+/* EMPTY */
+
+.empty-state{
+  padding:6px 24px 26px;
+  text-align:center;
+}
+
+.empty-state .icon{
+  font-size:20px;
+  color:#ccc;
+  display:block;
+  margin-bottom:6px;
+}
+
+.empty-state p{
+  margin:0;
+  font-size:12.5px;
+  color:#999;
+  line-height:1.5;
+}
+
+.empty-state button{
+  margin-top:10px;
+  border:1.5px dashed #ccc;
+  background:none;
+  color:#666;
+  font-size:12px;
+  padding:7px 14px;
+  border-radius:20px;
+  cursor:pointer;
+}
+
+
+/* SETTINGS */
+
+.settings-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:50;
+}
+
+.settings-overlay.open{
+  display:flex;
+}
+
+.settings-panel{
+  background:#fff;
+  width:320px;
+  max-height:85vh;
+  overflow-y:auto;
+  border-radius:10px;
+  padding:18px;
+  font-family:Arial,sans-serif;
+  box-shadow:0 14px 36px rgba(0,0,0,.25);
+}
+
+.settings-panel h2{
+  margin:0 0 12px;
+  font-size:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.settings-panel h2 .close{
+  cursor:pointer;
+  font-size:16px;
+  color:#888;
+  background:none;
+  border:none;
+}
+
+.setting-group{
+  margin-bottom:14px;
+}
+
+.setting-group label{
+  display:block;
+  font-size:11px;
+  font-weight:600;
+  color:#444;
+  margin-bottom:5px;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+}
+
+.setting-group input[type="text"]{
+  width:100%;
+  padding:8px 9px;
+  border:1px solid #ccc;
+  border-radius:5px;
+  font-size:13px;
+}
+
+.setting-group select,
+.setting-group input[type="range"]{
+  width:100%;
+}
+
+.setting-group .range-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.setting-group .range-row span{
+  font-size:12px;
+  color:#666;
+  width:40px;
+  text-align:right;
+}
+
+.settings-panel input[type="range"]{
+  accent-color:#8a8a8a;
+}
+
+select{
+  padding:7px 9px;
+  border-radius:5px;
+  border:1px solid #ccc;
+  font-size:13px;
+  background:#fff;
+}
+
+
+/* COLORS */
+
+.color-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px 12px;
+}
+
+.color-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+}
+
+.swatch-btn{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  border:2px solid #fff;
+  box-shadow:0 0 0 1px #d8d8d8;
+  cursor:pointer;
+  flex-shrink:0;
+}
+
+.color-item-text{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  min-width:0;
+  flex:1;
+}
+
+.color-item-label{
+  font-size:10px;
+  color:#909090;
+  white-space:nowrap;
+}
+
+.hex-input{
+  width:100%;
+  font-family:monospace;
+  font-size:11.5px;
+  padding:4px 6px;
+  border:1px solid #ddd;
+  border-radius:4px;
+  text-transform:uppercase;
+}
+
+
+/* PATTERNS */
+
+.pattern-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.pattern-tile{
+  height:44px;
+  border-radius:6px;
+  border:1.5px solid #ddd;
+  background-color:#fff;
+  cursor:pointer;
+  position:relative;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  padding-bottom:4px;
+}
+
+.pattern-tile.active{
+  border-color:#1a1a1a;
+  border-width:2px;
+}
+
+.pattern-tile-label{
+  font-size:9px;
+  color:#777;
+  background:rgba(255,255,255,.85);
+  padding:1px 5px;
+  border-radius:3px;
+}
+
+#patternGrid{
+  background-image:
+    linear-gradient(to right,rgba(0,0,0,.16) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(0,0,0,.16) 1px,transparent 1px);
+  background-size:9px 9px;
+}
+
+#patternDots{
+  background-image:radial-gradient(rgba(0,0,0,.28) 1.3px,transparent 1.3px);
+  background-size:8px 8px;
+}
+
+.pattern-opacity-row{
+  margin-top:10px;
+  display:none;
+}
+
+.pattern-opacity-row.visible{
+  display:flex;
+}
+
+
+/* FONT */
+
+.font-preview{
+  margin-top:6px;
+  border:1px solid #eee;
+  border-radius:6px;
+  padding:10px 12px;
+  background:#fafafa;
+}
+
+#fontPreviewSample{
+  display:block;
+  font-size:20px;
+  color:#1a1a1a;
+}
+
+#fontPreviewType{
+  display:block;
+  font-family:Arial,sans-serif;
+  font-size:11px;
+  color:#999;
+  margin-top:6px;
+}
+
+
+/* IMPORT */
+
+.import-dropzone{
+  border:1.5px dashed #bbb;
+  border-radius:6px;
+  padding:14px;
+  text-align:center;
+  cursor:pointer;
+  background:#fafafa;
+  display:block;
+}
+
+.import-dropzone .icon{
+  font-size:22px;
+  display:block;
+  margin-bottom:6px;
+}
+
+.import-dropzone .label{
+  font-size:13px;
+  font-weight:600;
+  color:#333;
+}
+
+.import-dropzone .sub{
+  font-size:11px;
+  color:#999;
+  margin-top:2px;
+}
+
+.import-dropzone input[type="file"]{
+  display:none;
+}
+
+.reset-btn{
+  width:100%;
+  padding:9px;
+  background:#222;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:13px;
+}
+
+hr{
+  border:none;
+  border-top:1px solid #eee;
+  margin:14px 0;
+}
+
+
+/* COLOR WHEEL */
+
+.wheel-popover-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.4);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:60;
+}
+
+.wheel-popover-overlay.open{
+  display:flex;
+}
+
+.wheel-popover{
+  background:#fff;
+  border-radius:10px;
+  padding:16px;
+  width:212px;
+  box-shadow:0 14px 36px rgba(0,0,0,.3);
+  font-family:Arial,sans-serif;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+}
+
+.wheel-popover-header{
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:12.5px;
+  font-weight:600;
+}
+
+.wheel-popover-header .close{
+  cursor:pointer;
+  font-size:14px;
+  color:#888;
+  background:none;
+  border:none;
+}
+
+.sv-box{
+  position:relative;
+  width:100%;
+  height:130px;
+  border-radius:8px;
+  cursor:crosshair;
+  touch-action:none;
+  box-shadow:0 0 0 1px #222;
+  background-image:
+    linear-gradient(to top,#000,rgba(0,0,0,0)),
+    linear-gradient(to right,#fff,rgba(255,255,255,0));
+}
+
+.sv-marker{
+  position:absolute;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  border:2px solid #fff;
+  box-shadow:0 0 0 1px rgba(0,0,0,.5);
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+}
+
+.hue-slider{
+  width:100%;
+  height:14px;
+  border-radius:7px;
+  outline:none;
+  cursor:pointer;
+  background:linear-gradient(
+    to right,
+    #ff0000 0%,#ffff00 17%,#00ff00 33%,
+    #00ffff 50%,#0000ff 67%,#ff00ff 83%,#ff0000 100%
+  );
+}
+
+.wheel-hex-row{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  border:1px solid #ddd;
+  border-radius:6px;
+  padding:7px 10px;
+  background:#fafafa;
+}
+
+.wheel-hex-row input{
+  border:none;
+  outline:none;
+  background:none;
+  font-family:monospace;
+  font-size:13px;
+  text-transform:uppercase;
+  flex:1;
+  min-width:0;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="player" id="player" data-pattern="none">
+
+  <div class="header">
+
+    <div
+      class="title"
+      id="titleText"
+      contenteditable="true"
+      spellcheck="false"
+    >Title</div>
+
+    <button
+      class="menu-btn"
+      id="menuBtn"
+      title="Settings"
+    >&#10022;</button>
+
+  </div>
+
+  <div class="cover" id="cover">
+    <span class="cover-icon">&#9835;</span>
+    Image
+  </div>
+
+  <div id="playbackArea"></div>
+
+  <div class="song-list" id="songList"></div>
+
+  <div class="empty-state" id="emptyState">
+
+    <span class="icon">&#9835;</span>
+
+    <p>
+      No songs yet.<br>
+      Open settings to add some.
+    </p>
+
+    <button id="emptyAddBtn">
+      + Add songs
+    </button>
+
+  </div>
+
+</div>
+
+
+<div class="settings-overlay" id="settingsOverlay">
+
+  <div class="settings-panel">
+
+    <h2>
+      Settings
+      <button class="close" id="closeSettings">&#10005;</button>
+    </h2>
+
+    <div class="setting-group">
+
+      <label>Title</label>
+
+      <input
+        type="text"
+        id="titleInput"
+        value="Title"
+        maxlength="40"
+      >
+
+    </div>
+
+    <div class="setting-group">
+
+      <label>Import songs</label>
+
+      <label class="import-dropzone" id="songDropzone">
+
+        <span class="icon">&#9835;</span>
+
+        <span class="label">
+          Click or drop audio files
+        </span>
+
+        <span class="sub">
+          Adds each one to the list — no limit
+        </span>
+
+        <input
+          type="file"
+          id="songImport"
+          accept="audio/*"
+          multiple
+        >
+
+      </label>
+
+    </div>
+
+    <div class="setting-group">
+
+      <label>Import photo</label>
+
+      <label class="import-dropzone" id="photoDropzone">
+
+        <span class="icon">&#128247;</span>
+
+        <span class="label">
+          Click or drop an image
+        </span>
+
+        <span class="sub">
+          Sets it as the album art
+        </span>
+
+        <input
+          type="file"
+          id="photoImport"
+          accept="image/*"
+        >
+
+      </label>
+
+    </div>
+
+    <hr>
+
+    <div class="setting-group">
+
+      <label>Colors</label>
+
+      <div class="color-grid">
+
+        <div class="color-item">
+          <button class="swatch-btn" id="headerColorSwatch" style="background:#8a8a8a"></button>
+          <div class="color-item-text">
+            <span class="color-item-label">Header bar</span>
+            <input type="text" class="hex-input" id="headerColorHex" value="#8A8A8A">
+          </div>
+        </div>
+
+        <div class="color-item">
+          <button class="swatch-btn" id="titleColorSwatch" style="background:#1a1a1a"></button>
+          <div class="color-item-text">
+            <span class="color-item-label">Title</span>
+            <input type="text" class="hex-input" id="titleColorHex" value="#1A1A1A">
+          </div>
+        </div>
+
+        <div class="color-item">
+          <button class="swatch-btn" id="songTitleColorSwatch" style="background:#1a1a1a"></button>
+          <div class="color-item-text">
+            <span class="color-item-label">Song title</span>
+            <input type="text" class="hex-input" id="songTitleColorHex" value="#1A1A1A">
+          </div>
+        </div>
+
+        <div class="color-item">
+          <button class="swatch-btn" id="bgColorSwatch" style="background:#ffffff"></button>
+          <div class="color-item-text">
+            <span class="color-item-label">Background</span>
+            <input type="text" class="hex-input" id="bgColorHex" value="#FFFFFF">
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="setting-group">
+
+      <label>Background pattern</label>
+
+      <div class="pattern-grid">
+
+        <button class="pattern-tile active" data-pattern="none" id="patternNone">
+          <span class="pattern-tile-label">None</span>
+        </button>
+
+        <button class="pattern-tile" data-pattern="grid" id="patternGrid">
+          <span class="pattern-tile-label">Grid</span>
+        </button>
+
+        <button class="pattern-tile" data-pattern="dots" id="patternDots">
+          <span class="pattern-tile-label">Dots</span>
+        </button>
+
+      </div>
+
+      <div class="range-row pattern-opacity-row" id="patternOpacityRow">
+
+        <input
+          type="range"
+          id="patternOpacityRange"
+          min="10"
+          max="80"
+          value="35"
+        >
+
+        <span id="patternOpacityVal">35%</span>
+
+      </div>
+
+    </div>
+
+    <hr>
+
+    <div class="setting-group">
+
+      <label>Font</label>
+
+      <select id="fontSelect">
+
+        <optgroup label="Modern">
+
+          <option value="'Montserrat',sans-serif" selected>
+            Montserrat
+          </option>
+
+          <option value="'Pixelify Sans',sans-serif">
+            Pixelify Sans
+          </option>
+
+        </optgroup>
+
+        <optgroup label="Retro / Game">
+
+          <option value="'Press Start 2P',monospace">
+            Press Start 2P
+          </option>
+
+          <option value="'Pathway Gothic One',sans-serif">
+            Pathway Gothic One
+          </option>
+
+        </optgroup>
+
+        <optgroup label="Serif">
+
+          <option value="'Playfair Display',serif">
+            Playfair Display
+          </option>
+
+          <option value="'Elsie',serif">
+            Elsie
+          </option>
+
+        </optgroup>
+
+        <optgroup label="Handwritten">
+
+          <option value="'Amatic SC',cursive">Amatic SC</option>
+          <option value="'Courgette',cursive">Courgette</option>
+          <option value="'Sue Ellen Francisco',cursive">Sue Ellen Francisco</option>
+          <option value="'Just Another Hand',cursive">Just Another Hand</option>
+          <option value="'Gamja Flower',cursive">Gamja Flower</option>
+          <option value="'Hachi Maru Pop',cursive">Hachi Maru Pop</option>
+          <option value="'Pompiere',cursive">Pompiere</option>
+          <option value="'Schoolbell',cursive">Schoolbell</option>
+          <option value="'Yomogi',cursive">Yomogi</option>
+
+        </optgroup>
+
+      </select>
+
+      <div class="font-preview">
+
+        <span id="fontPreviewSample">
+          Aa Bb — Song Title
+        </span>
+
+        <span id="fontPreviewType">
+          Montserrat
+        </span>
+
+      </div>
+
+    </div>
+
+    <div class="setting-group">
+
+      <label>Player size</label>
+
+      <div class="range-row">
+
+        <input
+          type="range"
+          id="scaleRange"
+          min="60"
+          max="150"
+          value="100"
+        >
+
+        <span id="scaleVal">100%</span>
+
+      </div>
+
+    </div>
+
+    <div class="setting-group">
+
+      <label>Text size</label>
+
+      <div class="range-row">
+
+        <input
+          type="range"
+          id="textScaleRange"
+          min="70"
+          max="150"
+          value="100"
+        >
+
+        <span id="textScaleVal">100%</span>
+
+      </div>
+
+    </div>
+
+    <hr>
+
+    <button class="reset-btn" id="resetBtn">
+      Reset to defaults
+    </button>
+
+  </div>
+
+</div>
+
+
+<div class="wheel-popover-overlay" id="wheelOverlay">
+
+  <div class="wheel-popover">
+
+    <div class="wheel-popover-header">
+
+      <span id="wheelPopoverTitle">Color</span>
+
+      <button class="close" id="wheelClose">
+        &#10005;
+      </button>
+
+    </div>
+
+    <div class="sv-box" id="svBox">
+      <div class="sv-marker" id="svMarker"></div>
+    </div>
+
+    <input
+      type="range"
+      class="hue-slider"
+      id="hueSlider"
+      min="0"
+      max="360"
+      value="0"
+    >
+
+    <div class="wheel-hex-row">
+
+      <span>#</span>
+
+      <input
+        type="text"
+        id="wheelHexInput"
+        maxlength="6"
+      >
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const root=document.documentElement;
+const menuBtn=document.getElementById('menuBtn');
+const overlay=document.getElementById('settingsOverlay');
+const closeSettings=document.getElementById('closeSettings');
+const playbackArea=document.getElementById('playbackArea');
+const songListEl=document.getElementById('songList');
+const emptyState=document.getElementById('emptyState');
+const playerEl=document.getElementById('player');
+
+menuBtn.addEventListener('click',()=>overlay.classList.add('open'));
+
+closeSettings.addEventListener(
+  'click',
+  ()=>overlay.classList.remove('open')
+);
+
+overlay.addEventListener('click',e=>{
+  if(e.target===overlay){
+    overlay.classList.remove('open');
+  }
+});
+
+document.getElementById('emptyAddBtn').addEventListener(
+  'click',
+  ()=>{
+    overlay.classList.add('open');
+    document.getElementById('songImport').click();
+  }
+);
+
+
+/* TITLE */
+
+const titleText=document.getElementById('titleText');
+const titleInput=document.getElementById('titleInput');
+
+titleText.addEventListener('input',()=>{
+  titleInput.value=titleText.textContent;
+});
+
+titleText.addEventListener('blur',()=>{
+  if(!titleText.textContent.trim()){
+    titleText.textContent='Title';
+  }
+
+  titleInput.value=titleText.textContent;
+});
+
+titleText.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    e.preventDefault();
+    titleText.blur();
+  }
+});
+
+titleInput.addEventListener('input',()=>{
+  titleText.textContent=titleInput.value||'Title';
+});
+
+
+/* COLORS */
+
+function hexToRgb(hex){
+
+  hex=hex.replace('#','');
+
+  if(hex.length===3){
+    hex=hex.split('').map(c=>c+c).join('');
+  }
+
+  const num=parseInt(hex,16);
+
+  return{
+    r:(num>>16)&255,
+    g:(num>>8)&255,
+    b:num&255
+  };
+}
+
+function rgbToHex(r,g,b){
+
+  return '#'+[r,g,b]
+    .map(x=>Math.max(0,Math.min(255,Math.round(x)))
+    .toString(16).padStart(2,'0'))
+    .join('');
+}
+
+function rgbToHsv(r,g,b){
+
+  r/=255;
+  g/=255;
+  b/=255;
+
+  const max=Math.max(r,g,b);
+  const min=Math.min(r,g,b);
+  const d=max-min;
+
+  let h=0;
+
+  if(d!==0){
+
+    if(max===r) h=((g-b)/d)%6;
+    else if(max===g) h=(b-r)/d+2;
+    else h=(r-g)/d+4;
+
+    h*=60;
+
+    if(h<0)h+=360;
+  }
+
+  const s=max===0?0:d/max;
+  const v=max;
+
+  return{h,s,v};
+}
+
+function hsvToRgb(h,s,v){
+
+  const c=v*s;
+  const x=c*(1-Math.abs(((h/60)%2)-1));
+  const m=v-c;
+
+  let r=0,g=0,b=0;
+
+  if(h<60){r=c;g=x;}
+  else if(h<120){r=x;g=c;}
+  else if(h<180){g=c;b=x;}
+  else if(h<240){g=x;b=c;}
+  else if(h<300){r=x;b=c;}
+  else{r=c;b=x;}
+
+  return{
+    r:(r+m)*255,
+    g:(g+m)*255,
+    b:(b+m)*255
+  };
+}
+
+function normalizeHex(val){
+
+  let v=val.trim().replace('#','');
+
+  if(/^[0-9A-Fa-f]{3}$/.test(v)){
+    v=v.split('').map(c=>c+c).join('');
+  }
+
+  if(/^[0-9A-Fa-f]{6}$/.test(v)){
+    return '#'+v.toUpperCase();
+  }
+
+  return null;
+}
+
+const colorConfigs={
+
+  headerColor:{
+    vars:['--header-color'],
+    label:'Header bar'
+  },
+
+  titleColor:{
+    vars:['--title-color'],
+    label:'Title'
+  },
+
+  songTitleColor:{
+    vars:['--song-title-color','--accent-color'],
+    label:'Song title'
+  },
+
+  bgColor:{
+    vars:['--bg-color'],
+    label:'Background'
+  }
+
+};
+
+function setColor(id,hex){
+
+  const cfg=colorConfigs[id];
+
+  cfg.vars.forEach(v=>{
+    root.style.setProperty(v,hex);
+  });
+
+  document.getElementById(id+'Swatch').style.background=hex;
+
+  document.getElementById(id+'Hex').value=
+    hex.toUpperCase();
+}
+
+Object.keys(colorConfigs).forEach(id=>{
+
+  document.getElementById(id+'Swatch')
+    .addEventListener('click',()=>openWheel(id));
+
+  const hexField=document.getElementById(id+'Hex');
+
+  hexField.addEventListener('change',()=>{
+
+    const normalized=normalizeHex(hexField.value);
+
+    if(normalized){
+      setColor(id,normalized);
+    }
+
+  });
+
+});
+
+
+/* PATTERN */
+
+const patternTiles=document.querySelectorAll('.pattern-tile');
+const patternOpacityRow=document.getElementById('patternOpacityRow');
+const patternOpacityRange=document.getElementById('patternOpacityRange');
+const patternOpacityVal=document.getElementById('patternOpacityVal');
+
+patternTiles.forEach(tile=>{
+
+  tile.addEventListener('click',()=>{
+
+    patternTiles.forEach(
+      t=>t.classList.remove('active')
+    );
+
+    tile.classList.add('active');
+
+    playerEl.dataset.pattern=tile.dataset.pattern;
+
+    patternOpacityRow.classList.toggle(
+      'visible',
+      tile.dataset.pattern!=='none'
+    );
+
+  });
+
+});
+
+patternOpacityRange.addEventListener('input',e=>{
+
+  root.style.setProperty(
+    '--pattern-opacity',
+    e.target.value/100
+  );
+
+  patternOpacityVal.textContent=e.target.value+'%';
+
+});
+
+
+/* COLOR WHEEL */
+
+const wheelOverlay=document.getElementById('wheelOverlay');
+const svBox=document.getElementById('svBox');
+const svMarker=document.getElementById('svMarker');
+const hueSlider=document.getElementById('hueSlider');
+const wheelHexInput=document.getElementById('wheelHexInput');
+const wheelPopoverTitle=document.getElementById('wheelPopoverTitle');
+
+const wheelState={
+  h:0,
+  s:0,
+  v:1,
+  activeId:null
+};
+
+function openWheel(id){
+
+  wheelState.activeId=id;
+
+  wheelPopoverTitle.textContent=
+    colorConfigs[id].label;
+
+  const currentHex=
+    document.getElementById(id+'Hex').value||'#000000';
+
+  const {r,g,b}=hexToRgb(currentHex);
+  const hsv=rgbToHsv(r,g,b);
+
+  wheelState.h=hsv.h;
+  wheelState.s=hsv.s;
+  wheelState.v=hsv.v>0?hsv.v:1;
+
+  hueSlider.value=Math.round(wheelState.h);
+
+  wheelHexInput.value=
+    currentHex.replace('#','').toUpperCase();
+
+  updateSvBoxHue();
+  updateSvMarker();
+
+  wheelOverlay.classList.add('open');
+}
+
+function updateSvBoxHue(){
+
+  const rgb=hsvToRgb(wheelState.h,1,1);
+
+  svBox.style.backgroundColor=
+    rgbToHex(rgb.r,rgb.g,rgb.b);
+}
+
+function updateSvMarker(){
+
+  svMarker.style.left=(wheelState.s*100)+'%';
+  svMarker.style.top=((1-wheelState.v)*100)+'%';
+}
+
+function applyWheelColor(){
+
+  if(!wheelState.activeId)return;
+
+  const rgb=hsvToRgb(
+    wheelState.h,
+    wheelState.s,
+    wheelState.v
+  );
+
+  const hex=rgbToHex(rgb.r,rgb.g,rgb.b);
+
+  wheelHexInput.value=
+    hex.replace('#','').toUpperCase();
+
+  setColor(wheelState.activeId,hex);
+}
+
+let svDragging=false;
+
+function handleSvPointer(e){
+
+  const rect=svBox.getBoundingClientRect();
+
+  let x=(e.clientX-rect.left)/rect.width;
+  let y=(e.clientY-rect.top)/rect.height;
+
+  x=Math.max(0,Math.min(1,x));
+  y=Math.max(0,Math.min(1,y));
+
+  wheelState.s=x;
+  wheelState.v=1-y;
+
+  updateSvMarker();
+  applyWheelColor();
+}
+
+svBox.addEventListener('pointerdown',e=>{
+  svDragging=true;
+  svBox.setPointerCapture(e.pointerId);
+  handleSvPointer(e);
+});
+
+svBox.addEventListener('pointermove',e=>{
+  if(svDragging)handleSvPointer(e);
+});
+
+svBox.addEventListener('pointerup',()=>{
+  svDragging=false;
+});
+
+svBox.addEventListener('pointercancel',()=>{
+  svDragging=false;
+});
+
+hueSlider.addEventListener('input',e=>{
+
+  wheelState.h=parseFloat(e.target.value);
+
+  updateSvBoxHue();
+  applyWheelColor();
+
+});
+
+wheelHexInput.addEventListener('change',()=>{
+
+  const normalized=normalizeHex(
+    wheelHexInput.value
+  );
+
+  if(normalized){
+
+    const {r,g,b}=hexToRgb(normalized);
+    const hsv=rgbToHsv(r,g,b);
+
+    wheelState.h=hsv.h;
+    wheelState.s=hsv.s;
+    wheelState.v=hsv.v>0?hsv.v:wheelState.v;
+
+    hueSlider.value=Math.round(wheelState.h);
+
+    updateSvBoxHue();
+    updateSvMarker();
+
+    setColor(
+      wheelState.activeId,
+      normalized
+    );
+
+  }
+
+});
+
+document.getElementById('wheelClose')
+  .addEventListener('click',()=>{
+    wheelOverlay.classList.remove('open');
+  });
+
+wheelOverlay.addEventListener('click',e=>{
+  if(e.target===wheelOverlay){
+    wheelOverlay.classList.remove('open');
+  }
+});
+
+
+/* FONT */
+
+const fontSelect=document.getElementById('fontSelect');
+const fontPreviewSample=document.getElementById('fontPreviewSample');
+const fontPreviewType=document.getElementById('fontPreviewType');
+
+function updateFont(){
+
+  const selected=
+    fontSelect.options[fontSelect.selectedIndex];
+
+  const font=selected.value;
+
+  root.style.setProperty(
+    '--font-family',
+    font
+  );
+
+  fontPreviewSample.style.fontFamily=font;
+
+  fontPreviewType.textContent=
+    selected.textContent.trim();
+}
+
+fontSelect.addEventListener(
+  'change',
+  updateFont
+);
+
+updateFont();
+
+
+/* SCALE */
+
+const scaleRange=document.getElementById('scaleRange');
+const scaleVal=document.getElementById('scaleVal');
+
+scaleRange.addEventListener('input',e=>{
+
+  root.style.setProperty(
+    '--scale',
+    e.target.value/100
+  );
+
+  scaleVal.textContent=e.target.value+'%';
+
+});
+
+
+/* TEXT SIZE */
+
+const textScaleRange=
+  document.getElementById('textScaleRange');
+
+const textScaleVal=
+  document.getElementById('textScaleVal');
+
+textScaleRange.addEventListener('input',e=>{
+
+  root.style.setProperty(
+    '--text-scale',
+    e.target.value/100
+  );
+
+  textScaleVal.textContent=
+    e.target.value+'%';
+
+});
+
+
+/* PHOTO */
+
+const photoDropzone=
+  document.getElementById('photoDropzone');
+
+const photoImport=
+  document.getElementById('photoImport');
+
+function setCoverImage(file){
+
+  if(!file)return;
+
+  const url=URL.createObjectURL(file);
+
+  const cover=document.getElementById('cover');
+
+  cover.innerHTML='';
+
+  const img=document.createElement('img');
+
+  img.src=url;
+
+  cover.appendChild(img);
+}
+
+photoImport.addEventListener('change',e=>{
+  setCoverImage(e.target.files[0]);
+});
+
+
+/* SONGS */
+
+let songs=[];
+let activeIndex=-1;
+
+function buildPlaybackArea(){
+
+  playbackArea.innerHTML=`
+
+    <div class="scrub-wrap">
+
+      <div class="time-row">
+        <span id="curTime">0:00</span>
+        <span id="totalTime">1:00</span>
+      </div>
+
+      <input
+        type="range"
+        class="scrub"
+        min="0"
+        max="100"
+        value="35"
+      >
+
+    </div>
+
+    <div class="controls">
+
+      <button
+        class="toggle-btn"
+        id="shuffleBtn"
+        title="Shuffle"
+      >&#128256;</button>
+
+      <button
+        id="prevBtn"
+        title="Previous"
+      >&#9198;</button>
+
+      <button
+        class="play-btn"
+        id="playBtn"
+        title="Play"
+      >&#9654;</button>
+
+      <button
+        id="nextBtn"
+        title="Next"
+      >&#9197;</button>
+
+      <button
+        class="toggle-btn"
+        id="repeatBtn"
+        title="Repeat"
+      >&#128257;</button>
+
+    </div>
+  `;
+
+  document.getElementById('shuffleBtn')
+    .addEventListener('click',e=>{
+      e.currentTarget.classList.toggle('active');
+    });
+
+  document.getElementById('repeatBtn')
+    .addEventListener('click',e=>{
+      e.currentTarget.classList.toggle('active');
+    });
+
+  document.getElementById('prevBtn')
+    .addEventListener('click',()=>stepSong(-1));
+
+  document.getElementById('nextBtn')
+    .addEventListener('click',()=>stepSong(1));
+
+  const playBtn=document.getElementById('playBtn');
+
+  let playing=false;
+
+  playBtn.addEventListener('click',()=>{
+
+    playing=!playing;
+
+    playBtn.innerHTML=
+      playing
+        ? '&#10074;&#10074;'
+        : '&#9654;';
+
+  });
+
+}
+
+function stepSong(dir){
+
+  if(songs.length===0)return;
+
+  activeIndex=
+    (activeIndex+dir+songs.length)%songs.length;
+
+  renderSongs();
+}
+
+
+/* RENDER */
+
+function renderSongs(){
+
+  const hasSongs=songs.length>0;
+
+  emptyState.style.display=
+    hasSongs?'none':'block';
+
+  songListEl.style.display=
+    hasSongs?'flex':'none';
+
+  playbackArea.style.display=
+    hasSongs?'block':'none';
+
+  songListEl.innerHTML='';
+
+  songs.forEach((song,i)=>{
+
+    const div=document.createElement('div');
+
+    div.className=
+      'song'+
+      (i===activeIndex?' active':'');
+
+    div.innerHTML=`
+
+      <span class="drag-handle"></span>
+
+      <span class="note">&#9835;</span>
+
+      <div class="song-info">
+
+        <span class="song-name"></span>
+
+        <span class="artist-name"></span>
+
+      </div>
+    `;
+
+    div.querySelector('.song-name').textContent=
+      song.name;
+
+    div.querySelector('.artist-name').textContent=
+      song.artist;
+
+    div.addEventListener('click',()=>{
+
+      activeIndex=i;
+
+      renderSongs();
+
+    });
+
+    songListEl.appendChild(div);
+
+  });
+
+}
+
+
+function addSongEntry(name,artist){
+
+  songs.push({
+    name,
+    artist
+  });
+
+  if(activeIndex===-1){
+    activeIndex=songs.length-1;
+  }
+
+  if(playbackArea.innerHTML.trim()===''){
+    buildPlaybackArea();
+  }
+
+  renderSongs();
+}
+
+function handleSongFiles(files){
+
+  Array.from(files).forEach(file=>{
+
+    const raw=file.name.replace(
+      /\.[^/.]+$/,
+      ''
+    );
+
+    let name=raw;
+    let artist='Unknown artist';
+
+    if(raw.includes(' - ')){
+
+      const parts=raw.split(' - ');
+
+      artist=parts[0].trim();
+
+      name=parts.slice(1)
+        .join(' - ')
+        .trim();
+
+    }
+
+    addSongEntry(name,artist);
+
+  });
+
+}
+
+const songDropzone=
+  document.getElementById('songDropzone');
+
+const songImport=
+  document.getElementById('songImport');
+
+songImport.addEventListener('change',e=>{
+  handleSongFiles(e.target.files);
+});
+
+
+/* INITIAL */
+
+renderSongs();
+
+
+/* RESET */
+
+document.getElementById('resetBtn')
+  .addEventListener('click',()=>{
+
+    setColor('headerColor','#8A8A8A');
+    setColor('titleColor','#1A1A1A');
+    setColor('songTitleColor','#1A1A1A');
+    setColor('bgColor','#FFFFFF');
+
+    playerEl.dataset.pattern='none';
+
+    patternTiles.forEach(t=>{
+      t.classList.toggle(
+        'active',
+        t.dataset.pattern==='none'
+      );
+    });
+
+    patternOpacityRow.classList.remove('visible');
+
+    root.style.setProperty(
+      '--pattern-opacity',
+      .35
+    );
+
+    patternOpacityRange.value=35;
+    patternOpacityVal.textContent='35%';
+
+    root.style.setProperty(
+      '--font-family',
+      "'Montserrat',sans-serif"
+    );
+
+    fontSelect.value=
+      "'Montserrat',sans-serif";
+
+    updateFont();
+
+    root.style.setProperty('--scale',1);
+
+    scaleRange.value=100;
+    scaleVal.textContent='100%';
+
+    root.style.setProperty(
+      '--text-scale',
+      1
+    );
+
+    textScaleRange.value=100;
+    textScaleVal.textContent='100%';
+
+    titleText.textContent='Title';
+    titleInput.value='Title';
+
+  });
+
+</script>
+
+</body>
+</html>
+
