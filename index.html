@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Courgette&family=Elsie:wght@400;900&family=Gamja+Flower&family=Hachi+Maru+Pop&family=Just+Another+Hand&family=Montserrat:wght@400;500;600;700&family=Pathway+Gothic+One&family=Pixelify+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Pompiere&family=Press+Start+2P&family=Schoolbell&family=Sue+Ellen+Francisco&family=Yomogi&display=swap" rel="stylesheet">
 
 <style>
-
 :root{
   --header-color:#8a8a8a;
   --title-color:#1a1a1a;
@@ -17,20 +16,19 @@
   --font-family:'Montserrat',sans-serif;
   --scale:1;
   --text-scale:1;
-  --pattern-opacity:0.35;
+  --pattern-opacity:.35;
   --accent-color:#1a1a1a;
+  --cover-size:170px;
 }
 
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 html,body{
   margin:0;
   padding:0;
   width:100%;
   min-height:100%;
-  background:transparent !important;
+  background:transparent!important;
 }
 
 body{
@@ -46,41 +44,27 @@ body{
   width:290px;
   transform:scale(var(--scale));
   transform-origin:top center;
-  background-color:var(--bg-color);
+  background:var(--bg-color);
   background-image:none;
   border:1px solid #222;
   border-radius:8px;
   overflow:hidden;
-  box-shadow:0 6px 18px rgba(0,0,0,0.1);
+  box-shadow:0 6px 18px rgba(0,0,0,.1);
   position:relative;
 }
 
 .player[data-pattern="grid"]{
   background-image:
-    linear-gradient(
-      to right,
-      rgba(120,120,120,var(--pattern-opacity)) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      to bottom,
-      rgba(120,120,120,var(--pattern-opacity)) 1px,
-      transparent 1px
-    );
+    linear-gradient(to right,rgba(120,120,120,var(--pattern-opacity)) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(120,120,120,var(--pattern-opacity)) 1px,transparent 1px);
   background-size:20px 20px;
 }
 
 .player[data-pattern="dots"]{
   background-image:
-    radial-gradient(
-      rgba(120,120,120,var(--pattern-opacity)) 1.4px,
-      transparent 1.4px
-    );
+    radial-gradient(rgba(120,120,120,var(--pattern-opacity)) 1.4px,transparent 1.4px);
   background-size:16px 16px;
 }
-
-
-/* HEADER */
 
 .header{
   background:var(--header-color);
@@ -110,16 +94,8 @@ body{
   min-width:0;
 }
 
-.header .title:hover{
-  background:rgba(255,255,255,.25);
-}
-
-.header .title:focus{
-  background:rgba(255,255,255,.4);
-}
-
-
-/* MENU */
+.header .title:hover{background:rgba(255,255,255,.25)}
+.header .title:focus{background:rgba(255,255,255,.4)}
 
 .menu-btn{
   width:26px;
@@ -142,13 +118,12 @@ body{
   transform:rotate(45deg);
 }
 
-
 /* COVER */
 
 .cover{
   margin:16px auto 8px;
-  width:190px;
-  height:175px;
+  width:var(--cover-size);
+  height:var(--cover-size);
   border:1px solid #222;
   border-radius:6px;
   display:flex;
@@ -160,6 +135,31 @@ body{
   background:#fafafa;
   flex-direction:column;
   gap:6px;
+  transition:border-radius .2s,clip-path .2s,width .15s,height .15s;
+}
+
+.cover.square{border-radius:0}
+.cover.rounded{border-radius:10px}
+.cover.circle{border-radius:50%}
+
+.cover.heart{
+  border:none;
+  clip-path:polygon(
+    50% 100%,
+    8% 57%,
+    0% 39%,
+    2% 25%,
+    10% 12%,
+    23% 5%,
+    36% 7%,
+    50% 20%,
+    64% 7%,
+    77% 5%,
+    90% 12%,
+    98% 25%,
+    100% 39%,
+    92% 57%
+  );
 }
 
 .cover .cover-icon{
@@ -171,10 +171,10 @@ body{
   width:100%;
   height:100%;
   object-fit:cover;
+  display:block;
 }
 
-
-/* SCRUBBER */
+/* PLAYBACK */
 
 .scrub-wrap{
   padding:0 18px;
@@ -202,7 +202,6 @@ body{
 
 .scrub::-webkit-slider-thumb{
   -webkit-appearance:none;
-  appearance:none;
   width:12px;
   height:12px;
   border-radius:50%;
@@ -219,9 +218,6 @@ body{
   border:none;
   cursor:pointer;
 }
-
-
-/* CONTROLS */
 
 .controls{
   display:flex;
@@ -244,24 +240,16 @@ body{
   border-radius:6px;
 }
 
-.controls button:hover{
-  opacity:.6;
-}
+.controls button:hover{opacity:.6}
 
-.controls .play-btn{
-  font-size:24px;
-}
-
+.controls .play-btn{font-size:24px}
 .controls .toggle-btn{
   font-size:18px;
   color:#999;
-  font-family:Arial,sans-serif;
+  font-weight:600;
 }
 
-.controls .toggle-btn.active{
-  color:var(--accent-color);
-}
-
+.controls .toggle-btn.active{color:var(--accent-color)}
 
 /* SONG LIST */
 
@@ -276,14 +264,8 @@ body{
   scrollbar-color:#d0d0d0 transparent;
 }
 
-.song-list::-webkit-scrollbar{
-  width:6px;
-}
-
-.song-list::-webkit-scrollbar-track{
-  background:transparent;
-}
-
+.song-list::-webkit-scrollbar{width:6px}
+.song-list::-webkit-scrollbar-track{background:transparent}
 .song-list::-webkit-scrollbar-thumb{
   background:#d0d0d0;
   border-radius:3px;
@@ -300,8 +282,10 @@ body{
   cursor:pointer;
   position:relative;
   user-select:none;
-  transition:.15s;
+  touch-action:pan-y;
 }
+
+.song.active{background:var(--header-color)}
 
 .song.dragging{
   z-index:5;
@@ -309,49 +293,11 @@ body{
   cursor:grabbing;
 }
 
-.song.drag-over{
-  border-color:#555;
-}
-
-.song.long-pressed{
-  padding-right:38px;
-}
-
-.delete-song{
-  position:absolute;
-  right:7px;
-  top:50%;
-  transform:translateY(-50%);
-  width:23px;
-  height:23px;
-  border:1px solid #222;
-  border-radius:50%;
-  background:#fff;
-  color:#222;
-  font-size:16px;
-  line-height:19px;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  z-index:4;
-}
-
-.song.long-pressed .delete-song{
-  display:flex;
-}
-
-.delete-song:hover{
-  background:#eee;
-}
-
 .drag-handle{
   width:14px;
   height:18px;
   position:relative;
   flex-shrink:0;
-  cursor:grab;
-  touch-action:none;
 }
 
 .drag-handle::before{
@@ -377,14 +323,14 @@ body{
   flex-shrink:0;
 }
 
-.song .song-info{
+.song-info{
   display:flex;
   flex-direction:column;
   min-width:0;
   text-align:left;
 }
 
-.song .song-name{
+.song-name{
   color:var(--song-title-color);
   font-family:var(--font-family);
   font-size:calc(13px * var(--text-scale));
@@ -394,7 +340,7 @@ body{
   text-overflow:ellipsis;
 }
 
-.song .artist-name{
+.artist-name{
   color:var(--artist-color);
   font-family:var(--font-family);
   font-size:calc(11px * var(--text-scale));
@@ -403,12 +349,25 @@ body{
   text-overflow:ellipsis;
 }
 
-.song.active{
-  background:var(--header-color);
+.delete-song{
+  margin-left:auto;
+  width:22px;
+  height:22px;
+  border:1px solid #222;
+  border-radius:50%;
+  background:#fff;
+  color:#222;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  flex-shrink:0;
+  cursor:pointer;
 }
 
-
-/* EMPTY */
+.song.delete-mode .delete-song{
+  display:flex;
+}
 
 .empty-state{
   padding:6px 24px 26px;
@@ -440,10 +399,10 @@ body{
   cursor:pointer;
 }
 
-
 /* SETTINGS */
 
-.settings-overlay{
+.settings-overlay,
+.wheel-popover-overlay{
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.35);
@@ -453,7 +412,8 @@ body{
   z-index:50;
 }
 
-.settings-overlay.open{
+.settings-overlay.open,
+.wheel-popover-overlay.open{
   display:flex;
 }
 
@@ -484,9 +444,7 @@ body{
   border:none;
 }
 
-.setting-group{
-  margin-bottom:14px;
-}
+.setting-group{margin-bottom:14px}
 
 .setting-group label{
   display:block;
@@ -507,20 +465,18 @@ body{
 }
 
 .setting-group select,
-.setting-group input[type="range"]{
-  width:100%;
-}
+.setting-group input[type="range"]{width:100%}
 
-.setting-group .range-row{
+.range-row{
   display:flex;
   align-items:center;
   gap:8px;
 }
 
-.setting-group .range-row span{
+.range-row span{
   font-size:12px;
   color:#666;
-  width:40px;
+  width:45px;
   text-align:right;
 }
 
@@ -535,7 +491,6 @@ select{
   font-size:13px;
   background:#fff;
 }
-
 
 /* COLORS */
 
@@ -585,7 +540,6 @@ select{
   border-radius:4px;
   text-transform:uppercase;
 }
-
 
 /* PATTERNS */
 
@@ -638,10 +592,68 @@ select{
   display:none;
 }
 
-.pattern-opacity-row.visible{
-  display:flex;
+.pattern-opacity-row.visible{display:flex}
+
+/* PHOTO SHAPES */
+
+.shape-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
 }
 
+.shape-btn{
+  height:58px;
+  border:1.5px solid #ddd;
+  background:#fff;
+  border-radius:7px;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+}
+
+.shape-btn:hover{background:#f7f7f7}
+
+.shape-btn.active{
+  border:2px solid #222;
+}
+
+.shape-preview{
+  width:27px;
+  height:27px;
+  background:#aaa;
+}
+
+.shape-preview.square{border-radius:0}
+.shape-preview.rounded{border-radius:7px}
+.shape-preview.circle{border-radius:50%}
+
+.shape-preview.heart{
+  clip-path:polygon(
+    50% 100%,
+    8% 57%,
+    0% 39%,
+    2% 25%,
+    10% 12%,
+    23% 5%,
+    36% 7%,
+    50% 20%,
+    64% 7%,
+    77% 5%,
+    90% 12%,
+    98% 25%,
+    100% 39%,
+    92% 57%
+  );
+}
+
+.shape-btn span:last-child{
+  font-size:9px;
+  color:#777;
+}
 
 /* FONT */
 
@@ -666,7 +678,6 @@ select{
   color:#999;
   margin-top:6px;
 }
-
 
 /* IMPORT */
 
@@ -698,9 +709,7 @@ select{
   margin-top:2px;
 }
 
-.import-dropzone input[type="file"]{
-  display:none;
-}
+.import-dropzone input[type="file"]{display:none}
 
 .reset-btn{
   width:100%;
@@ -719,22 +728,7 @@ hr{
   margin:14px 0;
 }
 
-
 /* COLOR WHEEL */
-
-.wheel-popover-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.4);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:60;
-}
-
-.wheel-popover-overlay.open{
-  display:flex;
-}
 
 .wheel-popover{
   background:#fff;
@@ -824,7 +818,6 @@ hr{
   flex:1;
   min-width:0;
 }
-
 </style>
 </head>
 
@@ -833,23 +826,14 @@ hr{
 <div class="player" id="player" data-pattern="none">
 
   <div class="header">
-
-    <div
-      class="title"
-      id="titleText"
+    <div class="title" id="titleText"
       contenteditable="true"
-      spellcheck="false"
-    >Title</div>
+      spellcheck="false">Title</div>
 
-    <button
-      class="menu-btn"
-      id="menuBtn"
-      title="Settings"
-    >&#10022;</button>
-
+    <button class="menu-btn" id="menuBtn" title="Settings">&#10022;</button>
   </div>
 
-  <div class="cover" id="cover">
+  <div class="cover rounded" id="cover">
     <span class="cover-icon">&#9835;</span>
     Image
   </div>
@@ -859,22 +843,12 @@ hr{
   <div class="song-list" id="songList"></div>
 
   <div class="empty-state" id="emptyState">
-
     <span class="icon">&#9835;</span>
-
-    <p>
-      No songs yet.<br>
-      Open settings to add some.
-    </p>
-
-    <button id="emptyAddBtn">
-      + Add songs
-    </button>
-
+    <p>No songs yet.<br>Open settings to add some.</p>
+    <button id="emptyAddBtn">+ Add songs</button>
   </div>
 
 </div>
-
 
 <div class="settings-overlay" id="settingsOverlay">
 
@@ -886,113 +860,146 @@ hr{
     </h2>
 
     <div class="setting-group">
-
       <label>Title</label>
-
-      <input
-        type="text"
-        id="titleInput"
-        value="Title"
-        maxlength="40"
-      >
-
+      <input type="text" id="titleInput" value="Title" maxlength="40">
     </div>
 
     <div class="setting-group">
-
       <label>Import songs</label>
 
-      <label class="import-dropzone" id="songDropzone">
-
+      <label class="import-dropzone">
         <span class="icon">&#9835;</span>
-
-        <span class="label">
-          Click or drop audio files
-        </span>
-
-        <span class="sub">
-          Adds each one to the list — no limit
-        </span>
+        <span class="label">Click or drop audio files</span>
+        <span class="sub">Adds each one to the list</span>
 
         <input
           type="file"
           id="songImport"
           accept="audio/*"
-          multiple
-        >
-
+          multiple>
       </label>
-
     </div>
 
     <div class="setting-group">
-
       <label>Import photo</label>
 
-      <label class="import-dropzone" id="photoDropzone">
-
+      <label class="import-dropzone">
         <span class="icon">&#128247;</span>
-
-        <span class="label">
-          Click or drop an image
-        </span>
-
-        <span class="sub">
-          Sets it as the album art
-        </span>
+        <span class="label">Click or drop an image</span>
+        <span class="sub">Sets it as the album art</span>
 
         <input
           type="file"
           id="photoImport"
-          accept="image/*"
-        >
-
+          accept="image/*">
       </label>
-
     </div>
 
     <hr>
 
     <div class="setting-group">
+      <label>Photo shape</label>
 
+      <div class="shape-grid">
+
+        <button class="shape-btn" data-shape="square">
+          <span class="shape-preview square"></span>
+          <span>Square</span>
+        </button>
+
+        <button class="shape-btn active" data-shape="rounded">
+          <span class="shape-preview rounded"></span>
+          <span>Round</span>
+        </button>
+
+        <button class="shape-btn" data-shape="circle">
+          <span class="shape-preview circle"></span>
+          <span>Circle</span>
+        </button>
+
+        <button class="shape-btn" data-shape="heart">
+          <span class="shape-preview heart"></span>
+          <span>Heart</span>
+        </button>
+
+      </div>
+    </div>
+
+    <div class="setting-group">
+      <label>Photo size</label>
+
+      <div class="range-row">
+        <input
+          type="range"
+          id="coverSizeRange"
+          min="120"
+          max="210"
+          value="170">
+
+        <span id="coverSizeVal">170px</span>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="setting-group">
       <label>Colors</label>
 
       <div class="color-grid">
 
         <div class="color-item">
-          <button class="swatch-btn" id="headerColorSwatch" style="background:#8a8a8a"></button>
+          <button class="swatch-btn"
+            id="headerColorSwatch"
+            style="background:#8a8a8a"></button>
+
           <div class="color-item-text">
             <span class="color-item-label">Header bar</span>
-            <input type="text" class="hex-input" id="headerColorHex" value="#8A8A8A">
+            <input class="hex-input"
+              id="headerColorHex"
+              value="#8A8A8A">
           </div>
         </div>
 
         <div class="color-item">
-          <button class="swatch-btn" id="titleColorSwatch" style="background:#1a1a1a"></button>
+          <button class="swatch-btn"
+            id="titleColorSwatch"
+            style="background:#1a1a1a"></button>
+
           <div class="color-item-text">
             <span class="color-item-label">Title</span>
-            <input type="text" class="hex-input" id="titleColorHex" value="#1A1A1A">
+            <input class="hex-input"
+              id="titleColorHex"
+              value="#1A1A1A">
           </div>
         </div>
 
         <div class="color-item">
-          <button class="swatch-btn" id="songTitleColorSwatch" style="background:#1a1a1a"></button>
+          <button class="swatch-btn"
+            id="songTitleColorSwatch"
+            style="background:#1a1a1a"></button>
+
           <div class="color-item-text">
             <span class="color-item-label">Song title</span>
-            <input type="text" class="hex-input" id="songTitleColorHex" value="#1A1A1A">
+            <input class="hex-input"
+              id="songTitleColorHex"
+              value="#1A1A1A">
           </div>
         </div>
 
         <div class="color-item">
-          <button class="swatch-btn" id="bgColorSwatch" style="background:#ffffff"></button>
+          <button class="swatch-btn"
+            id="bgColorSwatch"
+            style="background:#ffffff"></button>
+
           <div class="color-item-text">
             <span class="color-item-label">Background</span>
-            <input type="text" class="hex-input" id="bgColorHex" value="#FFFFFF">
+            <input class="hex-input"
+              id="bgColorHex"
+              value="#FFFFFF">
           </div>
         </div>
 
       </div>
-
     </div>
 
     <div class="setting-group">
@@ -1001,32 +1008,36 @@ hr{
 
       <div class="pattern-grid">
 
-        <button class="pattern-tile active" data-pattern="none" id="patternNone">
+        <button class="pattern-tile active"
+          data-pattern="none">
           <span class="pattern-tile-label">None</span>
         </button>
 
-        <button class="pattern-tile" data-pattern="grid" id="patternGrid">
+        <button class="pattern-tile"
+          data-pattern="grid"
+          id="patternGrid">
           <span class="pattern-tile-label">Grid</span>
         </button>
 
-        <button class="pattern-tile" data-pattern="dots" id="patternDots">
+        <button class="pattern-tile"
+          data-pattern="dots"
+          id="patternDots">
           <span class="pattern-tile-label">Dots</span>
         </button>
 
       </div>
 
-      <div class="range-row pattern-opacity-row" id="patternOpacityRow">
+      <div class="range-row pattern-opacity-row"
+        id="patternOpacityRow">
 
         <input
           type="range"
           id="patternOpacityRange"
           min="10"
           max="80"
-          value="35"
-        >
+          value="35">
 
         <span id="patternOpacityVal">35%</span>
-
       </div>
 
     </div>
@@ -1040,7 +1051,6 @@ hr{
       <select id="fontSelect">
 
         <optgroup label="Modern">
-
           <option value="'Montserrat',sans-serif" selected>
             Montserrat
           </option>
@@ -1048,11 +1058,9 @@ hr{
           <option value="'Pixelify Sans',sans-serif">
             Pixelify Sans
           </option>
-
         </optgroup>
 
         <optgroup label="Retro / Game">
-
           <option value="'Press Start 2P',monospace">
             Press Start 2P
           </option>
@@ -1060,11 +1068,9 @@ hr{
           <option value="'Pathway Gothic One',sans-serif">
             Pathway Gothic One
           </option>
-
         </optgroup>
 
         <optgroup label="Serif">
-
           <option value="'Playfair Display',serif">
             Playfair Display
           </option>
@@ -1072,35 +1078,33 @@ hr{
           <option value="'Elsie',serif">
             Elsie
           </option>
-
         </optgroup>
 
         <optgroup label="Handwritten">
-
           <option value="'Amatic SC',cursive">Amatic SC</option>
           <option value="'Courgette',cursive">Courgette</option>
-          <option value="'Sue Ellen Francisco',cursive">Sue Ellen Francisco</option>
-          <option value="'Just Another Hand',cursive">Just Another Hand</option>
-          <option value="'Gamja Flower',cursive">Gamja Flower</option>
-          <option value="'Hachi Maru Pop',cursive">Hachi Maru Pop</option>
+          <option value="'Sue Ellen Francisco',cursive">
+            Sue Ellen Francisco
+          </option>
+          <option value="'Just Another Hand',cursive">
+            Just Another Hand
+          </option>
+          <option value="'Gamja Flower',cursive">
+            Gamja Flower
+          </option>
+          <option value="'Hachi Maru Pop',cursive">
+            Hachi Maru Pop
+          </option>
           <option value="'Pompiere',cursive">Pompiere</option>
           <option value="'Schoolbell',cursive">Schoolbell</option>
           <option value="'Yomogi',cursive">Yomogi</option>
-
         </optgroup>
 
       </select>
 
       <div class="font-preview">
-
-        <span id="fontPreviewSample">
-          Aa Bb — Song Title
-        </span>
-
-        <span id="fontPreviewType">
-          Montserrat
-        </span>
-
+        <span id="fontPreviewSample">Aa Bb — Song Title</span>
+        <span id="fontPreviewType">Montserrat</span>
       </div>
 
     </div>
@@ -1116,8 +1120,7 @@ hr{
           id="scaleRange"
           min="60"
           max="150"
-          value="100"
-        >
+          value="100">
 
         <span id="scaleVal">100%</span>
 
@@ -1136,8 +1139,7 @@ hr{
           id="textScaleRange"
           min="70"
           max="150"
-          value="100"
-        >
+          value="100">
 
         <span id="textScaleVal">100%</span>
 
@@ -1152,22 +1154,18 @@ hr{
     </button>
 
   </div>
-
 </div>
-
 
 <div class="wheel-popover-overlay" id="wheelOverlay">
 
   <div class="wheel-popover">
 
     <div class="wheel-popover-header">
-
       <span id="wheelPopoverTitle">Color</span>
 
       <button class="close" id="wheelClose">
         &#10005;
       </button>
-
     </div>
 
     <div class="sv-box" id="svBox">
@@ -1180,59 +1178,45 @@ hr{
       id="hueSlider"
       min="0"
       max="360"
-      value="0"
-    >
+      value="0">
 
     <div class="wheel-hex-row">
-
       <span>#</span>
 
       <input
         type="text"
         id="wheelHexInput"
-        maxlength="6"
-      >
-
+        maxlength="6">
     </div>
 
   </div>
-
 </div>
-
 
 <script>
 
-/* =========================================================
+/* =========================
    BASIC ELEMENTS
-========================================================= */
+========================= */
 
 const root=document.documentElement;
 
+const playerEl=document.getElementById('player');
 const menuBtn=document.getElementById('menuBtn');
 const overlay=document.getElementById('settingsOverlay');
 const closeSettings=document.getElementById('closeSettings');
-
 const playbackArea=document.getElementById('playbackArea');
 const songListEl=document.getElementById('songList');
 const emptyState=document.getElementById('emptyState');
-const playerEl=document.getElementById('player');
+const cover=document.getElementById('cover');
 
 let songs=[];
 let activeIndex=-1;
-
 let audio=null;
-let currentObjectURL=null;
+let deleteTimer=null;
 
-let isPlaying=false;
-let isShuffle=false;
-let isAuto=false;
-
-let longPressTimer=null;
-
-
-/* =========================================================
+/* =========================
    SETTINGS OPEN/CLOSE
-========================================================= */
+========================= */
 
 menuBtn.addEventListener('click',()=>{
   overlay.classList.add('open');
@@ -1253,10 +1237,9 @@ document.getElementById('emptyAddBtn').addEventListener('click',()=>{
   document.getElementById('songImport').click();
 });
 
-
-/* =========================================================
+/* =========================
    TITLE
-========================================================= */
+========================= */
 
 const titleText=document.getElementById('titleText');
 const titleInput=document.getElementById('titleInput');
@@ -1271,7 +1254,6 @@ titleText.addEventListener('blur',()=>{
   }
 
   titleInput.value=titleText.textContent;
-  saveSettings();
 });
 
 titleText.addEventListener('keydown',e=>{
@@ -1283,13 +1265,88 @@ titleText.addEventListener('keydown',e=>{
 
 titleInput.addEventListener('input',()=>{
   titleText.textContent=titleInput.value||'Title';
-  saveSettings();
 });
 
+/* =========================
+   PHOTO SHAPE
+========================= */
 
-/* =========================================================
-   COLOR FUNCTIONS
-========================================================= */
+const shapeButtons=document.querySelectorAll('.shape-btn');
+
+shapeButtons.forEach(button=>{
+
+  button.addEventListener('click',()=>{
+
+    shapeButtons.forEach(b=>{
+      b.classList.remove('active');
+    });
+
+    button.classList.add('active');
+
+    cover.classList.remove(
+      'square',
+      'rounded',
+      'circle',
+      'heart'
+    );
+
+    cover.classList.add(button.dataset.shape);
+
+  });
+
+});
+
+/* =========================
+   PHOTO SIZE
+========================= */
+
+const coverSizeRange=
+  document.getElementById('coverSizeRange');
+
+const coverSizeVal=
+  document.getElementById('coverSizeVal');
+
+coverSizeRange.addEventListener('input',e=>{
+
+  const size=e.target.value;
+
+  root.style.setProperty(
+    '--cover-size',
+    size+'px'
+  );
+
+  coverSizeVal.textContent=size+'px';
+
+});
+
+/* =========================
+   PHOTO IMPORT
+========================= */
+
+const photoImport=
+  document.getElementById('photoImport');
+
+photoImport.addEventListener('change',e=>{
+
+  const file=e.target.files[0];
+
+  if(!file)return;
+
+  const url=URL.createObjectURL(file);
+
+  cover.innerHTML='';
+
+  const img=document.createElement('img');
+
+  img.src=url;
+
+  cover.appendChild(img);
+
+});
+
+/* =========================
+   COLORS
+========================= */
 
 function hexToRgb(hex){
 
@@ -1311,8 +1368,11 @@ function hexToRgb(hex){
 function rgbToHex(r,g,b){
 
   return '#'+[r,g,b]
-    .map(x=>Math.max(0,Math.min(255,Math.round(x)))
-    .toString(16).padStart(2,'0'))
+    .map(x=>
+      Math.max(0,Math.min(255,Math.round(x)))
+      .toString(16)
+      .padStart(2,'0')
+    )
     .join('');
 }
 
@@ -1330,8 +1390,8 @@ function rgbToHsv(r,g,b){
 
   if(d!==0){
 
-    if(max===r) h=((g-b)/d)%6;
-    else if(max===g) h=(b-r)/d+2;
+    if(max===r)h=((g-b)/d)%6;
+    else if(max===g)h=(b-r)/d+2;
     else h=(r-g)/d+4;
 
     h*=60;
@@ -1353,12 +1413,12 @@ function hsvToRgb(h,s,v){
 
   let r=0,g=0,b=0;
 
-  if(h<60){r=c;g=x;}
-  else if(h<120){r=x;g=c;}
-  else if(h<180){g=c;b=x;}
-  else if(h<240){g=x;b=c;}
-  else if(h<300){r=x;b=c;}
-  else{r=c;b=x;}
+  if(h<60){r=c;g=x}
+  else if(h<120){r=x;g=c}
+  else if(h<180){g=c;b=x}
+  else if(h<240){g=x;b=c}
+  else if(h<300){r=x;b=c}
+  else{r=c;b=x}
 
   return{
     r:(r+m)*255,
@@ -1418,84 +1478,49 @@ function setColor(id,hex){
 
   document.getElementById(id+'Hex').value=
     hex.toUpperCase();
-
-  saveSettings();
 }
 
 Object.keys(colorConfigs).forEach(id=>{
 
   document.getElementById(id+'Swatch')
-    .addEventListener('click',()=>openWheel(id));
+    .addEventListener('click',()=>{
+      openWheel(id);
+    });
 
-  const hexField=document.getElementById(id+'Hex');
+  document.getElementById(id+'Hex')
+    .addEventListener('change',e=>{
 
-  hexField.addEventListener('change',()=>{
+      const normalized=normalizeHex(e.target.value);
 
-    const normalized=normalizeHex(hexField.value);
+      if(normalized){
+        setColor(id,normalized);
+      }
 
-    if(normalized){
-      setColor(id,normalized);
-    }
-
-  });
-
-});
-
-
-/* =========================================================
-   PATTERN
-========================================================= */
-
-const patternTiles=document.querySelectorAll('.pattern-tile');
-const patternOpacityRow=document.getElementById('patternOpacityRow');
-const patternOpacityRange=document.getElementById('patternOpacityRange');
-const patternOpacityVal=document.getElementById('patternOpacityVal');
-
-patternTiles.forEach(tile=>{
-
-  tile.addEventListener('click',()=>{
-
-    patternTiles.forEach(
-      t=>t.classList.remove('active')
-    );
-
-    tile.classList.add('active');
-
-    playerEl.dataset.pattern=tile.dataset.pattern;
-
-    patternOpacityRow.classList.toggle(
-      'visible',
-      tile.dataset.pattern!=='none'
-    );
-
-    saveSettings();
-  });
+    });
 
 });
 
-patternOpacityRange.addEventListener('input',e=>{
-
-  root.style.setProperty(
-    '--pattern-opacity',
-    e.target.value/100
-  );
-
-  patternOpacityVal.textContent=e.target.value+'%';
-
-  saveSettings();
-});
-
-
-/* =========================================================
+/* =========================
    COLOR WHEEL
-========================================================= */
+========================= */
 
-const wheelOverlay=document.getElementById('wheelOverlay');
-const svBox=document.getElementById('svBox');
-const svMarker=document.getElementById('svMarker');
-const hueSlider=document.getElementById('hueSlider');
-const wheelHexInput=document.getElementById('wheelHexInput');
-const wheelPopoverTitle=document.getElementById('wheelPopoverTitle');
+const wheelOverlay=
+  document.getElementById('wheelOverlay');
+
+const svBox=
+  document.getElementById('svBox');
+
+const svMarker=
+  document.getElementById('svMarker');
+
+const hueSlider=
+  document.getElementById('hueSlider');
+
+const wheelHexInput=
+  document.getElementById('wheelHexInput');
+
+const wheelPopoverTitle=
+  document.getElementById('wheelPopoverTitle');
 
 const wheelState={
   h:0,
@@ -1515,11 +1540,12 @@ function openWheel(id){
     document.getElementById(id+'Hex').value||'#000000';
 
   const {r,g,b}=hexToRgb(currentHex);
+
   const hsv=rgbToHsv(r,g,b);
 
   wheelState.h=hsv.h;
   wheelState.s=hsv.s;
-  wheelState.v=hsv.v>0?hsv.v:1;
+  wheelState.v=hsv.v||1;
 
   hueSlider.value=Math.round(wheelState.h);
 
@@ -1534,7 +1560,11 @@ function openWheel(id){
 
 function updateSvBoxHue(){
 
-  const rgb=hsvToRgb(wheelState.h,1,1);
+  const rgb=hsvToRgb(
+    wheelState.h,
+    1,
+    1
+  );
 
   svBox.style.backgroundColor=
     rgbToHex(rgb.r,rgb.g,rgb.b);
@@ -1542,13 +1572,14 @@ function updateSvBoxHue(){
 
 function updateSvMarker(){
 
-  svMarker.style.left=(wheelState.s*100)+'%';
-  svMarker.style.top=((1-wheelState.v)*100)+'%';
+  svMarker.style.left=
+    wheelState.s*100+'%';
+
+  svMarker.style.top=
+    (1-wheelState.v)*100+'%';
 }
 
 function applyWheelColor(){
-
-  if(!wheelState.activeId)return;
 
   const rgb=hsvToRgb(
     wheelState.h,
@@ -1556,12 +1587,19 @@ function applyWheelColor(){
     wheelState.v
   );
 
-  const hex=rgbToHex(rgb.r,rgb.g,rgb.b);
+  const hex=rgbToHex(
+    rgb.r,
+    rgb.g,
+    rgb.b
+  );
 
   wheelHexInput.value=
     hex.replace('#','').toUpperCase();
 
-  setColor(wheelState.activeId,hex);
+  setColor(
+    wheelState.activeId,
+    hex
+  );
 }
 
 let svDragging=false;
@@ -1597,10 +1635,6 @@ svBox.addEventListener('pointerup',()=>{
   svDragging=false;
 });
 
-svBox.addEventListener('pointercancel',()=>{
-  svDragging=false;
-});
-
 hueSlider.addEventListener('input',e=>{
 
   wheelState.h=parseFloat(e.target.value);
@@ -1612,30 +1646,29 @@ hueSlider.addEventListener('input',e=>{
 
 wheelHexInput.addEventListener('change',()=>{
 
-  const normalized=normalizeHex(
-    wheelHexInput.value
+  const normalized=
+    normalizeHex(wheelHexInput.value);
+
+  if(!normalized)return;
+
+  const {r,g,b}=hexToRgb(normalized);
+
+  const hsv=rgbToHsv(r,g,b);
+
+  wheelState.h=hsv.h;
+  wheelState.s=hsv.s;
+  wheelState.v=hsv.v;
+
+  hueSlider.value=
+    Math.round(wheelState.h);
+
+  updateSvBoxHue();
+  updateSvMarker();
+
+  setColor(
+    wheelState.activeId,
+    normalized
   );
-
-  if(normalized){
-
-    const {r,g,b}=hexToRgb(normalized);
-    const hsv=rgbToHsv(r,g,b);
-
-    wheelState.h=hsv.h;
-    wheelState.s=hsv.s;
-    wheelState.v=hsv.v>0?hsv.v:wheelState.v;
-
-    hueSlider.value=Math.round(wheelState.h);
-
-    updateSvBoxHue();
-    updateSvMarker();
-
-    setColor(
-      wheelState.activeId,
-      normalized
-    );
-
-  }
 
 });
 
@@ -1650,19 +1683,75 @@ wheelOverlay.addEventListener('click',e=>{
   }
 });
 
+/* =========================
+   PATTERN
+========================= */
 
-/* =========================================================
+const patternTiles=
+  document.querySelectorAll('.pattern-tile');
+
+const patternOpacityRow=
+  document.getElementById('patternOpacityRow');
+
+const patternOpacityRange=
+  document.getElementById('patternOpacityRange');
+
+const patternOpacityVal=
+  document.getElementById('patternOpacityVal');
+
+patternTiles.forEach(tile=>{
+
+  tile.addEventListener('click',()=>{
+
+    patternTiles.forEach(t=>{
+      t.classList.remove('active');
+    });
+
+    tile.classList.add('active');
+
+    playerEl.dataset.pattern=
+      tile.dataset.pattern;
+
+    patternOpacityRow.classList.toggle(
+      'visible',
+      tile.dataset.pattern!=='none'
+    );
+
+  });
+
+});
+
+patternOpacityRange.addEventListener('input',e=>{
+
+  root.style.setProperty(
+    '--pattern-opacity',
+    e.target.value/100
+  );
+
+  patternOpacityVal.textContent=
+    e.target.value+'%';
+
+});
+
+/* =========================
    FONT
-========================================================= */
+========================= */
 
-const fontSelect=document.getElementById('fontSelect');
-const fontPreviewSample=document.getElementById('fontPreviewSample');
-const fontPreviewType=document.getElementById('fontPreviewType');
+const fontSelect=
+  document.getElementById('fontSelect');
+
+const fontPreviewSample=
+  document.getElementById('fontPreviewSample');
+
+const fontPreviewType=
+  document.getElementById('fontPreviewType');
 
 function updateFont(){
 
   const selected=
-    fontSelect.options[fontSelect.selectedIndex];
+    fontSelect.options[
+      fontSelect.selectedIndex
+    ];
 
   const font=selected.value;
 
@@ -1675,8 +1764,6 @@ function updateFont(){
 
   fontPreviewType.textContent=
     selected.textContent.trim();
-
-  saveSettings();
 }
 
 fontSelect.addEventListener(
@@ -1684,13 +1771,17 @@ fontSelect.addEventListener(
   updateFont
 );
 
+updateFont();
 
-/* =========================================================
-   SCALE
-========================================================= */
+/* =========================
+   PLAYER SIZE
+========================= */
 
-const scaleRange=document.getElementById('scaleRange');
-const scaleVal=document.getElementById('scaleVal');
+const scaleRange=
+  document.getElementById('scaleRange');
+
+const scaleVal=
+  document.getElementById('scaleVal');
 
 scaleRange.addEventListener('input',e=>{
 
@@ -1699,15 +1790,14 @@ scaleRange.addEventListener('input',e=>{
     e.target.value/100
   );
 
-  scaleVal.textContent=e.target.value+'%';
+  scaleVal.textContent=
+    e.target.value+'%';
 
-  saveSettings();
 });
 
-
-/* =========================================================
+/* =========================
    TEXT SIZE
-========================================================= */
+========================= */
 
 const textScaleRange=
   document.getElementById('textScaleRange');
@@ -1725,53 +1815,16 @@ textScaleRange.addEventListener('input',e=>{
   textScaleVal.textContent=
     e.target.value+'%';
 
-  saveSettings();
 });
 
-
-/* =========================================================
-   PHOTO
-========================================================= */
-
-const photoImport=
-  document.getElementById('photoImport');
-
-let coverObjectURL=null;
-
-function setCoverImage(file){
-
-  if(!file)return;
-
-  if(coverObjectURL){
-    URL.revokeObjectURL(coverObjectURL);
-  }
-
-  coverObjectURL=URL.createObjectURL(file);
-
-  const cover=document.getElementById('cover');
-
-  cover.innerHTML='';
-
-  const img=document.createElement('img');
-
-  img.src=coverObjectURL;
-
-  cover.appendChild(img);
-
-  saveCover(file);
-}
-
-photoImport.addEventListener('change',e=>{
-  setCoverImage(e.target.files[0]);
-});
-
-
-/* =========================================================
+/* =========================
    INDEXEDDB
-========================================================= */
+   SAVES ACTUAL AUDIO FILES
+========================= */
 
-const DB_NAME='notionMusicPlayerDB';
+const DB_NAME='musicPlayerDB';
 const DB_VERSION=1;
+const STORE='songs';
 
 let db=null;
 
@@ -1779,25 +1832,16 @@ function openDB(){
 
   return new Promise((resolve,reject)=>{
 
-    const request=indexedDB.open(
-      DB_NAME,
-      DB_VERSION
-    );
+    const request=
+      indexedDB.open(DB_NAME,DB_VERSION);
 
     request.onupgradeneeded=e=>{
 
       const database=e.target.result;
 
-      if(!database.objectStoreNames.contains('songs')){
+      if(!database.objectStoreNames.contains(STORE)){
         database.createObjectStore(
-          'songs',
-          {keyPath:'id',autoIncrement:true}
-        );
-      }
-
-      if(!database.objectStoreNames.contains('cover')){
-        database.createObjectStore(
-          'cover',
+          STORE,
           {keyPath:'id'}
         );
       }
@@ -1817,238 +1861,66 @@ function openDB(){
 
 }
 
-async function saveSongToDB(song){
-
-  if(!db)return;
+function saveSong(song){
 
   return new Promise((resolve,reject)=>{
 
-    const tx=db.transaction(
-      'songs',
-      'readwrite'
-    );
+    const transaction=
+      db.transaction(STORE,'readwrite');
 
-    const store=tx.objectStore('songs');
+    transaction.objectStore(STORE)
+      .put(song);
 
-    const request=store.put(song);
-
-    request.onsuccess=()=>{
-      resolve();
-    };
-
-    request.onerror=()=>{
-      reject(request.error);
+    transaction.oncomplete=resolve;
+    transaction.onerror=()=>{
+      reject(transaction.error);
     };
 
   });
 
 }
 
-async function deleteSongFromDB(id){
-
-  if(!db)return;
-
-  return new Promise((resolve,reject)=>{
-
-    const tx=db.transaction(
-      'songs',
-      'readwrite'
-    );
-
-    const request=
-      tx.objectStore('songs').delete(id);
-
-    request.onsuccess=()=>{
-      resolve();
-    };
-
-    request.onerror=()=>{
-      reject(request.error);
-    };
-
-  });
-
-}
-
-async function loadSongsFromDB(){
-
-  if(!db)return;
-
-  return new Promise((resolve,reject)=>{
-
-    const tx=db.transaction(
-      'songs',
-      'readonly'
-    );
-
-    const request=
-      tx.objectStore('songs').getAll();
-
-    request.onsuccess=()=>{
-
-      songs=request.result||[];
-
-      songs.forEach(song=>{
-        if(song.file && !(song.file instanceof Blob)){
-          song.file=null;
-        }
-      });
-
-      resolve();
-
-    };
-
-    request.onerror=()=>{
-      reject(request.error);
-    };
-
-  });
-
-}
-
-async function saveCover(file){
-
-  if(!db || !file)return;
-
-  const tx=db.transaction(
-    'cover',
-    'readwrite'
-  );
-
-  tx.objectStore('cover').put({
-    id:'main',
-    file:file
-  });
-}
-
-async function loadCover(){
-
-  if(!db)return;
+function deleteSavedSong(id){
 
   return new Promise(resolve=>{
 
-    const tx=db.transaction(
-      'cover',
-      'readonly'
-    );
+    const transaction=
+      db.transaction(STORE,'readwrite');
+
+    transaction.objectStore(STORE)
+      .delete(id);
+
+    transaction.oncomplete=resolve;
+
+  });
+
+}
+
+function loadSavedSongs(){
+
+  return new Promise((resolve,reject)=>{
+
+    const transaction=
+      db.transaction(STORE,'readonly');
 
     const request=
-      tx.objectStore('cover').get('main');
+      transaction.objectStore(STORE).getAll();
 
     request.onsuccess=()=>{
-
-      const result=request.result;
-
-      if(result && result.file){
-
-        const url=URL.createObjectURL(result.file);
-
-        coverObjectURL=url;
-
-        const cover=
-          document.getElementById('cover');
-
-        cover.innerHTML='';
-
-        const img=document.createElement('img');
-
-        img.src=url;
-
-        cover.appendChild(img);
-
-      }
-
-      resolve();
-
+      resolve(request.result||[]);
     };
 
     request.onerror=()=>{
-      resolve();
+      reject(request.error);
     };
 
   });
 
 }
 
-
-/* =========================================================
+/* =========================
    AUDIO PLAYER
-========================================================= */
-
-function createAudio(){
-
-  if(audio){
-    audio.pause();
-  }
-
-  audio=new Audio();
-
-  audio.preload='metadata';
-
-  audio.addEventListener('loadedmetadata',()=>{
-
-    const totalTime=
-      document.getElementById('totalTime');
-
-    if(totalTime){
-      totalTime.textContent=
-        formatTime(audio.duration);
-    }
-
-  });
-
-  audio.addEventListener('timeupdate',()=>{
-
-    const scrub=
-      document.querySelector('.scrub');
-
-    const curTime=
-      document.getElementById('curTime');
-
-    if(!scrub || !curTime)return;
-
-    if(audio.duration){
-
-      scrub.max=audio.duration;
-      scrub.value=audio.currentTime;
-
-      curTime.textContent=
-        formatTime(audio.currentTime);
-    }
-
-  });
-
-  audio.addEventListener('ended',()=>{
-
-    isPlaying=false;
-
-    updatePlayButton();
-
-    if(isAuto){
-
-      playNextSong();
-
-    }
-
-  });
-
-  audio.addEventListener('play',()=>{
-
-    isPlaying=true;
-
-    updatePlayButton();
-
-  });
-
-  audio.addEventListener('pause',()=>{
-
-    isPlaying=false;
-
-    updatePlayButton();
-
-  });
-
-}
+========================= */
 
 function formatTime(seconds){
 
@@ -2056,181 +1928,16 @@ function formatTime(seconds){
     return '0:00';
   }
 
-  const mins=Math.floor(seconds/60);
-  const secs=Math.floor(seconds%60);
+  seconds=Math.floor(seconds);
 
-  return mins+':'+String(secs).padStart(2,'0');
+  const minutes=Math.floor(seconds/60);
+
+  const secs=String(
+    seconds%60
+  ).padStart(2,'0');
+
+  return minutes+':'+secs;
 }
-
-function loadSong(index,autoPlay=false){
-
-  if(index<0 || index>=songs.length)return;
-
-  activeIndex=index;
-
-  const song=songs[index];
-
-  if(!song.file)return;
-
-  if(currentObjectURL){
-    URL.revokeObjectURL(currentObjectURL);
-    currentObjectURL=null;
-  }
-
-  currentObjectURL=
-    URL.createObjectURL(song.file);
-
-  audio.src=currentObjectURL;
-
-  audio.load();
-
-  renderSongs();
-
-  const curTime=
-    document.getElementById('curTime');
-
-  const totalTime=
-    document.getElementById('totalTime');
-
-  const scrub=
-    document.querySelector('.scrub');
-
-  if(curTime)curTime.textContent='0:00';
-  if(totalTime)totalTime.textContent='0:00';
-
-  if(scrub){
-    scrub.value=0;
-  }
-
-  if(autoPlay){
-
-    const promise=audio.play();
-
-    if(promise){
-      promise.catch(()=>{
-        isPlaying=false;
-        updatePlayButton();
-      });
-    }
-
-  }
-
-}
-
-function togglePlay(){
-
-  if(songs.length===0)return;
-
-  if(activeIndex===-1){
-    activeIndex=0;
-  }
-
-  if(!songs[activeIndex].file)return;
-
-  if(!audio.src){
-
-    loadSong(activeIndex,true);
-    return;
-
-  }
-
-  if(audio.paused){
-
-    audio.play().catch(()=>{});
-
-  }else{
-
-    audio.pause();
-
-  }
-
-}
-
-function updatePlayButton(){
-
-  const playBtn=
-    document.getElementById('playBtn');
-
-  if(!playBtn)return;
-
-  playBtn.innerHTML=
-    isPlaying
-      ? '&#10074;&#10074;'
-      : '&#9654;';
-
-  playBtn.title=
-    isPlaying
-      ? 'Pause'
-      : 'Play';
-}
-
-
-/* =========================================================
-   NEXT / PREVIOUS / SHUFFLE
-========================================================= */
-
-function getNextIndex(){
-
-  if(songs.length===0)return -1;
-
-  if(isShuffle && songs.length>1){
-
-    let next;
-
-    do{
-      next=Math.floor(
-        Math.random()*songs.length
-      );
-    }while(next===activeIndex);
-
-    return next;
-  }
-
-  return(
-    activeIndex+1
-  )%songs.length;
-}
-
-function playNextSong(){
-
-  if(songs.length===0)return;
-
-  const next=getNextIndex();
-
-  if(next===-1)return;
-
-  loadSong(next,true);
-}
-
-function playPreviousSong(){
-
-  if(songs.length===0)return;
-
-  let prev;
-
-  if(isShuffle && songs.length>1){
-
-    do{
-      prev=Math.floor(
-        Math.random()*songs.length
-      );
-    }while(prev===activeIndex);
-
-  }else{
-
-    prev=
-      (activeIndex-1+songs.length)
-      %songs.length;
-
-  }
-
-  loadSong(prev,true);
-}
-
-
-/* =========================================================
-   PLAYBACK AREA
-========================================================= */
 
 function buildPlaybackArea(){
 
@@ -2248,8 +1955,7 @@ function buildPlaybackArea(){
         class="scrub"
         min="0"
         max="100"
-        value="0"
-      >
+        value="0">
 
     </div>
 
@@ -2258,118 +1964,326 @@ function buildPlaybackArea(){
       <button
         class="toggle-btn"
         id="shuffleBtn"
-        title="Shuffle"
-      >⇄</button>
+        title="Shuffle">⇄</button>
 
       <button
         id="prevBtn"
-        title="Previous"
-      >&#9198;</button>
+        title="Previous">&#9198;</button>
 
       <button
         class="play-btn"
         id="playBtn"
-        title="Play"
-      >&#9654;</button>
+        title="Play">&#9654;</button>
 
       <button
         id="nextBtn"
-        title="Next"
-      >&#9197;</button>
+        title="Next">&#9197;</button>
 
       <button
         class="toggle-btn"
         id="repeatBtn"
-        title="Auto play"
-      >↺</button>
+        title="Auto play">↺</button>
 
     </div>
   `;
 
   document.getElementById('shuffleBtn')
     .addEventListener('click',e=>{
-
-      isShuffle=
-        !isShuffle;
-
-      e.currentTarget.classList.toggle(
-        'active',
-        isShuffle
-      );
-
+      e.currentTarget.classList.toggle('active');
     });
 
   document.getElementById('repeatBtn')
     .addEventListener('click',e=>{
-
-      isAuto=
-        !isAuto;
-
-      e.currentTarget.classList.toggle(
-        'active',
-        isAuto
-      );
-
+      e.currentTarget.classList.toggle('active');
     });
 
   document.getElementById('prevBtn')
-    .addEventListener(
-      'click',
-      playPreviousSong
-    );
+    .addEventListener('click',()=>{
+      stepSong(-1);
+    });
 
   document.getElementById('nextBtn')
-    .addEventListener(
-      'click',
-      playNextSong
-    );
+    .addEventListener('click',()=>{
+      stepSong(1);
+    });
 
   document.getElementById('playBtn')
-    .addEventListener(
-      'click',
-      togglePlay
+    .addEventListener('click',togglePlay);
+
+  document.querySelector('.scrub')
+    .addEventListener('input',e=>{
+
+      if(!audio)return;
+
+      if(Number.isFinite(audio.duration)){
+
+        audio.currentTime=
+          (e.target.value/100)*
+          audio.duration;
+
+      }
+
+    });
+
+}
+
+/* =========================
+   LOAD SONG
+========================= */
+
+function loadSong(index,autoplay=false){
+
+  if(!songs[index])return;
+
+  activeIndex=index;
+
+  if(audio){
+
+    audio.pause();
+
+    URL.revokeObjectURL(
+      audio.src
     );
 
-  const scrub=
-    document.querySelector('.scrub');
+  }
 
-  scrub.addEventListener('input',()=>{
+  const song=songs[index];
 
-    if(audio && audio.duration){
+  audio=new Audio();
 
-      audio.currentTime=
-        Number(scrub.value);
+  audio.src=
+    URL.createObjectURL(song.file);
+
+  audio.preload='metadata';
+
+  audio.addEventListener('loadedmetadata',()=>{
+
+    document.getElementById('totalTime')
+      .textContent=
+      formatTime(audio.duration);
+
+  });
+
+  audio.addEventListener('timeupdate',()=>{
+
+    const current=audio.currentTime;
+    const duration=audio.duration;
+
+    document.getElementById('curTime')
+      .textContent=
+      formatTime(current);
+
+    document.getElementById('totalTime')
+      .textContent=
+      formatTime(duration);
+
+    if(Number.isFinite(duration)){
+
+      document.querySelector('.scrub').value=
+        (current/duration)*100;
 
     }
 
   });
 
-  updatePlayButton();
+  audio.addEventListener('ended',()=>{
+
+    const repeat=
+      document.getElementById('repeatBtn')
+        .classList.contains('active');
+
+    if(repeat){
+      audio.currentTime=0;
+      audio.play();
+      return;
+    }
+
+    nextSong(true);
+
+  });
+
+  renderSongs();
+
+  if(autoplay){
+
+    audio.play().then(()=>{
+      updatePlayButton(true);
+    }).catch(()=>{});
+
+  }
 
 }
 
+/* =========================
+   PLAY / PAUSE
+========================= */
 
-/* =========================================================
-   SONG IMPORT
-========================================================= */
+function togglePlay(){
 
-function addSongEntry(name,artist,file){
+  if(!songs.length)return;
 
-  const song={
-    name:name,
-    artist:artist,
-    file:file
-  };
-
-  songs.push(song);
-
-  saveSongToDB(song);
-
-  if(activeIndex===-1){
-    activeIndex=0;
+  if(!audio){
+    loadSong(activeIndex,true);
+    return;
   }
 
-  if(playbackArea.innerHTML.trim()===''){
+  if(audio.paused){
+
+    audio.play()
+      .then(()=>{
+        updatePlayButton(true);
+      })
+      .catch(()=>{});
+
+  }else{
+
+    audio.pause();
+
+    updatePlayButton(false);
+
+  }
+
+}
+
+function updatePlayButton(playing){
+
+  const btn=
+    document.getElementById('playBtn');
+
+  if(!btn)return;
+
+  btn.innerHTML=
+    playing
+      ? '&#10074;&#10074;'
+      : '&#9654;';
+}
+
+/* =========================
+   NEXT / PREVIOUS
+========================= */
+
+function nextSong(autoplay=false){
+
+  if(!songs.length)return;
+
+  const shuffle=
+    document.getElementById('shuffleBtn')
+      ?.classList.contains('active');
+
+  let next;
+
+  if(shuffle && songs.length>1){
+
+    do{
+      next=Math.floor(
+        Math.random()*songs.length
+      );
+    }while(next===activeIndex);
+
+  }else{
+
+    next=
+      (activeIndex+1)%songs.length;
+
+  }
+
+  loadSong(next,autoplay);
+}
+
+function stepSong(dir){
+
+  if(!songs.length)return;
+
+  let next=
+    (activeIndex+dir+songs.length)
+    %songs.length;
+
+  loadSong(next,false);
+}
+
+/* =========================
+   SONG NAME
+========================= */
+
+function cleanFilename(filename){
+
+  return filename
+    .replace(/\.[^/.]+$/,'')
+    .trim();
+}
+
+function parseFilename(filename){
+
+  const raw=cleanFilename(filename);
+
+  if(raw.includes(' - ')){
+
+    const parts=
+      raw.split(' - ');
+
+    return{
+      artist:parts[0].trim()||'Unknown artist',
+      name:parts.slice(1)
+        .join(' - ')
+        .trim()||raw
+    };
+
+  }
+
+  return{
+    artist:'Unknown artist',
+    name:raw
+  };
+}
+
+/* =========================
+   IMPORT SONGS
+========================= */
+
+const songImport=
+  document.getElementById('songImport');
+
+songImport.addEventListener('change',e=>{
+
+  handleSongFiles(e.target.files);
+
+  e.target.value='';
+
+});
+
+async function handleSongFiles(files){
+
+  for(const file of Array.from(files)){
+
+    const parsed=
+      parseFilename(file.name);
+
+    const song={
+      id:
+        Date.now()+
+        '-' +
+        Math.random()
+          .toString(36)
+          .slice(2),
+
+      name:parsed.name,
+
+      artist:parsed.artist,
+
+      file:file
+    };
+
+    songs.push(song);
+
+    await saveSong(song);
+
+    if(activeIndex===-1){
+      activeIndex=0;
+    }
+
+  }
+
+  if(!playbackArea.innerHTML.trim()){
     buildPlaybackArea();
   }
 
@@ -2377,152 +2291,83 @@ function addSongEntry(name,artist,file){
 
 }
 
-function handleSongFiles(files){
+/* =========================
+   LONG PRESS DELETE
+========================= */
 
-  Array.from(files).forEach(file=>{
+function startDeleteTimer(div,index){
 
-    if(!file.type.startsWith('audio/'))return;
+  deleteTimer=setTimeout(()=>{
 
-    const raw=file.name.replace(
-      /\.[^/.]+$/,
-      ''
-    );
+    div.classList.add('delete-mode');
 
-    let name=raw;
-    let artist='Unknown artist';
+  },600);
 
-    if(raw.includes(' - ')){
-
-      const parts=
-        raw.split(' - ');
-
-      artist=
-        parts[0].trim();
-
-      name=
-        parts.slice(1)
-        .join(' - ')
-        .trim();
-
-    }
-
-    addSongEntry(
-      name,
-      artist,
-      file
-    );
-
-  });
-
-  document.getElementById('songImport').value='';
 }
 
-const songImport=
-  document.getElementById('songImport');
+function cancelDeleteTimer(){
 
-songImport.addEventListener('change',e=>{
-  handleSongFiles(e.target.files);
-});
+  clearTimeout(deleteTimer);
+}
 
-
-/* =========================================================
-   LONG PRESS DELETE
-========================================================= */
-
-function setupLongPress(div,song,index){
-
-  const startLongPress=e=>{
-
-    if(
-      e.target.closest('.delete-song') ||
-      e.target.closest('.drag-handle')
-    ){
-      return;
-    }
-
-    longPressTimer=
-      setTimeout(()=>{
-
-        div.classList.add(
-          'long-pressed'
-        );
-
-      },600);
-
-  };
-
-  const cancelLongPress=()=>{
-
-    if(longPressTimer){
-
-      clearTimeout(longPressTimer);
-      longPressTimer=null;
-
-    }
-
-  };
+function setupLongPress(div,index){
 
   div.addEventListener(
     'pointerdown',
-    startLongPress
+    e=>{
+
+      if(
+        e.target.classList.contains(
+          'delete-song'
+        )
+      )return;
+
+      startDeleteTimer(div,index);
+
+    }
   );
 
   div.addEventListener(
     'pointerup',
-    cancelLongPress
-  );
-
-  div.addEventListener(
-    'pointerleave',
-    cancelLongPress
+    cancelDeleteTimer
   );
 
   div.addEventListener(
     'pointercancel',
-    cancelLongPress
+    cancelDeleteTimer
   );
 
-  div.querySelector('.delete-song')
-    .addEventListener('click',e=>{
-
-      e.stopPropagation();
-
-      deleteSong(index);
-
-    });
+  div.addEventListener(
+    'pointerleave',
+    cancelDeleteTimer
+  );
 
 }
 
+/* =========================
+   DELETE SONG
+========================= */
+
 async function deleteSong(index){
 
-  if(index<0 || index>=songs.length)return;
+  if(!songs[index])return;
 
-  const deleted=
-    songs[index];
+  const id=songs[index].id;
 
   if(
-    activeIndex===index &&
-    audio
+    audio &&
+    index===activeIndex
   ){
 
     audio.pause();
-    audio.removeAttribute('src');
-    audio.load();
 
-    isPlaying=false;
+    audio.src='';
 
-    if(currentObjectURL){
-      URL.revokeObjectURL(currentObjectURL);
-      currentObjectURL=null;
-    }
+    audio=null;
 
   }
 
-  if(deleted.id){
-    await deleteSongFromDB(
-      deleted.id
-    );
-  }
+  await deleteSavedSong(id);
 
   songs.splice(index,1);
 
@@ -2530,22 +2375,14 @@ async function deleteSong(index){
 
     activeIndex=-1;
 
+  }else if(index===activeIndex){
+
+    activeIndex=
+      Math.min(index,songs.length-1);
+
   }else if(index<activeIndex){
 
     activeIndex--;
-
-  }else if(activeIndex>=songs.length){
-
-    activeIndex=songs.length-1;
-
-  }
-
-  if(activeIndex>=0 && !audio.src){
-
-    loadSong(
-      activeIndex,
-      false
-    );
 
   }
 
@@ -2553,15 +2390,13 @@ async function deleteSong(index){
 
 }
 
-
-/* =========================================================
+/* =========================
    RENDER SONGS
-========================================================= */
+========================= */
 
 function renderSongs(){
 
-  const hasSongs=
-    songs.length>0;
+  const hasSongs=songs.length>0;
 
   emptyState.style.display=
     hasSongs?'none':'block';
@@ -2572,11 +2407,11 @@ function renderSongs(){
   playbackArea.style.display=
     hasSongs?'block':'none';
 
-  if(
-    hasSongs &&
-    playbackArea.innerHTML.trim()===''
-  ){
+  if(hasSongs &&
+     playbackArea.innerHTML.trim()===''){
+
     buildPlaybackArea();
+
   }
 
   songListEl.innerHTML='';
@@ -2606,9 +2441,7 @@ function renderSongs(){
 
       <button
         class="delete-song"
-        title="Delete song"
-      >×</button>
-
+        title="Delete">×</button>
     `;
 
     div.querySelector('.song-name')
@@ -2617,29 +2450,33 @@ function renderSongs(){
     div.querySelector('.artist-name')
       .textContent=song.artist;
 
-    div.addEventListener('click',e=>{
+    const deleteBtn=
+      div.querySelector('.delete-song');
 
-      if(
-        e.target.closest('.delete-song') ||
-        e.target.closest('.drag-handle')
-      ){
+    deleteBtn.addEventListener(
+      'click',
+      e=>{
+        e.stopPropagation();
+        deleteSong(i);
+      }
+    );
+
+    div.addEventListener('click',()=>{
+
+      if(div.classList.contains('delete-mode')){
+        div.classList.remove('delete-mode');
         return;
       }
 
-      activeIndex=i;
+      if(activeIndex!==i){
 
-      loadSong(
-        i,
-        true
-      );
+        loadSong(i,false);
+
+      }
 
     });
 
-    setupLongPress(
-      div,
-      song,
-      i
-    );
+    setupLongPress(div,i);
 
     songListEl.appendChild(div);
 
@@ -2647,411 +2484,46 @@ function renderSongs(){
 
 }
 
-
-/* =========================================================
-   DRAG REORDER
-========================================================= */
-
-let draggedIndex=-1;
-
-songListEl.addEventListener(
-  'dragstart',
-  e=>{
-    const song=
-      e.target.closest('.song');
-
-    if(!song)return;
-
-    draggedIndex=
-      Array.from(
-        songListEl.children
-      ).indexOf(song);
-
-    song.classList.add(
-      'dragging'
-    );
-  }
-);
-
-songListEl.addEventListener(
-  'dragover',
-  e=>{
-
-    e.preventDefault();
-
-    const target=
-      e.target.closest('.song');
-
-    if(!target)return;
-
-    target.classList.add(
-      'drag-over'
-    );
-
-  }
-);
-
-songListEl.addEventListener(
-  'dragleave',
-  e=>{
-
-    const target=
-      e.target.closest('.song');
-
-    if(target){
-      target.classList.remove(
-        'drag-over'
-      );
-    }
-
-  }
-);
-
-songListEl.addEventListener(
-  'drop',
-  e=>{
-
-    e.preventDefault();
-
-    const target=
-      e.target.closest('.song');
-
-    if(!target)return;
-
-    const targetIndex=
-      Array.from(
-        songListEl.children
-      ).indexOf(target);
-
-    if(
-      draggedIndex>=0 &&
-      targetIndex>=0 &&
-      draggedIndex!==targetIndex
-    ){
-
-      const moved=
-        songs.splice(
-          draggedIndex,
-          1
-        )[0];
-
-      songs.splice(
-        targetIndex,
-        0,
-        moved
-      );
-
-      if(activeIndex===draggedIndex){
-
-        activeIndex=
-          targetIndex;
-
-      }else if(
-        draggedIndex<activeIndex &&
-        targetIndex>=activeIndex
-      ){
-
-        activeIndex--;
-
-      }else if(
-        draggedIndex>activeIndex &&
-        targetIndex<=activeIndex
-      ){
-
-        activeIndex++;
-
-      }
-
-      saveSongOrder();
-      renderSongs();
-
-    }
-
-  }
-);
-
-songListEl.addEventListener(
-  'dragend',
-  e=>{
-
-    document
-      .querySelectorAll('.song')
-      .forEach(s=>{
-        s.classList.remove(
-          'dragging',
-          'drag-over'
-        );
-      });
-
-  }
-);
-
-
-/* Make handles draggable */
-
-function enableDragHandles(){
-
-  document
-    .querySelectorAll('.drag-handle')
-    .forEach(handle=>{
-
-      handle.setAttribute(
-        'draggable',
-        'true'
-      );
-
-      handle.addEventListener(
-        'dragstart',
-        e=>{
-
-          const song=
-            e.target.closest('.song');
-
-          if(!song)return;
-
-          draggedIndex=
-            Array.from(
-              songListEl.children
-            ).indexOf(song);
-
-          song.classList.add(
-            'dragging'
-          );
-
-        }
-      );
-
-    });
-
-}
-
-
-/* =========================================================
-   SAVE SONG ORDER
-========================================================= */
-
-async function saveSongOrder(){
-
-  if(!db)return;
-
-  const tx=
-    db.transaction(
-      'songs',
-      'readwrite'
-    );
-
-  const store=
-    tx.objectStore('songs');
-
-  songs.forEach((song,index)=>{
-
-    song.order=index;
-
-    store.put(song);
-
-  });
-
-}
-
-
-/* =========================================================
-   SETTINGS STORAGE
-========================================================= */
-
-function saveSettings(){
-
-  const settings={
-
-    title:titleText.textContent,
-
-    headerColor:
-      document.getElementById(
-        'headerColorHex'
-      ).value,
-
-    titleColor:
-      document.getElementById(
-        'titleColorHex'
-      ).value,
-
-    songTitleColor:
-      document.getElementById(
-        'songTitleColorHex'
-      ).value,
-
-    bgColor:
-      document.getElementById(
-        'bgColorHex'
-      ).value,
-
-    pattern:
-      playerEl.dataset.pattern,
-
-    patternOpacity:
-      patternOpacityRange.value,
-
-    font:
-      fontSelect.value,
-
-    scale:
-      scaleRange.value,
-
-    textScale:
-      textScaleRange.value
-
-  };
-
-  localStorage.setItem(
-    'notionMusicPlayerSettings',
-    JSON.stringify(settings)
-  );
-
-}
-
-function loadSettings(){
-
-  const saved=
-    localStorage.getItem(
-      'notionMusicPlayerSettings'
-    );
-
-  if(!saved)return;
+/* =========================
+   LOAD SAVED DATA
+========================= */
+
+async function initialize(){
 
   try{
 
-    const s=JSON.parse(saved);
+    await openDB();
 
-    if(s.title){
+    songs=await loadSavedSongs();
 
-      titleText.textContent=s.title;
-      titleInput.value=s.title;
+    if(songs.length){
 
-    }
+      activeIndex=0;
 
-    if(s.headerColor)
-      setColor(
-        'headerColor',
-        s.headerColor
-      );
-
-    if(s.titleColor)
-      setColor(
-        'titleColor',
-        s.titleColor
-      );
-
-    if(s.songTitleColor)
-      setColor(
-        'songTitleColor',
-        s.songTitleColor
-      );
-
-    if(s.bgColor)
-      setColor(
-        'bgColor',
-        s.bgColor
-      );
-
-    if(s.pattern){
-
-      playerEl.dataset.pattern=
-        s.pattern;
-
-      patternTiles.forEach(t=>{
-        t.classList.toggle(
-          'active',
-          t.dataset.pattern===s.pattern
-        );
-      });
-
-      patternOpacityRow.classList.toggle(
-        'visible',
-        s.pattern!=='none'
-      );
+      buildPlaybackArea();
 
     }
 
-    if(s.patternOpacity){
+    renderSongs();
 
-      patternOpacityRange.value=
-        s.patternOpacity;
+  }catch(error){
 
-      patternOpacityVal.textContent=
-        s.patternOpacity+'%';
-
-      root.style.setProperty(
-        '--pattern-opacity',
-        s.patternOpacity/100
-      );
-
-    }
-
-    if(s.font){
-
-      fontSelect.value=s.font;
-
-      root.style.setProperty(
-        '--font-family',
-        s.font
-      );
-
-      const selected=
-        fontSelect.options[
-          fontSelect.selectedIndex
-        ];
-
-      fontPreviewSample.style.fontFamily=
-        s.font;
-
-      fontPreviewType.textContent=
-        selected.textContent.trim();
-
-    }
-
-    if(s.scale){
-
-      scaleRange.value=s.scale;
-
-      scaleVal.textContent=
-        s.scale+'%';
-
-      root.style.setProperty(
-        '--scale',
-        s.scale/100
-      );
-
-    }
-
-    if(s.textScale){
-
-      textScaleRange.value=
-        s.textScale;
-
-      textScaleVal.textContent=
-        s.textScale+'%';
-
-      root.style.setProperty(
-        '--text-scale',
-        s.textScale/100
-      );
-
-    }
-
-  }catch(e){
-
-    console.log(
-      'Could not load settings',
-      e
+    console.error(
+      'Could not load saved songs:',
+      error
     );
+
+    renderSongs();
 
   }
 
 }
 
+initialize();
 
-/* =========================================================
+/* =========================
    RESET
-========================================================= */
+========================= */
 
 document.getElementById('resetBtn')
   .addEventListener('click',()=>{
@@ -3076,8 +2548,7 @@ document.getElementById('resetBtn')
       '#FFFFFF'
     );
 
-    playerEl.dataset.pattern=
-      'none';
+    playerEl.dataset.pattern='none';
 
     patternTiles.forEach(t=>{
       t.classList.toggle(
@@ -3095,23 +2566,12 @@ document.getElementById('resetBtn')
     );
 
     patternOpacityRange.value=35;
-
-    patternOpacityVal.textContent=
-      '35%';
+    patternOpacityVal.textContent='35%';
 
     fontSelect.value=
       "'Montserrat',sans-serif";
 
-    root.style.setProperty(
-      '--font-family',
-      "'Montserrat',sans-serif"
-    );
-
-    fontPreviewSample.style.fontFamily=
-      "'Montserrat',sans-serif";
-
-    fontPreviewType.textContent=
-      'Montserrat';
+    updateFont();
 
     root.style.setProperty(
       '--scale',
@@ -3129,64 +2589,33 @@ document.getElementById('resetBtn')
     textScaleRange.value=100;
     textScaleVal.textContent='100%';
 
-    titleText.textContent=
-      'Title';
+    root.style.setProperty(
+      '--cover-size',
+      '170px'
+    );
 
-    titleInput.value=
-      'Title';
+    coverSizeRange.value=170;
+    coverSizeVal.textContent='170px';
 
-    saveSettings();
+    cover.classList.remove(
+      'square',
+      'circle',
+      'heart'
+    );
+
+    cover.classList.add('rounded');
+
+    shapeButtons.forEach(b=>{
+      b.classList.toggle(
+        'active',
+        b.dataset.shape==='rounded'
+      );
+    });
+
+    titleText.textContent='Title';
+    titleInput.value='Title';
 
   });
-
-
-/* =========================================================
-   STARTUP
-========================================================= */
-
-async function initialize(){
-
-  buildPlaybackArea();
-
-  createAudio();
-
-  loadSettings();
-
-  try{
-
-    await openDB();
-
-    await loadSongsFromDB();
-
-    songs.sort(
-      (a,b)=>
-        (a.order??0)-
-        (b.order??0)
-    );
-
-    await loadCover();
-
-  }catch(error){
-
-    console.log(
-      'Storage unavailable:',
-      error
-    );
-
-  }
-
-  activeIndex=
-    songs.length>0
-      ?0
-      :-1;
-
-  renderSongs();
-
-  enableDragHandles();
-
-}
-
-initialize();
 
 </script>
 
