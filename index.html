@@ -1037,6 +1037,7 @@ let db=null;
 
 function getWidgetId(){
 
+  /* 1. Explicit ?id= in the URL — most reliable, always wins if present. */
   try{
     const params=new URLSearchParams(location.search);
     const id=params.get('id');
@@ -1046,7 +1047,58 @@ function getWidgetId(){
     }
   }catch(e){}
 
-  return null;
+  /* 2. Auto-detect: fingerprint this embed's own iframe so duplicated
+        embeds (with no ?id=) still get separate, stable IDs automatically. */
+  function hashString(str){
+
+    let hash=2166136261;
+
+    for(let i=0;i<str.length;i++){
+      hash^=str.charCodeAt(i);
+      hash+=(hash<<1)+(hash<<4)+(hash<<7)+(hash<<8)+(hash<<24);
+    }
+
+    return (hash>>>0).toString(36);
+  }
+
+  try{
+
+    if(window.name && window.name.indexOf('auto_')===0){
+      return window.name;
+    }
+
+    const frame=window.frameElement;
+    let fingerprint='';
+
+    if(frame){
+
+      fingerprint=[
+        frame.id,
+        frame.name,
+        frame.src,
+        frame.getAttribute('data-block-id')
+      ].filter(Boolean).join('|');
+    }
+
+    if(fingerprint){
+
+      const stable='auto_'+hashString(fingerprint);
+
+      window.name=stable;
+
+      return stable;
+    }
+
+    /* 3. Last resort: random ID, remembered for this frame only. */
+    const generated='auto_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,10);
+
+    window.name=generated;
+
+    return generated;
+
+  }catch(e){
+    return null;
+  }
 }
 
 const WIDGET_ID=getWidgetId();
