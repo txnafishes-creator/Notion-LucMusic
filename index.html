@@ -20,15 +20,21 @@
   --pattern-opacity:.35;
   --accent-color:#1a1a1a;
   --photo-size:190px;
+
   --radius-player:8px;
   --radius-song:5px;
   --radius-btn:5px;
+  --radius-cover:6px;
+
   --outline-color:#E6E5E3;
 }
 
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
-html,body{
+html,
+body{
   margin:0;
   padding:0;
   width:100%;
@@ -59,8 +65,16 @@ body{
 
 .player[data-pattern="grid"]{
   background-image:
-    linear-gradient(to right,rgba(120,120,120,var(--pattern-opacity)) 1px,transparent 1px),
-    linear-gradient(to bottom,rgba(120,120,120,var(--pattern-opacity)) 1px,transparent 1px);
+    linear-gradient(
+      to right,
+      rgba(120,120,120,var(--pattern-opacity)) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(120,120,120,var(--pattern-opacity)) 1px,
+      transparent 1px
+    );
   background-size:20px 20px;
 }
 
@@ -100,8 +114,13 @@ body{
   min-width:0;
 }
 
-.header .title:hover{background:rgba(255,255,255,.25)}
-.header .title:focus{background:rgba(255,255,255,.4)}
+.header .title:hover{
+  background:rgba(255,255,255,.25);
+}
+
+.header .title:focus{
+  background:rgba(255,255,255,.4);
+}
 
 .menu-btn{
   width:26px;
@@ -126,9 +145,9 @@ body{
 .cover{
   margin:16px auto 8px;
   width:var(--photo-size);
-  height:190px;
+  height:var(--photo-size);
   border:1px solid var(--outline-color);
-  border-radius:6px;
+  border-radius:var(--radius-cover);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -141,13 +160,20 @@ body{
   transition:.2s;
 }
 
-.cover.circle{border-radius:50%}
-.cover.round-square{border-radius:25px}
+.cover.circle{
+  border-radius:50%;
+}
+
+.cover.round-square{
+  border-radius:25px;
+}
 
 .cover.heart{
   border:none;
   background:transparent;
-  clip-path:path("M85 155 C78 148 12 107 12 50 C12 17 55 7 85 40 C115 7 158 17 158 50 C158 107 92 148 85 155 Z");
+  clip-path:path(
+    "M85 155 C78 148 12 107 12 50 C12 17 55 7 85 40 C115 7 158 17 158 50 C158 107 92 148 85 155 Z"
+  );
 }
 
 .cover img{
@@ -215,14 +241,25 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  border-radius:6px;
+  border-radius:var(--radius-btn);
 }
 
-.controls button:hover{opacity:.6}
+.controls button:hover{
+  opacity:.6;
+}
 
-.controls .play-btn{font-size:19px}
-.controls .toggle-btn{font-size:17px;color:#999}
-.controls .toggle-btn.active{color:var(--accent-color)}
+.controls .play-btn{
+  font-size:19px;
+}
+
+.controls .toggle-btn{
+  font-size:17px;
+  color:#999;
+}
+
+.controls .toggle-btn.active{
+  color:var(--accent-color);
+}
 
 .song-list{
   padding:0 14px 16px;
@@ -248,7 +285,9 @@ body{
   touch-action:pan-y;
 }
 
-.song.active{background:var(--header-color)}
+.song.active{
+  background:var(--header-color);
+}
 
 .song.dragging{
   box-shadow:0 6px 14px rgba(0,0,0,.18);
@@ -374,7 +413,9 @@ body{
 }
 
 .settings-overlay.open,
-.wheel-popover-overlay.open{display:flex}
+.wheel-popover-overlay.open{
+  display:flex;
+}
 
 .settings-panel{
   background:#fff;
@@ -401,7 +442,9 @@ body{
   color:#888;
 }
 
-.setting-group{margin-bottom:14px}
+.setting-group{
+  margin-bottom:14px;
+}
 
 .setting-group label{
   display:block;
@@ -429,7 +472,9 @@ select{
   gap:8px;
 }
 
-.range-row input{flex:1}
+.range-row input{
+  flex:1;
+}
 
 .range-row span{
   font-size:12px;
@@ -466,7 +511,9 @@ select{
   margin-top:2px;
 }
 
-.import-dropzone input{display:none}
+.import-dropzone input{
+  display:none;
+}
 
 .color-grid{
   display:grid;
@@ -540,7 +587,10 @@ select{
 }
 
 #patternDots{
-  background-image:radial-gradient(rgba(0,0,0,.28) 1.3px,transparent 1.3px);
+  background-image:radial-gradient(
+    rgba(0,0,0,.28) 1.3px,
+    transparent 1.3px
+  );
   background-size:8px 8px;
 }
 
@@ -675,7 +725,9 @@ hr{
   z-index:100;
 }
 
-.song-edit.open{display:flex}
+.song-edit.open{
+  display:flex;
+}
 
 .song-edit-panel{
   background:#fff;
@@ -705,8 +757,14 @@ hr{
   margin-top:5px;
 }
 
-.save-edit{background:#222;color:#fff}
-.cancel-edit{background:#eee}
+.save-edit{
+  background:#222;
+  color:#fff;
+}
+
+.cancel-edit{
+  background:#eee;
+}
 
 input[type="range"]{
   accent-color:#9a9a9a;
@@ -716,10 +774,11 @@ input[type="range"]{
 
 <body>
 
-<div class="player" id="player" data-pattern="none">
+<div class="player" id="player" data-pattern="none" data-corner="curved">
 
   <div class="header">
     <div class="title" id="titleText" contenteditable="true" spellcheck="false">Title</div>
+
     <button class="menu-btn" id="menuBtn" title="Settings">&#10022;</button>
   </div>
 
@@ -729,11 +788,17 @@ input[type="range"]{
   </div>
 
   <div id="playbackArea"></div>
+
   <div class="song-list" id="songList"></div>
 
   <div class="empty-state" id="emptyState">
     <span class="icon">&#9835;</span>
-    <p>No songs yet.<br>Open settings to add some.</p>
+
+    <p>
+      No songs yet.<br>
+      Open settings to add some.
+    </p>
+
     <button id="emptyAddBtn">+ Add songs</button>
   </div>
 
@@ -741,232 +806,634 @@ input[type="range"]{
 
 
 <div class="settings-overlay" id="settingsOverlay">
+
 <div class="settings-panel">
 
 <h2>
-Settings
-<button class="close" id="closeSettings">&#10005;</button>
+  Settings
+  <button class="close" id="closeSettings">&#10005;</button>
 </h2>
 
 <div class="setting-group">
+
 <label>Title</label>
-<input type="text" id="titleInput" value="Title" maxlength="40">
+
+<input
+  type="text"
+  id="titleInput"
+  value="Title"
+  maxlength="40"
+>
+
 </div>
 
+
 <div class="setting-group">
+
 <label>Import songs</label>
+
 <label class="import-dropzone">
+
 <span class="icon">&#9835;</span>
-<span class="label">Click or drop audio files</span>
-<span class="sub">Audio files are saved in this browser</span>
-<input type="file" id="songImport" accept="audio/*" multiple>
+
+<span class="label">
+  Click or drop audio files
+</span>
+
+<span class="sub">
+  Audio files are saved in this browser
+</span>
+
+<input
+  type="file"
+  id="songImport"
+  accept="audio/*"
+  multiple
+>
+
 </label>
+
 </div>
 
+
 <div class="setting-group">
+
 <label>Import photo</label>
+
 <label class="import-dropzone">
+
 <span class="icon">&#128247;</span>
-<span class="label">Click or drop an image</span>
-<span class="sub">Sets it as the album art</span>
-<input type="file" id="photoImport" accept="image/*">
+
+<span class="label">
+  Click or drop an image
+</span>
+
+<span class="sub">
+  Sets it as the album art
+</span>
+
+<input
+  type="file"
+  id="photoImport"
+  accept="image/*"
+>
+
 </label>
+
 </div>
+
 
 <hr>
 
+
 <div class="setting-group">
+
 <label>Colors</label>
 
 <div class="color-grid">
 
-<div class="color-item">
-<button class="swatch-btn" id="headerColorSwatch"></button>
-<div class="color-item-text">
-<span class="color-item-label">Header bar</span>
-<input class="hex-input" id="headerColorHex" value="#8A8A8A">
-</div>
-</div>
 
 <div class="color-item">
-<button class="swatch-btn" id="titleColorSwatch"></button>
-<div class="color-item-text">
-<span class="color-item-label">Title</span>
-<input class="hex-input" id="titleColorHex" value="#1A1A1A">
-</div>
-</div>
 
-<div class="color-item">
-<button class="swatch-btn" id="songTitleColorSwatch"></button>
-<div class="color-item-text">
-<span class="color-item-label">Song title</span>
-<input class="hex-input" id="songTitleColorHex" value="#1A1A1A">
-</div>
-</div>
+<button
+  class="swatch-btn"
+  id="headerColorSwatch"
+></button>
 
-<div class="color-item">
-<button class="swatch-btn" id="bgColorSwatch"></button>
 <div class="color-item-text">
-<span class="color-item-label">Background</span>
-<input class="hex-input" id="bgColorHex" value="#FFFFFF">
-</div>
-</div>
 
-<div class="color-item">
-<button class="swatch-btn" id="artistColorSwatch"></button>
-<div class="color-item-text">
-<span class="color-item-label">Artist text</span>
-<input class="hex-input" id="artistColorHex" value="#767676">
-</div>
-</div>
+<span class="color-item-label">
+Header bar
+</span>
 
-<div class="color-item">
-<button class="swatch-btn" id="outlineColorSwatch"></button>
-<div class="color-item-text">
-<span class="color-item-label">Outline</span>
-<input class="hex-input" id="outlineColorHex" value="#E6E5E3">
-</div>
-</div>
+<input
+  class="hex-input"
+  id="headerColorHex"
+  value="#8A8A8A"
+>
 
 </div>
 </div>
+
+
+<div class="color-item">
+
+<button
+  class="swatch-btn"
+  id="titleColorSwatch"
+></button>
+
+<div class="color-item-text">
+
+<span class="color-item-label">
+Title
+</span>
+
+<input
+  class="hex-input"
+  id="titleColorHex"
+  value="#1A1A1A"
+>
+
+</div>
+</div>
+
+
+<div class="color-item">
+
+<button
+  class="swatch-btn"
+  id="songTitleColorSwatch"
+></button>
+
+<div class="color-item-text">
+
+<span class="color-item-label">
+Song title
+</span>
+
+<input
+  class="hex-input"
+  id="songTitleColorHex"
+  value="#1A1A1A"
+>
+
+</div>
+</div>
+
+
+<div class="color-item">
+
+<button
+  class="swatch-btn"
+  id="bgColorSwatch"
+></button>
+
+<div class="color-item-text">
+
+<span class="color-item-label">
+Background
+</span>
+
+<input
+  class="hex-input"
+  id="bgColorHex"
+  value="#FFFFFF"
+>
+
+</div>
+</div>
+
+
+<div class="color-item">
+
+<button
+  class="swatch-btn"
+  id="artistColorSwatch"
+></button>
+
+<div class="color-item-text">
+
+<span class="color-item-label">
+Artist text
+</span>
+
+<input
+  class="hex-input"
+  id="artistColorHex"
+  value="#767676"
+>
+
+</div>
+</div>
+
+
+<div class="color-item">
+
+<button
+  class="swatch-btn"
+  id="outlineColorSwatch"
+></button>
+
+<div class="color-item-text">
+
+<span class="color-item-label">
+Outline
+</span>
+
+<input
+  class="hex-input"
+  id="outlineColorHex"
+  value="#E6E5E3"
+>
+
+</div>
+</div>
+
+
+</div>
+</div>
+
 
 <div class="setting-group">
+
 <label>Background pattern</label>
 
 <div class="pattern-grid">
-<button class="pattern-tile active" data-pattern="none" id="patternNone">
-<span class="pattern-tile-label">None</span>
+
+<button
+  class="pattern-tile active"
+  data-pattern="none"
+  id="patternNone"
+>
+<span class="pattern-tile-label">
+None
+</span>
 </button>
-<button class="pattern-tile" data-pattern="grid" id="patternGrid">
-<span class="pattern-tile-label">Grid</span>
+
+<button
+  class="pattern-tile"
+  data-pattern="grid"
+  id="patternGrid"
+>
+<span class="pattern-tile-label">
+Grid
+</span>
 </button>
-<button class="pattern-tile" data-pattern="dots" id="patternDots">
-<span class="pattern-tile-label">Dots</span>
+
+<button
+  class="pattern-tile"
+  data-pattern="dots"
+  id="patternDots"
+>
+<span class="pattern-tile-label">
+Dots
+</span>
 </button>
+
 </div>
+
 
 <div class="range-row">
-<input type="range" id="patternOpacityRange" min="10" max="80" value="35">
-<span id="patternOpacityVal">35%</span>
-</div>
+
+<input
+  type="range"
+  id="patternOpacityRange"
+  min="10"
+  max="80"
+  value="35"
+>
+
+<span id="patternOpacityVal">
+35%
+</span>
+
 </div>
 
+</div>
+
+
 <div class="setting-group">
+
 <label>Font</label>
 
 <select id="fontSelect">
-<option value="'Montserrat',sans-serif">Montserrat</option>
-<option value="'Pixelify Sans',sans-serif">Pixelify Sans</option>
-<option value="'Press Start 2P',monospace">Press Start 2P</option>
-<option value="'Pathway Gothic One',sans-serif">Pathway Gothic One</option>
-<option value="'Playfair Display',serif">Playfair Display</option>
-<option value="'Elsie',serif">Elsie</option>
-<option value="'Amatic SC',cursive">Amatic SC</option>
-<option value="'Courgette',cursive">Courgette</option>
-<option value="'Sue Ellen Francisco',cursive">Sue Ellen Francisco</option>
-<option value="'Just Another Hand',cursive">Just Another Hand</option>
-<option value="'Gamja Flower',cursive">Gamja Flower</option>
-<option value="'Hachi Maru Pop',cursive">Hachi Maru Pop</option>
-<option value="'Pompiere',cursive">Pompiere</option>
-<option value="'Schoolbell',cursive">Schoolbell</option>
-<option value="'Yomogi',cursive">Yomogi</option>
+
+<option value="'Montserrat',sans-serif">
+Montserrat
+</option>
+
+<option value="'Pixelify Sans',sans-serif">
+Pixelify Sans
+</option>
+
+<option value="'Press Start 2P',monospace">
+Press Start 2P
+</option>
+
+<option value="'Pathway Gothic One',sans-serif">
+Pathway Gothic One
+</option>
+
+<option value="'Playfair Display',serif">
+Playfair Display
+</option>
+
+<option value="'Elsie',serif">
+Elsie
+</option>
+
+<option value="'Amatic SC',cursive">
+Amatic SC
+</option>
+
+<option value="'Courgette',cursive">
+Courgette
+</option>
+
+<option value="'Sue Ellen Francisco',cursive">
+Sue Ellen Francisco
+</option>
+
+<option value="'Just Another Hand',cursive">
+Just Another Hand
+</option>
+
+<option value="'Gamja Flower',cursive">
+Gamja Flower
+</option>
+
+<option value="'Hachi Maru Pop',cursive">
+Hachi Maru Pop
+</option>
+
+<option value="'Pompiere',cursive">
+Pompiere
+</option>
+
+<option value="'Schoolbell',cursive">
+Schoolbell
+</option>
+
+<option value="'Yomogi',cursive">
+Yomogi
+</option>
+
 </select>
 
+
 <div class="font-preview">
-<span id="fontPreviewSample">Aa Bb — Song Title</span>
-<span id="fontPreviewType">Montserrat</span>
-</div>
+
+<span id="fontPreviewSample">
+Aa Bb — Song Title
+</span>
+
+<span id="fontPreviewType">
+Montserrat
+</span>
+
 </div>
 
+</div>
+
+
 <div class="setting-group">
+
 <label>Player size</label>
+
 <div class="range-row">
-<input type="range" id="scaleRange" min="60" max="150" value="100">
-<span id="scaleVal">100%</span>
-</div>
+
+<input
+  type="range"
+  id="scaleRange"
+  min="60"
+  max="150"
+  value="100"
+>
+
+<span id="scaleVal">
+100%
+</span>
+
 </div>
 
+</div>
+
+
 <div class="setting-group">
+
 <label>Text size</label>
+
 <div class="range-row">
-<input type="range" id="textScaleRange" min="70" max="150" value="100">
-<span id="textScaleVal">100%</span>
+
+<input
+  type="range"
+  id="textScaleRange"
+  min="70"
+  max="150"
+  value="100"
+>
+
+<span id="textScaleVal">
+100%
+</span>
+
 </div>
+
 </div>
+
 
 <hr>
 
+
 <div class="setting-group">
+
 <label>Corner style</label>
 
-<div class="photo-shape-grid" style="grid-template-columns:1fr 1fr">
-<button class="shape-btn active" id="cornerCurved" data-corner="curved">Curved</button>
-<button class="shape-btn" id="cornerSquare" data-corner="square">Square</button>
-</div>
+<div
+  class="photo-shape-grid"
+  style="grid-template-columns:1fr 1fr"
+>
+
+<button
+  class="shape-btn active"
+  id="cornerCurved"
+  data-corner="curved"
+>
+Curved
+</button>
+
+<button
+  class="shape-btn"
+  id="cornerSquare"
+  data-corner="square"
+>
+Square
+</button>
+
 </div>
 
+</div>
+
+
 <div class="setting-group">
+
 <label>Photo shape</label>
 
 <div class="photo-shape-grid">
-<button class="shape-btn active" data-shape="square">Square</button>
-<button class="shape-btn" data-shape="round-square">Round</button>
-<button class="shape-btn" data-shape="circle">Circle</button>
-<button class="shape-btn" data-shape="heart">Heart</button>
-</div>
+
+<button
+  class="shape-btn active"
+  data-shape="square"
+>
+Square
+</button>
+
+<button
+  class="shape-btn"
+  data-shape="round-square"
+>
+Round
+</button>
+
+<button
+  class="shape-btn"
+  data-shape="circle"
+>
+Circle
+</button>
+
+<button
+  class="shape-btn"
+  data-shape="heart"
+>
+Heart
+</button>
+
 </div>
 
+</div>
+
+
 <div class="setting-group">
+
 <label>Photo size</label>
 
 <div class="range-row">
-<input type="range" id="photoSizeRange" min="120" max="250" value="190">
-<span id="photoSizeVal">190px</span>
+
+<input
+  type="range"
+  id="photoSizeRange"
+  min="120"
+  max="250"
+  value="190"
+>
+
+<span id="photoSizeVal">
+190px
+</span>
+
 </div>
+
 </div>
+
 
 <hr>
 
-<button class="reset-btn" id="resetBtn">Reset to defaults</button>
+
+<button
+  class="reset-btn"
+  id="resetBtn"
+>
+Reset to defaults
+</button>
 
 </div>
 </div>
 
 
-<div class="wheel-popover-overlay" id="wheelOverlay">
+<div
+  class="wheel-popover-overlay"
+  id="wheelOverlay"
+>
+
 <div class="wheel-popover">
 
-<div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600">
-<span id="wheelPopoverTitle">Color</span>
-<button class="close" id="wheelClose">&#10005;</button>
+<div
+  style="
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    font-weight:600
+  "
+>
+
+<span id="wheelPopoverTitle">
+Color
+</span>
+
+<button
+  class="close"
+  id="wheelClose"
+>
+&#10005;
+</button>
+
 </div>
 
-<div class="sv-box" id="svBox">
-<div class="sv-marker" id="svMarker"></div>
+
+<div
+  class="sv-box"
+  id="svBox"
+>
+
+<div
+  class="sv-marker"
+  id="svMarker"
+></div>
+
 </div>
 
-<input type="range" class="hue-slider" id="hueSlider" min="0" max="360" value="0">
+
+<input
+  type="range"
+  class="hue-slider"
+  id="hueSlider"
+  min="0"
+  max="360"
+  value="0"
+>
+
 
 <div class="wheel-hex-row">
+
 <span>#</span>
-<input id="wheelHexInput" maxlength="6">
+
+<input
+  id="wheelHexInput"
+  maxlength="6"
+>
+
 </div>
 
 </div>
 </div>
 
 
-<div class="song-edit" id="songEdit">
+<div
+  class="song-edit"
+  id="songEdit"
+>
+
 <div class="song-edit-panel">
 
-<h3>Edit song</h3>
+<h3>
+Edit song
+</h3>
 
-<input id="editSongName" placeholder="Song title">
-<input id="editArtistName" placeholder="Artist">
+<input
+  id="editSongName"
+  placeholder="Song title"
+>
 
-<button class="save-edit" id="saveSongEdit">Save changes</button>
-<button class="cancel-edit" id="cancelSongEdit">Cancel</button>
+<input
+  id="editArtistName"
+  placeholder="Artist"
+>
+
+<button
+  class="save-edit"
+  id="saveSongEdit"
+>
+Save changes
+</button>
+
+<button
+  class="cancel-edit"
+  id="cancelSongEdit"
+>
+Cancel
+</button>
 
 </div>
 </div>
@@ -974,379 +1441,678 @@ Settings
 
 <script>
 
+/* =========================================================
+   MUSIC PLAYER
+   ISOLATED STORAGE VERSION
+   ========================================================= */
+
 const root=document.documentElement;
+
 const player=document.getElementById('player');
 const cover=document.getElementById('cover');
 const songList=document.getElementById('songList');
 const emptyState=document.getElementById('emptyState');
 const playbackArea=document.getElementById('playbackArea');
 
+
+/* =========================================================
+   UNIQUE WIDGET ID
+   ========================================================= */
+
 /*
-  WIDGET ID
-  ---------
-  This value namespaces ALL storage (localStorage keys + the IndexedDB
-  database) so multiple copies of this widget on the same page don't
-  overwrite each other's songs/settings/photo.
+   IMPORTANT:
 
-  It's derived automatically:
-  1. First choice: a fingerprint of this widget's own <iframe> (its id/
-     name/src, assigned by whatever embed tool you're using). Two
-     different embed blocks normally get two different iframes, so this
-     just works with zero editing when you duplicate the block.
-  2. Fallback: a random ID, saved in this frame's window.name so it
-     survives refreshes even if step 1 isn't available.
+   Every iframe gets its own ID.
+
+   We DO NOT use the iframe src anymore because two identical
+   embeds normally have the exact same src.
+
+   window.name belongs to the individual iframe and survives
+   page reloads much better than a random ID generated every
+   time.
 */
-function detectWidgetId(){
+
+function getWidgetId(){
 
   try{
-    const fe=window.frameElement;
 
-    if(fe){
-      const fingerprint=
-        fe.id||fe.name||fe.src||fe.getAttribute('data-block-id')||'';
-
-      if(fingerprint){
-        let hash=0;
-
-        for(let i=0;i<fingerprint.length;i++){
-          hash=((hash<<5)-hash+fingerprint.charCodeAt(i))|0;
-        }
-
-        return 'fe_'+Math.abs(hash);
-      }
-    }
-  }catch(e){
-    // frameElement inaccessible (cross-origin sandbox) - fall through
-  }
-
-  try{
-    if(window.name && window.name.indexOf('mp_id_')===0){
+    if(
+      window.name &&
+      window.name.startsWith('music_widget_')
+    ){
       return window.name;
     }
 
-    const generated=
-      'mp_id_'+Date.now().toString(36)+'_'+
-      Math.random().toString(36).slice(2,10);
+    const id=
+      'music_widget_' +
+      Date.now().toString(36) +
+      '_' +
+      Math.random()
+        .toString(36)
+        .slice(2,12);
 
-    window.name=generated;
+    window.name=id;
 
-    return generated;
+    return id;
+
   }catch(e){
-    return 'default';
+
+    /*
+      Extremely rare fallback.
+
+      This is only used if the browser blocks window.name.
+    */
+
+    let fallback=
+      localStorage.getItem(
+        '__music_widget_fallback_id'
+      );
+
+    if(!fallback){
+
+      fallback=
+        'music_widget_' +
+        Date.now().toString(36) +
+        '_' +
+        Math.random()
+          .toString(36)
+          .slice(2,12);
+
+      try{
+        localStorage.setItem(
+          '__music_widget_fallback_id',
+          fallback
+        );
+      }catch(err){}
+    }
+
+    return fallback;
   }
 }
 
-const WIDGET_ID = detectWidgetId();
+const WIDGET_ID=getWidgetId();
+
 
 function storageKey(base){
   return base+'__'+WIDGET_ID;
 }
 
+
+/* =========================================================
+   STATE
+   ========================================================= */
+
 let songs=[];
 let activeIndex=-1;
 let audio=null;
 let audioURL=null;
+
 let shuffle=false;
 let autoPlay=false;
-let editingIndex=-1;
 
-const DB_NAME='musicPlayerDB';
-const DB_VERSION=1;
+let editingIndex=-1;
+let draggedId=null;
+
+
+/* =========================================================
+   INDEXED DB
+   ========================================================= */
+
+const DB_NAME='MusicPlayer_Isolated_Audio';
+const DB_VERSION=2;
 const STORE='audio';
 
-let db;
+let db=null;
+
+
+/*
+   Open IndexedDB.
+
+   The database itself is shared, but every stored file has
+   WIDGET_ID attached to its key.
+
+   Therefore:
+
+   Widget A:
+   music_widget_A::song123
+
+   Widget B:
+   music_widget_B::song123
+
+   They cannot overwrite each other.
+*/
 
 function openDB(){
+
   return new Promise((resolve,reject)=>{
-    const request=indexedDB.open(DB_NAME,DB_VERSION);
+
+    if(!window.indexedDB){
+      reject(
+        new Error('IndexedDB is unavailable')
+      );
+      return;
+    }
+
+    const request=
+      indexedDB.open(
+        DB_NAME,
+        DB_VERSION
+      );
 
     request.onupgradeneeded=e=>{
+
       const database=e.target.result;
 
-      if(!database.objectStoreNames.contains(STORE)){
-        database.createObjectStore(STORE,{keyPath:'id'});
+      if(
+        !database.objectStoreNames.contains(STORE)
+      ){
+
+        database.createObjectStore(
+          STORE,
+          {
+            keyPath:'id'
+          }
+        );
+
       }
+
     };
 
     request.onsuccess=e=>{
+
       db=e.target.result;
+
+      db.onversionchange=()=>{
+        db.close();
+      };
+
       resolve(db);
+
     };
 
-    request.onerror=()=>reject(request.error);
+    request.onerror=()=>{
+      reject(request.error);
+    };
+
   });
 }
 
+
 function scopedAudioId(id){
+
   return WIDGET_ID+'::'+id;
 }
 
+
 function saveAudioFile(id,file){
+
   return new Promise((resolve,reject)=>{
-    const tx=db.transaction(STORE,'readwrite');
 
-    tx.objectStore(STORE).put({
-      id:scopedAudioId(id),
-      blob:file
-    });
+    if(!db){
+      reject(
+        new Error('Audio database is not ready.')
+      );
+      return;
+    }
 
-    tx.oncomplete=resolve;
-    tx.onerror=()=>reject(tx.error);
+    try{
+
+      const tx=
+        db.transaction(
+          STORE,
+          'readwrite'
+        );
+
+      tx.objectStore(STORE).put({
+        id:scopedAudioId(id),
+        blob:file
+      });
+
+      tx.oncomplete=resolve;
+
+      tx.onerror=()=>{
+        reject(tx.error);
+      };
+
+      tx.onabort=()=>{
+        reject(tx.error);
+      };
+
+    }catch(error){
+
+      reject(error);
+
+    }
+
   });
 }
+
 
 function getAudioFile(id){
-  return new Promise((resolve,reject)=>{
-    const tx=db.transaction(STORE,'readonly');
-    const req=tx.objectStore(STORE).get(scopedAudioId(id));
 
-    req.onsuccess=()=>resolve(req.result?.blob||null);
-    req.onerror=()=>reject(req.error);
+  return new Promise((resolve,reject)=>{
+
+    if(!db){
+      resolve(null);
+      return;
+    }
+
+    try{
+
+      const tx=
+        db.transaction(
+          STORE,
+          'readonly'
+        );
+
+      const request=
+        tx.objectStore(STORE)
+          .get(scopedAudioId(id));
+
+      request.onsuccess=()=>{
+        resolve(
+          request.result
+            ?request.result.blob
+            :null
+        );
+      };
+
+      request.onerror=()=>{
+        reject(request.error);
+      };
+
+    }catch(error){
+
+      reject(error);
+
+    }
+
   });
 }
+
 
 function deleteAudioFile(id){
+
   return new Promise(resolve=>{
-    const tx=db.transaction(STORE,'readwrite');
-    tx.objectStore(STORE).delete(scopedAudioId(id));
-    tx.oncomplete=resolve;
+
+    if(!db){
+      resolve();
+      return;
+    }
+
+    try{
+
+      const tx=
+        db.transaction(
+          STORE,
+          'readwrite'
+        );
+
+      tx.objectStore(STORE)
+        .delete(scopedAudioId(id));
+
+      tx.oncomplete=resolve;
+      tx.onerror=resolve;
+      tx.onabort=resolve;
+
+    }catch(error){
+
+      resolve();
+
+    }
+
   });
 }
 
-function saveSettings(){
 
-  localStorage.setItem(storageKey('musicPlayerSettings'),JSON.stringify({
-    title:titleText.textContent,
-    colors:{
-      header:getHex('headerColor'),
-      title:getHex('titleColor'),
-      song:getHex('songTitleColor'),
-      bg:getHex('bgColor'),
-      artist:getHex('artistColor'),
-      outline:getHex('outlineColor')
-    },
-    pattern:player.dataset.pattern,
-    patternOpacity:patternOpacityRange.value,
-    font:fontSelect.value,
-    scale:scaleRange.value,
-    textScale:textScaleRange.value,
-    photoShape:cover.dataset.shape||'square',
-    photoSize:photoSizeRange.value,
-    cornerStyle:player.dataset.corner||'curved',
-    shuffle,
-    autoPlay
-  }));
-}
+/* =========================================================
+   TITLE
+   ========================================================= */
 
-function loadSettings(){
+const titleText=
+  document.getElementById('titleText');
 
-  const saved=localStorage.getItem(storageKey('musicPlayerSettings'));
+const titleInput=
+  document.getElementById('titleInput');
 
-  if(!saved)return;
-
-  try{
-
-    const s=JSON.parse(saved);
-
-    titleText.textContent=s.title||'Title';
-    titleInput.value=s.title||'Title';
-
-    if(s.colors){
-      setColor('headerColor',s.colors.header||'#8A8A8A');
-      setColor('titleColor',s.colors.title||'#1A1A1A');
-      setColor('songTitleColor',s.colors.song||'#1A1A1A');
-      setColor('bgColor',s.colors.bg||'#FFFFFF');
-      setColor('artistColor',s.colors.artist||'#767676');
-      setColor('outlineColor',s.colors.outline||'#E6E5E3');
-    }
-
-    if(s.pattern){
-      player.dataset.pattern=s.pattern;
-
-      patternTiles.forEach(t=>{
-        t.classList.toggle(
-          'active',
-          t.dataset.pattern===s.pattern
-        );
-      });
-    }
-
-    patternOpacityRange.value=s.patternOpacity||35;
-    root.style.setProperty(
-      '--pattern-opacity',
-      patternOpacityRange.value/100
-    );
-    patternOpacityVal.textContent=patternOpacityRange.value+'%';
-
-    if(s.font){
-      fontSelect.value=s.font;
-      updateFont();
-    }
-
-    scaleRange.value=s.scale||100;
-    root.style.setProperty('--scale',scaleRange.value/100);
-    scaleVal.textContent=scaleRange.value+'%';
-
-    textScaleRange.value=s.textScale||100;
-    root.style.setProperty('--text-scale',textScaleRange.value/100);
-    textScaleVal.textContent=textScaleRange.value+'%';
-
-    setPhotoShape(s.photoShape||'square');
-
-    photoSizeRange.value=s.photoSize||190;
-    setPhotoSize(photoSizeRange.value);
-
-    setCornerStyle(s.cornerStyle||'curved');
-
-    shuffle=!!s.shuffle;
-    autoPlay=!!s.autoPlay;
-
-  }catch(e){
-    console.warn('Could not load settings',e);
-  }
-}
-
-
-/* TITLE */
-
-const titleText=document.getElementById('titleText');
-const titleInput=document.getElementById('titleInput');
 
 titleText.addEventListener('input',()=>{
-  titleInput.value=titleText.textContent;
+
+  titleInput.value=
+    titleText.textContent;
+
   saveSettings();
+
 });
+
 
 titleText.addEventListener('blur',()=>{
+
   if(!titleText.textContent.trim()){
+
     titleText.textContent='Title';
+
   }
 
-  titleInput.value=titleText.textContent;
+  titleInput.value=
+    titleText.textContent;
+
   saveSettings();
+
 });
+
 
 titleText.addEventListener('keydown',e=>{
+
   if(e.key==='Enter'){
+
     e.preventDefault();
+
     titleText.blur();
+
   }
+
 });
+
 
 titleInput.addEventListener('input',()=>{
-  titleText.textContent=titleInput.value||'Title';
+
+  titleText.textContent=
+    titleInput.value||'Title';
+
   saveSettings();
+
 });
 
 
-/* SETTINGS OPEN */
+/* =========================================================
+   SETTINGS
+   ========================================================= */
 
-document.getElementById('menuBtn').onclick=()=>{
-  document.getElementById('settingsOverlay').classList.add('open');
+const settingsOverlay=
+  document.getElementById(
+    'settingsOverlay'
+  );
+
+
+document.getElementById(
+  'menuBtn'
+).onclick=()=>{
+
+  settingsOverlay.classList.add('open');
+
 };
 
-document.getElementById('closeSettings').onclick=()=>{
-  document.getElementById('settingsOverlay').classList.remove('open');
+
+document.getElementById(
+  'closeSettings'
+).onclick=()=>{
+
+  settingsOverlay.classList.remove('open');
+
 };
 
-document.getElementById('settingsOverlay').onclick=e=>{
-  if(e.target.id==='settingsOverlay'){
-    e.currentTarget.classList.remove('open');
+
+settingsOverlay.onclick=e=>{
+
+  if(
+    e.target===settingsOverlay
+  ){
+
+    settingsOverlay.classList.remove('open');
+
   }
-};
 
-document.getElementById('emptyAddBtn').onclick=()=>{
-  document.getElementById('settingsOverlay').classList.add('open');
-  document.getElementById('songImport').click();
 };
 
 
-/* COLORS */
+document.getElementById(
+  'emptyAddBtn'
+).onclick=()=>{
 
-function normalizeHex(v){
+  settingsOverlay.classList.add('open');
 
-  v=v.trim().replace('#','');
+  /*
+     Do this on the next event loop so the settings modal
+     is open before the browser handles the file picker.
+  */
 
-  if(/^[0-9a-fA-F]{3}$/.test(v)){
-    v=v.split('').map(x=>x+x).join('');
+  setTimeout(()=>{
+
+    document
+      .getElementById('songImport')
+      .click();
+
+  },50);
+
+};
+
+
+/* =========================================================
+   COLORS
+   ========================================================= */
+
+function normalizeHex(value){
+
+  let v=
+    String(value)
+      .trim()
+      .replace('#','');
+
+  if(
+    /^[0-9a-fA-F]{3}$/.test(v)
+  ){
+
+    v=
+      v
+        .split('')
+        .map(x=>x+x)
+        .join('');
+
   }
 
-  if(/^[0-9a-fA-F]{6}$/.test(v)){
+  if(
+    /^[0-9a-fA-F]{6}$/.test(v)
+  ){
+
     return '#'+v.toUpperCase();
+
   }
 
   return null;
 }
 
+
 const colorConfigs={
-  headerColor:{vars:['--header-color'],label:'Header bar'},
-  titleColor:{vars:['--title-color'],label:'Title'},
+
+  headerColor:{
+    vars:['--header-color'],
+    label:'Header bar'
+  },
+
+  titleColor:{
+    vars:['--title-color'],
+    label:'Title'
+  },
+
   songTitleColor:{
-    vars:['--song-title-color','--accent-color'],
+    vars:[
+      '--song-title-color',
+      '--accent-color'
+    ],
     label:'Song title'
   },
-  bgColor:{vars:['--bg-color'],label:'Background'},
-  artistColor:{vars:['--artist-color'],label:'Artist text'},
-  outlineColor:{vars:['--outline-color'],label:'Outline'}
+
+  bgColor:{
+    vars:['--bg-color'],
+    label:'Background'
+  },
+
+  artistColor:{
+    vars:['--artist-color'],
+    label:'Artist text'
+  },
+
+  outlineColor:{
+    vars:['--outline-color'],
+    label:'Outline'
+  }
+
 };
+
 
 function setColor(id,hex){
 
-  const cfg=colorConfigs[id];
+  const valid=
+    normalizeHex(hex);
 
-  cfg.vars.forEach(v=>{
-    root.style.setProperty(v,hex);
+  if(!valid)return;
+
+  const cfg=
+    colorConfigs[id];
+
+  if(!cfg)return;
+
+  cfg.vars.forEach(variable=>{
+
+    root.style.setProperty(
+      variable,
+      valid
+    );
+
   });
 
-  document.getElementById(id+'Swatch').style.background=hex;
-  document.getElementById(id+'Hex').value=hex;
+  const swatch=
+    document.getElementById(
+      id+'Swatch'
+    );
+
+  const input=
+    document.getElementById(
+      id+'Hex'
+    );
+
+  if(swatch){
+    swatch.style.background=valid;
+  }
+
+  if(input){
+    input.value=valid;
+  }
+
 }
+
 
 function getHex(id){
-  return document.getElementById(id+'Hex').value;
+
+  const input=
+    document.getElementById(
+      id+'Hex'
+    );
+
+  return input
+    ?input.value
+    :'#000000';
+
 }
 
-Object.keys(colorConfigs).forEach(id=>{
 
-  document.getElementById(id+'Swatch').onclick=()=>{
+Object.keys(colorConfigs)
+.forEach(id=>{
+
+  document.getElementById(
+    id+'Swatch'
+  ).onclick=()=>{
+
     openWheel(id);
+
   };
 
-  document.getElementById(id+'Hex').onchange=e=>{
-    const hex=normalizeHex(e.target.value);
+
+  document.getElementById(
+    id+'Hex'
+  ).onchange=e=>{
+
+    const hex=
+      normalizeHex(
+        e.target.value
+      );
 
     if(hex){
+
       setColor(id,hex);
       saveSettings();
+
+    }else{
+
+      e.target.value=
+        getComputedStyle(root)
+          .getPropertyValue(
+            colorConfigs[id].vars[0]
+          )
+          .trim();
+
     }
+
   };
+
 
   setColor(
     id,
-    document.getElementById(id+'Hex').value
+    document.getElementById(
+      id+'Hex'
+    ).value
   );
+
 });
 
 
-/* COLOR WHEEL */
+/* =========================================================
+   COLOR WHEEL
+   ========================================================= */
 
 function hexToRgb(hex){
 
-  hex=hex.replace('#','');
+  hex=
+    hex
+      .replace('#','');
 
   return{
-    r:parseInt(hex.slice(0,2),16),
-    g:parseInt(hex.slice(2,4),16),
-    b:parseInt(hex.slice(4,6),16)
+
+    r:parseInt(
+      hex.slice(0,2),
+      16
+    ),
+
+    g:parseInt(
+      hex.slice(2,4),
+      16
+    ),
+
+    b:parseInt(
+      hex.slice(4,6),
+      16
+    )
+
   };
+
 }
+
 
 function rgbToHex(r,g,b){
 
-  return '#'+[r,g,b].map(v=>
-    Math.round(v).toString(16).padStart(2,'0')
-  ).join('').toUpperCase();
+  return '#'+
+    [r,g,b]
+      .map(v=>
+        Math.round(v)
+          .toString(16)
+          .padStart(2,'0')
+      )
+      .join('')
+      .toUpperCase();
+
 }
+
 
 function rgbToHsv(r,g,b){
 
@@ -1354,221 +2120,467 @@ function rgbToHsv(r,g,b){
   g/=255;
   b/=255;
 
-  const max=Math.max(r,g,b);
-  const min=Math.min(r,g,b);
-  const d=max-min;
+  const max=
+    Math.max(r,g,b);
+
+  const min=
+    Math.min(r,g,b);
+
+  const d=
+    max-min;
 
   let h=0;
 
   if(d){
-    if(max===r)h=((g-b)/d)%6;
-    else if(max===g)h=(b-r)/d+2;
-    else h=(r-g)/d+4;
+
+    if(max===r){
+
+      h=
+        ((g-b)/d)%6;
+
+    }else if(max===g){
+
+      h=
+        (b-r)/d+2;
+
+    }else{
+
+      h=
+        (r-g)/d+4;
+
+    }
 
     h*=60;
-    if(h<0)h+=360;
+
+    if(h<0){
+      h+=360;
+    }
+
   }
 
   return{
+
     h,
     s:max?d/max:0,
     v:max
+
   };
+
 }
+
 
 function hsvToRgb(h,s,v){
 
   const c=v*s;
-  const x=c*(1-Math.abs((h/60)%2-1));
+
+  const x=
+    c*
+    (
+      1-
+      Math.abs(
+        (h/60)%2-1
+      )
+    );
+
   const m=v-c;
 
-  let r=0,g=0,b=0;
+  let r=0;
+  let g=0;
+  let b=0;
 
-  if(h<60){r=c;g=x}
-  else if(h<120){r=x;g=c}
-  else if(h<180){g=c;b=x}
-  else if(h<240){g=x;b=c}
-  else if(h<300){r=x;b=c}
-  else{r=c;b=x}
+  if(h<60){
+
+    r=c;
+    g=x;
+
+  }else if(h<120){
+
+    r=x;
+    g=c;
+
+  }else if(h<180){
+
+    g=c;
+    b=x;
+
+  }else if(h<240){
+
+    g=x;
+    b=c;
+
+  }else if(h<300){
+
+    r=x;
+    b=c;
+
+  }else{
+
+    r=c;
+    b=x;
+
+  }
 
   return{
+
     r:(r+m)*255,
     g:(g+m)*255,
     b:(b+m)*255
+
   };
+
 }
 
-const wheelOverlay=document.getElementById('wheelOverlay');
-const svBox=document.getElementById('svBox');
-const svMarker=document.getElementById('svMarker');
-const hueSlider=document.getElementById('hueSlider');
-const wheelHex=document.getElementById('wheelHexInput');
+
+const wheelOverlay=
+  document.getElementById(
+    'wheelOverlay'
+  );
+
+const svBox=
+  document.getElementById(
+    'svBox'
+  );
+
+const svMarker=
+  document.getElementById(
+    'svMarker'
+  );
+
+const hueSlider=
+  document.getElementById(
+    'hueSlider'
+  );
+
+const wheelHex=
+  document.getElementById(
+    'wheelHexInput'
+  );
+
 
 let wheelState={
+
   id:null,
   h:0,
   s:0,
   v:1
+
 };
+
 
 function openWheel(id){
 
   wheelState.id=id;
 
-  const hsv=rgbToHsv(
-    ...Object.values(
-      hexToRgb(getHex(id))
-    )
-  );
+  const rgb=
+    hexToRgb(
+      getHex(id)
+    );
 
-  wheelState.h=hsv.h;
-  wheelState.s=hsv.s;
-  wheelState.v=hsv.v||1;
-
-  hueSlider.value=wheelState.h;
-  wheelHex.value=getHex(id).replace('#','');
-
-  updateWheel();
-
-  wheelOverlay.classList.add('open');
-}
-
-function updateWheel(){
-
-  const rgb=hsvToRgb(
-    wheelState.h,
-    1,
-    1
-  );
-
-  svBox.style.backgroundColor=
-    rgbToHex(rgb.r,rgb.g,rgb.b);
-
-  svMarker.style.left=(wheelState.s*100)+'%';
-  svMarker.style.top=((1-wheelState.v)*100)+'%';
-
-  const c=hsvToRgb(
-    wheelState.h,
-    wheelState.s,
-    wheelState.v
-  );
-
-  setColor(
-    wheelState.id,
-    rgbToHex(c.r,c.g,c.b)
-  );
-
-  saveSettings();
-}
-
-function handleSV(e){
-
-  const rect=svBox.getBoundingClientRect();
-
-  wheelState.s=Math.max(
-    0,
-    Math.min(
-      1,
-      (e.clientX-rect.left)/rect.width
-    )
-  );
-
-  wheelState.v=Math.max(
-    0,
-    Math.min(
-      1,
-      1-(e.clientY-rect.top)/rect.height
-    )
-  );
-
-  updateWheel();
-}
-
-let svDown=false;
-
-svBox.addEventListener('pointerdown',e=>{
-  svDown=true;
-  svBox.setPointerCapture(e.pointerId);
-  handleSV(e);
-});
-
-svBox.addEventListener('pointermove',e=>{
-  if(svDown)handleSV(e);
-});
-
-svBox.addEventListener('pointerup',()=>{
-  svDown=false;
-});
-
-hueSlider.oninput=e=>{
-  wheelState.h=Number(e.target.value);
-  updateWheel();
-};
-
-wheelHex.onchange=()=>{
-  const hex=normalizeHex(wheelHex.value);
-
-  if(!hex)return;
-
-  setColor(wheelState.id,hex);
-
-  const rgb=hexToRgb(hex);
-  const hsv=rgbToHsv(rgb.r,rgb.g,rgb.b);
+  const hsv=
+    rgbToHsv(
+      rgb.r,
+      rgb.g,
+      rgb.b
+    );
 
   wheelState.h=hsv.h;
   wheelState.s=hsv.s;
   wheelState.v=hsv.v;
 
-  hueSlider.value=hsv.h;
-  svMarker.style.left=(hsv.s*100)+'%';
-  svMarker.style.top=((1-hsv.v)*100)+'%';
+  hueSlider.value=
+    wheelState.h;
+
+  wheelHex.value=
+    getHex(id)
+      .replace('#','');
+
+  updateWheel();
+
+  wheelOverlay.classList.add('open');
+
+}
+
+
+function updateWheel(){
+
+  if(!wheelState.id)return;
+
+  const rgb=
+    hsvToRgb(
+      wheelState.h,
+      1,
+      1
+    );
+
+  svBox.style.backgroundColor=
+    rgbToHex(
+      rgb.r,
+      rgb.g,
+      rgb.b
+    );
+
+  svMarker.style.left=
+    (wheelState.s*100)+'%';
+
+  svMarker.style.top=
+    ((1-wheelState.v)*100)+'%';
+
+  const c=
+    hsvToRgb(
+      wheelState.h,
+      wheelState.s,
+      wheelState.v
+    );
+
+  const hex=
+    rgbToHex(
+      c.r,
+      c.g,
+      c.b
+    );
+
+  setColor(
+    wheelState.id,
+    hex
+  );
+
+  wheelHex.value=
+    hex.replace('#','');
 
   saveSettings();
+
+}
+
+
+function handleSV(e){
+
+  const rect=
+    svBox.getBoundingClientRect();
+
+  wheelState.s=
+    Math.max(
+      0,
+      Math.min(
+        1,
+        (e.clientX-rect.left)/
+        rect.width
+      )
+    );
+
+  wheelState.v=
+    Math.max(
+      0,
+      Math.min(
+        1,
+        1-
+        (
+          (e.clientY-rect.top)/
+          rect.height
+        )
+      )
+    );
+
+  updateWheel();
+
+}
+
+
+let svDown=false;
+
+
+svBox.addEventListener(
+  'pointerdown',
+  e=>{
+
+    svDown=true;
+
+    svBox.setPointerCapture(
+      e.pointerId
+    );
+
+    handleSV(e);
+
+  }
+);
+
+
+svBox.addEventListener(
+  'pointermove',
+  e=>{
+
+    if(svDown){
+      handleSV(e);
+    }
+
+  }
+);
+
+
+svBox.addEventListener(
+  'pointerup',
+  ()=>{
+    svDown=false;
+  }
+);
+
+
+svBox.addEventListener(
+  'pointercancel',
+  ()=>{
+    svDown=false;
+  }
+);
+
+
+hueSlider.oninput=e=>{
+
+  wheelState.h=
+    Number(e.target.value);
+
+  updateWheel();
+
 };
 
-document.getElementById('wheelClose').onclick=()=>{
+
+wheelHex.onchange=()=>{
+
+  const hex=
+    normalizeHex(
+      wheelHex.value
+    );
+
+  if(!hex)return;
+
+  setColor(
+    wheelState.id,
+    hex
+  );
+
+  const rgb=
+    hexToRgb(hex);
+
+  const hsv=
+    rgbToHsv(
+      rgb.r,
+      rgb.g,
+      rgb.b
+    );
+
+  wheelState.h=hsv.h;
+  wheelState.s=hsv.s;
+  wheelState.v=hsv.v;
+
+  hueSlider.value=
+    hsv.h;
+
+  svMarker.style.left=
+    (hsv.s*100)+'%';
+
+  svMarker.style.top=
+    ((1-hsv.v)*100)+'%';
+
+  saveSettings();
+
+};
+
+
+document.getElementById(
+  'wheelClose'
+).onclick=()=>{
+
   wheelOverlay.classList.remove('open');
+
 };
 
 
-/* PATTERN */
+wheelOverlay.onclick=e=>{
 
-const patternTiles=document.querySelectorAll('.pattern-tile');
-const patternOpacityRange=document.getElementById('patternOpacityRange');
-const patternOpacityVal=document.getElementById('patternOpacityVal');
+  if(e.target===wheelOverlay){
+
+    wheelOverlay.classList.remove('open');
+
+  }
+
+};
+
+
+/* =========================================================
+   PATTERN
+   ========================================================= */
+
+const patternTiles=
+  document.querySelectorAll(
+    '.pattern-tile'
+  );
+
+const patternOpacityRange=
+  document.getElementById(
+    'patternOpacityRange'
+  );
+
+const patternOpacityVal=
+  document.getElementById(
+    'patternOpacityVal'
+  );
+
 
 patternTiles.forEach(tile=>{
+
   tile.onclick=()=>{
-    player.dataset.pattern=tile.dataset.pattern;
+
+    player.dataset.pattern=
+      tile.dataset.pattern;
 
     patternTiles.forEach(t=>{
+
       t.classList.toggle(
         'active',
         t===tile
       );
+
     });
 
     saveSettings();
+
   };
+
 });
 
+
 patternOpacityRange.oninput=e=>{
+
   root.style.setProperty(
     '--pattern-opacity',
     e.target.value/100
   );
 
-  patternOpacityVal.textContent=e.target.value+'%';
+  patternOpacityVal.textContent=
+    e.target.value+'%';
 
   saveSettings();
+
 };
 
 
-/* FONT */
+/* =========================================================
+   FONT
+   ========================================================= */
 
-const fontSelect=document.getElementById('fontSelect');
-const fontPreviewSample=document.getElementById('fontPreviewSample');
-const fontPreviewType=document.getElementById('fontPreviewType');
+const fontSelect=
+  document.getElementById(
+    'fontSelect'
+  );
+
+const fontPreviewSample=
+  document.getElementById(
+    'fontPreviewSample'
+  );
+
+const fontPreviewType=
+  document.getElementById(
+    'fontPreviewType'
+  );
+
 
 function updateFont(){
 
@@ -1581,51 +2593,92 @@ function updateFont(){
     fontSelect.value;
 
   fontPreviewType.textContent=
-    fontSelect.options[
-      fontSelect.selectedIndex
-    ].textContent.trim();
+    fontSelect
+      .options[
+        fontSelect.selectedIndex
+      ]
+      .textContent
+      .trim();
 
   saveSettings();
+
 }
 
-fontSelect.onchange=updateFont;
+
+fontSelect.onchange=
+  updateFont;
 
 
-/* SIZE */
+/* =========================================================
+   SIZE
+   ========================================================= */
 
-const scaleRange=document.getElementById('scaleRange');
-const scaleVal=document.getElementById('scaleVal');
+const scaleRange=
+  document.getElementById(
+    'scaleRange'
+  );
+
+const scaleVal=
+  document.getElementById(
+    'scaleVal'
+  );
+
 
 scaleRange.oninput=e=>{
+
   root.style.setProperty(
     '--scale',
     e.target.value/100
   );
 
-  scaleVal.textContent=e.target.value+'%';
+  scaleVal.textContent=
+    e.target.value+'%';
 
   saveSettings();
+
 };
 
-const textScaleRange=document.getElementById('textScaleRange');
-const textScaleVal=document.getElementById('textScaleVal');
+
+const textScaleRange=
+  document.getElementById(
+    'textScaleRange'
+  );
+
+const textScaleVal=
+  document.getElementById(
+    'textScaleVal'
+  );
+
 
 textScaleRange.oninput=e=>{
+
   root.style.setProperty(
     '--text-scale',
     e.target.value/100
   );
 
-  textScaleVal.textContent=e.target.value+'%';
+  textScaleVal.textContent=
+    e.target.value+'%';
 
   saveSettings();
+
 };
 
 
-/* PHOTO */
+/* =========================================================
+   PHOTO SIZE
+   ========================================================= */
 
-const photoSizeRange=document.getElementById('photoSizeRange');
-const photoSizeVal=document.getElementById('photoSizeVal');
+const photoSizeRange=
+  document.getElementById(
+    'photoSizeRange'
+  );
+
+const photoSizeVal=
+  document.getElementById(
+    'photoSizeVal'
+  );
+
 
 function setPhotoSize(size){
 
@@ -1634,44 +2687,136 @@ function setPhotoSize(size){
     size+'px'
   );
 
-  photoSizeVal.textContent=size+'px';
+  photoSizeVal.textContent=
+    size+'px';
+
 }
 
+
 photoSizeRange.oninput=e=>{
-  setPhotoSize(e.target.value);
+
+  setPhotoSize(
+    e.target.value
+  );
+
   saveSettings();
+
 };
+
+
+/* =========================================================
+   CORNER STYLE
+   ========================================================= */
+
+/*
+   CURVED:
+     Player = rounded
+     Songs = rounded
+     Buttons = rounded
+     Cover = rounded
+
+   SQUARE:
+     Player = sharp
+     Songs = sharp
+     Buttons = sharp
+     Cover = sharp
+
+   Photo shapes such as circle/heart still override the cover
+   shape when selected.
+*/
 
 function setCornerStyle(style){
 
   if(style==='square'){
-    root.style.setProperty('--radius-player','0px');
-    root.style.setProperty('--radius-song','0px');
-    root.style.setProperty('--radius-btn','0px');
+
+    root.style.setProperty(
+      '--radius-player',
+      '0px'
+    );
+
+    root.style.setProperty(
+      '--radius-song',
+      '0px'
+    );
+
+    root.style.setProperty(
+      '--radius-btn',
+      '0px'
+    );
+
+    root.style.setProperty(
+      '--radius-cover',
+      '0px'
+    );
+
   }else{
-    root.style.setProperty('--radius-player','8px');
-    root.style.setProperty('--radius-song','5px');
-    root.style.setProperty('--radius-btn','5px');
+
+    root.style.setProperty(
+      '--radius-player',
+      '8px'
+    );
+
+    root.style.setProperty(
+      '--radius-song',
+      '5px'
+    );
+
+    root.style.setProperty(
+      '--radius-btn',
+      '5px'
+    );
+
+    root.style.setProperty(
+      '--radius-cover',
+      '6px'
+    );
+
   }
 
   player.dataset.corner=style;
 
-  document.getElementById('cornerCurved')
-    .classList.toggle('active',style!=='square');
+  document
+    .getElementById('cornerCurved')
+    .classList.toggle(
+      'active',
+      style==='curved'
+    );
 
-  document.getElementById('cornerSquare')
-    .classList.toggle('active',style==='square');
+  document
+    .getElementById('cornerSquare')
+    .classList.toggle(
+      'active',
+      style==='square'
+    );
+
 }
 
-document.getElementById('cornerCurved').onclick=()=>{
+
+document.getElementById(
+  'cornerCurved'
+).onclick=()=>{
+
   setCornerStyle('curved');
+
   saveSettings();
+
 };
 
-document.getElementById('cornerSquare').onclick=()=>{
+
+document.getElementById(
+  'cornerSquare'
+).onclick=()=>{
+
   setCornerStyle('square');
+
   saveSettings();
+
 };
+
+
+/* =========================================================
+   PHOTO SHAPE
+   ========================================================= */
 
 function setPhotoShape(shape){
 
@@ -1682,759 +2827,2308 @@ function setPhotoShape(shape){
   );
 
   if(shape!=='square'){
+
     cover.classList.add(shape);
+
   }
 
   cover.dataset.shape=shape;
 
-  document.querySelectorAll('.shape-btn')
+  document
+    .querySelectorAll(
+      '.shape-btn[data-shape]'
+    )
     .forEach(btn=>{
+
       btn.classList.toggle(
         'active',
         btn.dataset.shape===shape
       );
+
     });
+
 }
 
-document.querySelectorAll('.shape-btn').forEach(btn=>{
-  btn.onclick=()=>{
-    setPhotoShape(btn.dataset.shape);
-    saveSettings();
-  };
-});
 
-document.getElementById('photoImport').onchange=e=>{
+document
+  .querySelectorAll(
+    '.shape-btn[data-shape]'
+  )
+  .forEach(btn=>{
 
-  const file=e.target.files[0];
+    btn.onclick=()=>{
+
+      setPhotoShape(
+        btn.dataset.shape
+      );
+
+      saveSettings();
+
+    };
+
+  });
+
+
+/* =========================================================
+   PHOTO IMPORT
+   ========================================================= */
+
+document.getElementById(
+  'photoImport'
+).onchange=e=>{
+
+  const file=
+    e.target.files[0];
 
   if(!file)return;
 
-  const reader=new FileReader();
+  if(
+    !file.type.startsWith('image/')
+  ){
+
+    e.target.value='';
+    return;
+
+  }
+
+  const reader=
+    new FileReader();
 
   reader.onload=()=>{
+
     cover.innerHTML='';
 
-    const img=document.createElement('img');
-    img.src=reader.result;
+    const img=
+      document.createElement('img');
+
+    img.src=
+      reader.result;
 
     cover.appendChild(img);
 
-    localStorage.setItem(
-      storageKey('musicPlayerPhoto'),
-      reader.result
-    );
+    try{
+
+      localStorage.setItem(
+        storageKey(
+          'musicPlayerPhoto'
+        ),
+        reader.result
+      );
+
+    }catch(error){
+
+      console.warn(
+        'Could not save photo',
+        error
+      );
+
+    }
+
   };
 
   reader.readAsDataURL(file);
+
+  e.target.value='';
+
 };
 
 
-/* AUDIO */
+/* =========================================================
+   AUDIO METADATA
+   ========================================================= */
 
 function formatTime(seconds){
 
-  if(!isFinite(seconds))return '0:00';
+  if(
+    !isFinite(seconds) ||
+    seconds<0
+  ){
 
-  const mins=Math.floor(seconds/60);
-  const secs=Math.floor(seconds%60);
+    return '0:00';
+
+  }
+
+  const mins=
+    Math.floor(
+      seconds/60
+    );
+
+  const secs=
+    Math.floor(
+      seconds%60
+    );
 
   return mins+':'+
-    String(secs).padStart(2,'0');
+    String(secs)
+      .padStart(2,'0');
+
 }
+
 
 function getMetadata(file){
 
-  let raw=file.name.replace(
-    /\.[^/.]+$/,
-    ''
-  );
+  let raw=
+    file.name.replace(
+      /\.[^/.]+$/,
+      ''
+    );
 
-  let artist='Unknown artist';
-  let name=raw;
+  let artist=
+    'Unknown artist';
+
+  let name=
+    raw;
+
+  /*
+     "Artist - Song.mp3"
+     becomes:
+
+     Artist
+     Song
+  */
 
   if(raw.includes(' - ')){
 
-    const parts=raw.split(' - ');
+    const parts=
+      raw.split(' - ');
 
-    artist=parts.shift().trim();
-    name=parts.join(' - ').trim();
+    artist=
+      parts.shift()
+        .trim();
+
+    name=
+      parts
+        .join(' - ')
+        .trim();
+
   }
 
-  return{name,artist};
+  return{
+    name:
+      name||'Untitled',
+    artist:
+      artist||'Unknown artist'
+  };
+
 }
+
+
+/* =========================================================
+   AUDIO IMPORT
+   ========================================================= */
 
 async function addAudioFile(file){
 
-  const meta=getMetadata(file);
+  if(
+    !file ||
+    !file.type.startsWith('audio/')
+  ){
+
+    return;
+
+  }
+
+  /*
+     Make sure IndexedDB is actually ready.
+  */
+
+  if(!db){
+
+    try{
+
+      await openDB();
+
+    }catch(error){
+
+      console.error(
+        'Audio storage unavailable:',
+        error
+      );
+
+      alert(
+        'This browser does not allow audio storage for this widget. Try opening the widget directly in your browser instead of inside a restricted preview.'
+      );
+
+      return;
+
+    }
+
+  }
+
+  const meta=
+    getMetadata(file);
+
+  /*
+     High-resolution unique ID.
+
+     It is also scoped by WIDGET_ID when stored in IndexedDB.
+  */
 
   const id=
-    Date.now()+'_'+
-    Math.random().toString(36).slice(2);
+    WIDGET_ID+
+    '_' +
+    Date.now().toString(36)+
+    '_' +
+    Math.random()
+      .toString(36)
+      .slice(2,12);
 
-  await saveAudioFile(id,file);
 
-  songs.push({
-    id,
-    name:meta.name,
-    artist:meta.artist
-  });
+  try{
 
-  saveSongs();
+    await saveAudioFile(
+      id,
+      file
+    );
 
-  if(activeIndex===-1){
-    activeIndex=0;
+    songs.push({
+
+      id,
+      name:meta.name,
+      artist:meta.artist
+
+    });
+
+    /*
+       If this is the first imported song,
+       automatically select it.
+    */
+
+    if(activeIndex===-1){
+
+      activeIndex=0;
+
+    }
+
+    saveSongs();
+
+    renderSongs();
+
+  }catch(error){
+
+    console.error(
+      'Could not import audio:',
+      error
+    );
+
+    alert(
+      'The song could not be saved. Your browser or embed service may be blocking local audio storage.'
+    );
+
   }
 
-  renderSongs();
 }
 
-document.getElementById('songImport').onchange=async e=>{
 
-  const files=Array.from(e.target.files);
+document.getElementById(
+  'songImport'
+).onchange=async e=>{
 
-  for(const file of files){
+  const files=
+    Array.from(
+      e.target.files||[]
+    );
+
+  if(!files.length)return;
+
+  /*
+     Import sequentially so IndexedDB isn't overwhelmed
+     by several simultaneous transactions.
+  */
+
+  for(
+    const file of files
+  ){
+
     await addAudioFile(file);
+
   }
 
+  /*
+     Clearing the input allows the SAME file to be selected
+     again later.
+  */
+
   e.target.value='';
+
 };
 
 
-/* SONG STORAGE */
+/* =========================================================
+   SONG STORAGE
+   ========================================================= */
 
 function saveSongs(){
 
-  localStorage.setItem(
-    storageKey('musicPlayerSongs'),
-    JSON.stringify(songs)
-  );
+  try{
+
+    localStorage.setItem(
+      storageKey(
+        'musicPlayerSongs'
+      ),
+      JSON.stringify(songs)
+    );
+
+  }catch(error){
+
+    console.warn(
+      'Could not save song list:',
+      error
+    );
+
+  }
+
 }
+
 
 function loadSongs(){
 
   try{
-    songs=JSON.parse(
+
+    const saved=
       localStorage.getItem(
-        storageKey('musicPlayerSongs')
-      )
-    )||[];
-  }catch{
+        storageKey(
+          'musicPlayerSongs'
+        )
+      );
+
+    if(!saved){
+
+      songs=[];
+      return;
+
+    }
+
+    const parsed=
+      JSON.parse(saved);
+
+    if(
+      Array.isArray(parsed)
+    ){
+
+      songs=
+        parsed.filter(
+          song=>
+            song &&
+            song.id
+        );
+
+    }else{
+
+      songs=[];
+
+    }
+
+  }catch(error){
+
+    console.warn(
+      'Could not load songs:',
+      error
+    );
+
     songs=[];
+
   }
+
 }
 
 
-/* PLAYER */
+/* =========================================================
+   SETTINGS STORAGE
+   ========================================================= */
+
+function saveSettings(){
+
+  try{
+
+    localStorage.setItem(
+      storageKey(
+        'musicPlayerSettings'
+      ),
+      JSON.stringify({
+
+        title:
+          titleText.textContent,
+
+        colors:{
+
+          header:
+            getHex('headerColor'),
+
+          title:
+            getHex('titleColor'),
+
+          song:
+            getHex('songTitleColor'),
+
+          bg:
+            getHex('bgColor'),
+
+          artist:
+            getHex('artistColor'),
+
+          outline:
+            getHex('outlineColor')
+
+        },
+
+        pattern:
+          player.dataset.pattern,
+
+        patternOpacity:
+          patternOpacityRange.value,
+
+        font:
+          fontSelect.value,
+
+        scale:
+          scaleRange.value,
+
+        textScale:
+          textScaleRange.value,
+
+        photoShape:
+          cover.dataset.shape||
+          'square',
+
+        photoSize:
+          photoSizeRange.value,
+
+        cornerStyle:
+          player.dataset.corner||
+          'curved',
+
+        shuffle:
+          shuffle,
+
+        autoPlay:
+          autoPlay
+
+      })
+
+    );
+
+  }catch(error){
+
+    console.warn(
+      'Could not save settings:',
+      error
+    );
+
+  }
+
+}
+
+
+function loadSettings(){
+
+  let saved=null;
+
+  try{
+
+    saved=
+      localStorage.getItem(
+        storageKey(
+          'musicPlayerSettings'
+        )
+      );
+
+  }catch(error){
+
+    return;
+
+  }
+
+  if(!saved)return;
+
+  try{
+
+    const s=
+      JSON.parse(saved);
+
+
+    /* TITLE */
+
+    titleText.textContent=
+      s.title||'Title';
+
+    titleInput.value=
+      s.title||'Title';
+
+
+    /* COLORS */
+
+    if(s.colors){
+
+      setColor(
+        'headerColor',
+        s.colors.header||
+        '#8A8A8A'
+      );
+
+      setColor(
+        'titleColor',
+        s.colors.title||
+        '#1A1A1A'
+      );
+
+      setColor(
+        'songTitleColor',
+        s.colors.song||
+        '#1A1A1A'
+      );
+
+      setColor(
+        'bgColor',
+        s.colors.bg||
+        '#FFFFFF'
+      );
+
+      setColor(
+        'artistColor',
+        s.colors.artist||
+        '#767676'
+      );
+
+      setColor(
+        'outlineColor',
+        s.colors.outline||
+        '#E6E5E3'
+      );
+
+    }
+
+
+    /* PATTERN */
+
+    const pattern=
+      s.pattern||
+      'none';
+
+    player.dataset.pattern=
+      pattern;
+
+    patternTiles.forEach(t=>{
+
+      t.classList.toggle(
+        'active',
+        t.dataset.pattern===
+        pattern
+      );
+
+    });
+
+
+    /* PATTERN OPACITY */
+
+    patternOpacityRange.value=
+      s.patternOpacity||
+      35;
+
+    root.style.setProperty(
+      '--pattern-opacity',
+      Number(
+        patternOpacityRange.value
+      )/100
+    );
+
+    patternOpacityVal.textContent=
+      patternOpacityRange.value+
+      '%';
+
+
+    /* FONT */
+
+    if(s.font){
+
+      fontSelect.value=
+        s.font;
+
+    }
+
+    /*
+       Don't call updateFont() here because it calls
+       saveSettings() while we're still loading.
+    */
+
+    root.style.setProperty(
+      '--font-family',
+      fontSelect.value
+    );
+
+    fontPreviewSample.style.fontFamily=
+      fontSelect.value;
+
+    fontPreviewType.textContent=
+      fontSelect
+        .options[
+          fontSelect.selectedIndex
+        ]
+        .textContent
+        .trim();
+
+
+    /* SCALE */
+
+    scaleRange.value=
+      s.scale||
+      100;
+
+    root.style.setProperty(
+      '--scale',
+      Number(
+        scaleRange.value
+      )/100
+    );
+
+    scaleVal.textContent=
+      scaleRange.value+
+      '%';
+
+
+    /* TEXT SCALE */
+
+    textScaleRange.value=
+      s.textScale||
+      100;
+
+    root.style.setProperty(
+      '--text-scale',
+      Number(
+        textScaleRange.value
+      )/100
+    );
+
+    textScaleVal.textContent=
+      textScaleRange.value+
+      '%';
+
+
+    /* PHOTO */
+
+    setPhotoShape(
+      s.photoShape||
+      'square'
+    );
+
+    photoSizeRange.value=
+      s.photoSize||
+      190;
+
+    setPhotoSize(
+      photoSizeRange.value
+    );
+
+
+    /* CORNERS */
+
+    setCornerStyle(
+      s.cornerStyle||
+      'curved'
+    );
+
+
+    /* TOGGLES */
+
+    shuffle=
+      !!s.shuffle;
+
+    autoPlay=
+      !!s.autoPlay;
+
+
+  }catch(error){
+
+    console.warn(
+      'Could not load settings:',
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   PLAYER CONTROLS
+   ========================================================= */
 
 function buildPlayback(){
 
   playbackArea.innerHTML=`
 
-  <div class="scrub-wrap">
+    <div class="scrub-wrap">
 
-    <div class="time-row">
-      <span id="curTime">0:00</span>
-      <span id="totalTime">0:00</span>
+      <div class="time-row">
+
+        <span id="curTime">
+          0:00
+        </span>
+
+        <span id="totalTime">
+          0:00
+        </span>
+
+      </div>
+
+      <input
+        type="range"
+        class="scrub"
+        id="scrub"
+        min="0"
+        max="100"
+        value="0"
+      >
+
     </div>
 
-    <input
-      type="range"
-      class="scrub"
-      id="scrub"
-      min="0"
-      max="100"
-      value="0"
-    >
 
-  </div>
+    <div class="controls">
 
-  <div class="controls">
+      <button
+        class="toggle-btn"
+        id="shuffleBtn"
+        title="Shuffle"
+      >
+        ⇄
+      </button>
 
-    <button
-      class="toggle-btn"
-      id="shuffleBtn"
-      title="Shuffle"
-    >⇄</button>
 
-    <button
-      id="prevBtn"
-      title="Previous"
-    >&#9198;</button>
+      <button
+        id="prevBtn"
+        title="Previous"
+      >
+        &#9198;
+      </button>
 
-    <button
-      class="play-btn"
-      id="playBtn"
-      title="Play"
-    >&#9654;</button>
 
-    <button
-      id="nextBtn"
-      title="Next"
-    >&#9197;</button>
+      <button
+        class="play-btn"
+        id="playBtn"
+        title="Play"
+      >
+        &#9654;
+      </button>
 
-    <button
-      class="toggle-btn"
-      id="autoBtn"
-      title="Auto play"
-    >↺</button>
 
-  </div>
+      <button
+        id="nextBtn"
+        title="Next"
+      >
+        &#9197;
+      </button>
+
+
+      <button
+        class="toggle-btn"
+        id="autoBtn"
+        title="Auto play"
+      >
+        ↺
+      </button>
+
+    </div>
   `;
 
-  document.getElementById('shuffleBtn').onclick=()=>{
+
+  document.getElementById(
+    'shuffleBtn'
+  ).onclick=()=>{
 
     shuffle=!shuffle;
 
     document
-      .getElementById('shuffleBtn')
+      .getElementById(
+        'shuffleBtn'
+      )
       .classList.toggle(
         'active',
         shuffle
       );
 
     saveSettings();
+
   };
 
-  document.getElementById('autoBtn').onclick=()=>{
+
+  document.getElementById(
+    'autoBtn'
+  ).onclick=()=>{
 
     autoPlay=!autoPlay;
 
     document
-      .getElementById('autoBtn')
+      .getElementById(
+        'autoBtn'
+      )
       .classList.toggle(
         'active',
         autoPlay
       );
 
     saveSettings();
+
   };
 
-  document.getElementById('prevBtn').onclick=()=>{
+
+  document.getElementById(
+    'prevBtn'
+  ).onclick=()=>{
+
     stepSong(-1);
+
   };
 
-  document.getElementById('nextBtn').onclick=()=>{
+
+  document.getElementById(
+    'nextBtn'
+  ).onclick=()=>{
+
     stepSong(1);
+
   };
 
-  document.getElementById('playBtn').onclick=()=>{
+
+  document.getElementById(
+    'playBtn'
+  ).onclick=()=>{
+
     togglePlay();
+
   };
 
-  document.getElementById('scrub').oninput=e=>{
 
-    if(audio){
+  document.getElementById(
+    'scrub'
+  ).oninput=e=>{
+
+    if(
+      audio &&
+      isFinite(audio.duration)
+    ){
+
       audio.currentTime=
-        (e.target.value/100)*
+        (
+          Number(e.target.value)/
+          100
+        )*
         audio.duration;
+
     }
+
   };
 
-  document
-    .getElementById('shuffleBtn')
-    .classList.toggle('active',shuffle);
 
   document
-    .getElementById('autoBtn')
-    .classList.toggle('active',autoPlay);
+    .getElementById(
+      'shuffleBtn'
+    )
+    .classList.toggle(
+      'active',
+      shuffle
+    );
+
+
+  document
+    .getElementById(
+      'autoBtn'
+    )
+    .classList.toggle(
+      'active',
+      autoPlay
+    );
+
 }
 
-async function loadActiveSong(shouldPlay=false){
 
-  if(activeIndex<0||activeIndex>=songs.length)return;
+/* =========================================================
+   LOAD ACTIVE SONG
+   ========================================================= */
 
-  if(!playbackArea.innerHTML.trim()){
-    buildPlayback();
+async function loadActiveSong(
+  shouldPlay=false
+){
+
+  if(
+    activeIndex<0 ||
+    activeIndex>=songs.length
+  ){
+
+    return;
+
   }
 
-  const song=songs[activeIndex];
+  if(
+    !playbackArea.innerHTML.trim()
+  ){
+
+    buildPlayback();
+
+  }
+
+  const song=
+    songs[activeIndex];
+
+  /*
+     Stop previous audio.
+  */
 
   if(audio){
+
     audio.pause();
+
+    audio.src='';
+
   }
+
+  /*
+     Release previous object URL.
+  */
 
   if(audioURL){
-    URL.revokeObjectURL(audioURL);
+
+    URL.revokeObjectURL(
+      audioURL
+    );
+
+    audioURL=null;
+
   }
 
-  const blob=await getAudioFile(song.id);
+  audio=null;
 
-  if(!blob)return;
 
-  audioURL=URL.createObjectURL(blob);
+  let blob=null;
 
-  audio=new Audio(audioURL);
+  try{
+
+    blob=
+      await getAudioFile(
+        song.id
+      );
+
+  }catch(error){
+
+    console.error(
+      'Could not load audio:',
+      error
+    );
+
+    return;
+
+  }
+
+
+  if(!blob){
+
+    console.warn(
+      'Audio file missing:',
+      song.id
+    );
+
+    return;
+
+  }
+
+
+  audioURL=
+    URL.createObjectURL(
+      blob
+    );
+
+  audio=
+    new Audio();
 
   audio.preload='metadata';
 
-  audio.addEventListener('loadedmetadata',()=>{
+  audio.src=
+    audioURL;
 
-    document.getElementById('totalTime')
-      .textContent=
-      formatTime(audio.duration);
 
-  });
+  audio.addEventListener(
+    'loadedmetadata',
+    ()=>{
 
-  audio.addEventListener('timeupdate',()=>{
+      const total=
+        document.getElementById(
+          'totalTime'
+        );
 
-    if(!audio)return;
+      if(total){
 
-    document.getElementById('curTime')
-      .textContent=
-      formatTime(audio.currentTime);
+        total.textContent=
+          formatTime(
+            audio.duration
+          );
 
-    const scrub=document.getElementById('scrub');
+      }
 
-    if(audio.duration){
-      scrub.value=
-        (audio.currentTime/audio.duration)*100;
     }
-  });
+  );
 
-  audio.addEventListener('ended',()=>{
 
-    if(autoPlay){
-      stepSong(1,true);
-    }else{
-      document.getElementById('playBtn')
-        .innerHTML='&#9654;';
+  audio.addEventListener(
+    'timeupdate',
+    ()=>{
+
+      if(!audio)return;
+
+      const cur=
+        document.getElementById(
+          'curTime'
+        );
+
+      const scrub=
+        document.getElementById(
+          'scrub'
+        );
+
+      if(cur){
+
+        cur.textContent=
+          formatTime(
+            audio.currentTime
+          );
+
+      }
+
+      if(
+        scrub &&
+        audio.duration
+      ){
+
+        scrub.value=
+          (
+            audio.currentTime/
+            audio.duration
+          )*
+          100;
+
+      }
+
     }
-  });
+  );
 
-  document.getElementById('playBtn')
-    .innerHTML='&#9654;';
+
+  audio.addEventListener(
+    'ended',
+    ()=>{
+
+      if(autoPlay){
+
+        stepSong(
+          1,
+          true
+        );
+
+      }else{
+
+        const playBtn=
+          document.getElementById(
+            'playBtn'
+          );
+
+        if(playBtn){
+
+          playBtn.innerHTML=
+            '&#9654;';
+
+        }
+
+      }
+
+    }
+  );
+
+
+  audio.addEventListener(
+    'error',
+    ()=>{
+      console.warn(
+        'Audio playback error.'
+      );
+    }
+  );
+
+
+  const playBtn=
+    document.getElementById(
+      'playBtn'
+    );
+
+  if(playBtn){
+
+    playBtn.innerHTML=
+      '&#9654;';
+
+  }
+
 
   renderSongs();
 
-  if(shouldPlay){
-    await audio.play();
 
-    document.getElementById('playBtn')
-      .innerHTML='&#10074;&#10074;';
+  if(shouldPlay){
+
+    try{
+
+      await audio.play();
+
+      if(playBtn){
+
+        playBtn.innerHTML=
+          '&#10074;&#10074;';
+
+      }
+
+    }catch(error){
+
+      console.warn(
+        'Playback was blocked:',
+        error
+      );
+
+    }
+
   }
+
 }
+
+
+/* =========================================================
+   PLAY / PAUSE
+   ========================================================= */
 
 async function togglePlay(){
 
-  if(!audio){
-    await loadActiveSong(true);
+  if(!songs.length){
+
     return;
+
+  }
+
+  if(activeIndex===-1){
+
+    activeIndex=0;
+
+  }
+
+  if(!audio){
+
+    await loadActiveSong(true);
+
+    return;
+
   }
 
   if(audio.paused){
-    await audio.play();
 
-    document.getElementById('playBtn')
-      .innerHTML='&#10074;&#10074;';
+    try{
+
+      await audio.play();
+
+      const playBtn=
+        document.getElementById(
+          'playBtn'
+        );
+
+      if(playBtn){
+
+        playBtn.innerHTML=
+          '&#10074;&#10074;';
+
+      }
+
+    }catch(error){
+
+      console.warn(
+        'Playback failed:',
+        error
+      );
+
+    }
+
   }else{
+
     audio.pause();
 
-    document.getElementById('playBtn')
-      .innerHTML='&#9654;';
+    const playBtn=
+      document.getElementById(
+        'playBtn'
+      );
+
+    if(playBtn){
+
+      playBtn.innerHTML=
+        '&#9654;';
+
+    }
+
   }
+
 }
 
-function stepSong(direction,playAfter=false){
+
+/* =========================================================
+   NEXT / PREVIOUS
+   ========================================================= */
+
+function stepSong(
+  direction,
+  playAfter=false
+){
 
   if(!songs.length)return;
 
-  if(shuffle && direction>0){
+  if(
+    shuffle &&
+    direction>0 &&
+    songs.length>1
+  ){
 
-    if(songs.length>1){
+    let next;
 
-      let next;
+    do{
 
-      do{
-        next=Math.floor(
-          Math.random()*songs.length
+      next=
+        Math.floor(
+          Math.random()*
+          songs.length
         );
-      }while(next===activeIndex);
 
-      activeIndex=next;
+    }while(
+      next===activeIndex
+    );
 
-    }
+    activeIndex=next;
 
   }else{
 
     activeIndex=
-      (activeIndex+direction+songs.length)
-      %songs.length;
+      (
+        activeIndex+
+        direction+
+        songs.length
+      )%
+      songs.length;
+
   }
 
-  loadActiveSong(playAfter);
+  loadActiveSong(
+    playAfter
+  );
+
 }
 
 
-/* DRAG TO REORDER */
-
-let draggedId=null;
+/* =========================================================
+   DRAG TO REORDER
+   ========================================================= */
 
 function startDrag(songId){
 
   draggedId=songId;
 
-  document.body.style.userSelect='none';
+  document.body.style.userSelect=
+    'none';
 
-  const el=songList.querySelector(
-    `[data-song-id="${songId}"]`
-  );
-
-  if(el)el.classList.add('dragging');
-}
-
-document.addEventListener('pointermove',e=>{
-
-  if(!draggedId)return;
-
-  const target=document.elementFromPoint(
-    e.clientX,
-    e.clientY
-  );
-
-  const overEl=target && target.closest('.song');
-
-  if(!overEl)return;
-
-  const overId=overEl.dataset.songId;
-
-  if(overId===draggedId)return;
-
-  const fromIndex=songs.findIndex(
-    s=>s.id===draggedId
-  );
-
-  const toIndex=songs.findIndex(
-    s=>s.id===overId
-  );
-
-  if(fromIndex===-1||toIndex===-1)return;
-
-  const activeSongId=
-    activeIndex>=0 && activeIndex<songs.length
-      ?songs[activeIndex].id
-      :null;
-
-  const[moved]=songs.splice(fromIndex,1);
-  songs.splice(toIndex,0,moved);
-
-  if(activeSongId){
-    activeIndex=songs.findIndex(
-      s=>s.id===activeSongId
+  const el=
+    songList.querySelector(
+      `[data-song-id="${CSS.escape(songId)}"]`
     );
+
+  if(el){
+
+    el.classList.add(
+      'dragging'
+    );
+
   }
 
-  renderSongs();
-
-  const newEl=songList.querySelector(
-    `[data-song-id="${draggedId}"]`
-  );
-
-  if(newEl)newEl.classList.add('dragging');
-});
-
-document.addEventListener('pointerup',()=>{
-
-  if(!draggedId)return;
-
-  draggedId=null;
-
-  document.body.style.userSelect='';
-
-  saveSongs();
-  renderSongs();
-});
-
-document.addEventListener('pointercancel',()=>{
-
-  if(!draggedId)return;
-
-  draggedId=null;
-
-  document.body.style.userSelect='';
-
-  renderSongs();
-});
+}
 
 
-/* SONG LIST */
+document.addEventListener(
+  'pointermove',
+  e=>{
+
+    if(!draggedId)return;
+
+    const target=
+      document.elementFromPoint(
+        e.clientX,
+        e.clientY
+      );
+
+    const overEl=
+      target &&
+      target.closest('.song');
+
+    if(!overEl)return;
+
+    const overId=
+      overEl.dataset.songId;
+
+    if(overId===draggedId)return;
+
+    const fromIndex=
+      songs.findIndex(
+        s=>s.id===draggedId
+      );
+
+    const toIndex=
+      songs.findIndex(
+        s=>s.id===overId
+      );
+
+    if(
+      fromIndex===-1 ||
+      toIndex===-1
+    ){
+
+      return;
+
+    }
+
+    const activeSongId=
+      activeIndex>=0 &&
+      activeIndex<songs.length
+        ?songs[activeIndex].id
+        :null;
+
+
+    const moved=
+      songs.splice(
+        fromIndex,
+        1
+      )[0];
+
+    songs.splice(
+      toIndex,
+      0,
+      moved
+    );
+
+
+    if(activeSongId){
+
+      activeIndex=
+        songs.findIndex(
+          s=>
+            s.id===
+            activeSongId
+        );
+
+    }
+
+    renderSongs();
+
+
+    const newEl=
+      songList.querySelector(
+        `[data-song-id="${CSS.escape(draggedId)}"]`
+      );
+
+    if(newEl){
+
+      newEl.classList.add(
+        'dragging'
+      );
+
+    }
+
+  }
+);
+
+
+document.addEventListener(
+  'pointerup',
+  ()=>{
+
+    if(!draggedId)return;
+
+    draggedId=null;
+
+    document.body.style.userSelect=
+      '';
+
+    saveSongs();
+
+    renderSongs();
+
+  }
+);
+
+
+document.addEventListener(
+  'pointercancel',
+  ()=>{
+
+    if(!draggedId)return;
+
+    draggedId=null;
+
+    document.body.style.userSelect=
+      '';
+
+    renderSongs();
+
+  }
+);
+
+
+/* =========================================================
+   SONG LIST
+   ========================================================= */
 
 function renderSongs(){
 
-  const hasSongs=songs.length>0;
+  const hasSongs=
+    songs.length>0;
+
 
   emptyState.style.display=
-    hasSongs?'none':'block';
+    hasSongs
+      ?'none'
+      :'block';
+
 
   songList.style.display=
-    hasSongs?'flex':'none';
+    hasSongs
+      ?'flex'
+      :'none';
+
 
   playbackArea.style.display=
-    hasSongs?'block':'none';
+    hasSongs
+      ?'block'
+      :'none';
 
-  if(!hasSongs)return;
 
-  if(!playbackArea.innerHTML.trim()){
-    buildPlayback();
+  if(!hasSongs){
+
+    return;
+
   }
+
+
+  if(
+    !playbackArea.innerHTML.trim()
+  ){
+
+    buildPlayback();
+
+  }
+
 
   songList.innerHTML='';
 
-  songs.forEach((song,index)=>{
 
-    const div=document.createElement('div');
+  songs.forEach(
+    (song,index)=>{
 
-    div.className=
-      'song'+
-      (index===activeIndex?' active':'');
+      const div=
+        document.createElement(
+          'div'
+        );
 
-    div.dataset.songId=song.id;
+      div.className=
+        'song'+
+        (
+          index===activeIndex
+            ?' active'
+            :''
+        );
 
-    div.innerHTML=`
+      div.dataset.songId=
+        song.id;
 
-      <span class="drag-handle"></span>
 
-      <span class="note">&#9835;</span>
+      div.innerHTML=`
 
-      <div class="song-info">
+        <span class="drag-handle"></span>
 
-        <span class="song-name"></span>
+        <span class="note">
+          &#9835;
+        </span>
 
-        <span class="artist-name"></span>
+        <div class="song-info">
 
-      </div>
+          <span class="song-name"></span>
 
-      <button
-        class="delete-song"
-        title="Delete"
-      >&#10005;</button>
-    `;
+          <span class="artist-name"></span>
 
-    div.querySelector('.song-name')
-      .textContent=song.name;
+        </div>
 
-    div.querySelector('.artist-name')
-      .textContent=song.artist;
+        <button
+          class="delete-song"
+          title="Delete"
+        >
+          &#10005;
+        </button>
+      `;
 
-    let pressTimer;
 
-    div.addEventListener('pointerdown',e=>{
+      div.querySelector(
+        '.song-name'
+      ).textContent=
+        song.name;
 
-      if(e.target.closest('.delete-song'))return;
-      if(e.target.closest('.drag-handle'))return;
 
-      pressTimer=setTimeout(()=>{
+      div.querySelector(
+        '.artist-name'
+      ).textContent=
+        song.artist;
 
-        div.classList.add('long-pressed');
 
-      },600);
+      let pressTimer=null;
 
-    });
 
-    div.querySelector('.drag-handle')
-      .addEventListener('pointerdown',e=>{
+      div.addEventListener(
+        'pointerdown',
+        e=>{
 
-        e.preventDefault();
+          if(
+            e.target.closest(
+              '.delete-song'
+            )
+          ){
+
+            return;
+
+          }
+
+          if(
+            e.target.closest(
+              '.drag-handle'
+            )
+          ){
+
+            return;
+
+          }
+
+
+          pressTimer=
+            setTimeout(
+              ()=>{
+
+                div.classList.add(
+                  'long-pressed'
+                );
+
+              },
+              600
+            );
+
+        }
+      );
+
+
+      div.querySelector(
+        '.drag-handle'
+      ).addEventListener(
+        'pointerdown',
+        e=>{
+
+          e.preventDefault();
+          e.stopPropagation();
+
+          startDrag(
+            song.id
+          );
+
+        }
+      );
+
+
+      div.addEventListener(
+        'pointerup',
+        ()=>{
+
+          if(pressTimer){
+
+            clearTimeout(
+              pressTimer
+            );
+
+            pressTimer=null;
+
+          }
+
+        }
+      );
+
+
+      div.addEventListener(
+        'pointercancel',
+        ()=>{
+
+          if(pressTimer){
+
+            clearTimeout(
+              pressTimer
+            );
+
+            pressTimer=null;
+
+          }
+
+        }
+      );
+
+
+      div.querySelector(
+        '.delete-song'
+      ).onclick=async e=>{
+
         e.stopPropagation();
 
-        startDrag(song.id);
-      });
+        await deleteSong(
+          index
+        );
 
-    div.addEventListener('pointerup',()=>{
-      clearTimeout(pressTimer);
-    });
+      };
 
-    div.addEventListener('pointercancel',()=>{
-      clearTimeout(pressTimer);
-    });
 
-    div.querySelector('.delete-song').onclick=async e=>{
+      div.addEventListener(
+        'dblclick',
+        e=>{
 
-      e.stopPropagation();
+          if(
+            e.target.closest(
+              '.delete-song'
+            )
+          ){
 
-      await deleteSong(index);
-    };
+            return;
 
-    div.addEventListener('dblclick',e=>{
+          }
 
-      if(e.target.closest('.delete-song'))return;
+          openSongEditor(
+            index
+          );
 
-      openSongEditor(index);
-    });
+        }
+      );
 
-    div.onclick=async e=>{
 
-      if(e.target.closest('.delete-song'))return;
-      if(e.target.closest('.drag-handle'))return;
+      div.onclick=async e=>{
 
-      if(div.classList.contains('long-pressed'))return;
+        if(
+          e.target.closest(
+            '.delete-song'
+          )
+        ){
 
-      activeIndex=index;
+          return;
 
-      await loadActiveSong(false);
-    };
+        }
 
-    songList.appendChild(div);
-  });
+        if(
+          e.target.closest(
+            '.drag-handle'
+          )
+        ){
+
+          return;
+
+        }
+
+        if(
+          div.classList.contains(
+            'long-pressed'
+          )
+        ){
+
+          div.classList.remove(
+            'long-pressed'
+          );
+
+          return;
+
+        }
+
+
+        activeIndex=index;
+
+        await loadActiveSong(
+          false
+        );
+
+      };
+
+
+      songList.appendChild(
+        div
+      );
+
+    }
+  );
+
 }
+
+
+/* =========================================================
+   DELETE SONG
+   ========================================================= */
 
 async function deleteSong(index){
 
-  const id=songs[index].id;
+  if(
+    index<0 ||
+    index>=songs.length
+  ){
 
-  await deleteAudioFile(id);
+    return;
 
-  songs.splice(index,1);
+  }
+
+
+  const id=
+    songs[index].id;
+
+
+  /*
+     If deleting the currently playing song,
+     stop the player first.
+  */
+
+  const wasActive=
+    index===activeIndex;
+
+
+  await deleteAudioFile(
+    id
+  );
+
+
+  songs.splice(
+    index,
+    1
+  );
+
 
   if(!songs.length){
 
     activeIndex=-1;
 
     if(audio){
+
       audio.pause();
+
+      audio.src='';
+
       audio=null;
+
+    }
+
+    if(audioURL){
+
+      URL.revokeObjectURL(
+        audioURL
+      );
+
+      audioURL=null;
+
     }
 
     playbackArea.innerHTML='';
 
+
   }else{
 
-    if(activeIndex>=songs.length){
-      activeIndex=songs.length-1;
+    if(
+      activeIndex>=songs.length
+    ){
+
+      activeIndex=
+        songs.length-1;
+
     }
+
+    if(
+      index<activeIndex
+    ){
+
+      activeIndex--;
+
+    }
+
+    if(wasActive){
+
+      audio=null;
+
+      if(audioURL){
+
+        URL.revokeObjectURL(
+          audioURL
+        );
+
+        audioURL=null;
+
+      }
+
+      loadActiveSong(
+        false
+      );
+
+    }
+
   }
 
+
   saveSongs();
+
   renderSongs();
+
 }
 
 
-/* EDIT SONG */
+/* =========================================================
+   EDIT SONG
+   ========================================================= */
 
-const songEdit=document.getElementById('songEdit');
-const editSongName=document.getElementById('editSongName');
-const editArtistName=document.getElementById('editArtistName');
+const songEdit=
+  document.getElementById(
+    'songEdit'
+  );
+
+const editSongName=
+  document.getElementById(
+    'editSongName'
+  );
+
+const editArtistName=
+  document.getElementById(
+    'editArtistName'
+  );
+
 
 function openSongEditor(index){
 
+  if(
+    index<0 ||
+    index>=songs.length
+  ){
+
+    return;
+
+  }
+
   editingIndex=index;
 
-  editSongName.value=songs[index].name;
-  editArtistName.value=songs[index].artist;
+  editSongName.value=
+    songs[index].name;
 
-  songEdit.classList.add('open');
+  editArtistName.value=
+    songs[index].artist;
+
+  songEdit.classList.add(
+    'open'
+  );
+
 }
 
-document.getElementById('saveSongEdit').onclick=()=>{
 
-  if(editingIndex<0)return;
+document.getElementById(
+  'saveSongEdit'
+).onclick=()=>{
 
-  songs[editingIndex].name=
-    editSongName.value.trim()||'Untitled';
+  if(
+    editingIndex<0 ||
+    editingIndex>=songs.length
+  ){
 
-  songs[editingIndex].artist=
-    editArtistName.value.trim()||'Unknown artist';
+    return;
+
+  }
+
+
+  songs[
+    editingIndex
+  ].name=
+    editSongName.value
+      .trim()||
+    'Untitled';
+
+
+  songs[
+    editingIndex
+  ].artist=
+    editArtistName.value
+      .trim()||
+    'Unknown artist';
+
 
   saveSongs();
+
   renderSongs();
 
-  songEdit.classList.remove('open');
+  songEdit.classList.remove(
+    'open'
+  );
+
+  editingIndex=-1;
+
 };
 
-document.getElementById('cancelSongEdit').onclick=()=>{
-  songEdit.classList.remove('open');
+
+document.getElementById(
+  'cancelSongEdit'
+).onclick=()=>{
+
+  songEdit.classList.remove(
+    'open'
+  );
+
+  editingIndex=-1;
+
 };
 
 
-/* RESET */
+songEdit.onclick=e=>{
 
-document.getElementById('resetBtn').onclick=()=>{
+  if(e.target===songEdit){
 
-  setColor('headerColor','#8A8A8A');
-  setColor('titleColor','#1A1A1A');
-  setColor('songTitleColor','#1A1A1A');
-  setColor('bgColor','#FFFFFF');
-  setColor('artistColor','#767676');
-  setColor('outlineColor','#E6E5E3');
+    songEdit.classList.remove(
+      'open'
+    );
 
-  player.dataset.pattern='none';
+    editingIndex=-1;
+
+  }
+
+};
+
+
+/* =========================================================
+   RESET SETTINGS
+   ========================================================= */
+
+document.getElementById(
+  'resetBtn'
+).onclick=()=>{
+
+  /*
+     IMPORTANT:
+     Reset does NOT delete songs.
+
+     It only resets this widget's visual/settings state.
+  */
+
+
+  setColor(
+    'headerColor',
+    '#8A8A8A'
+  );
+
+  setColor(
+    'titleColor',
+    '#1A1A1A'
+  );
+
+  setColor(
+    'songTitleColor',
+    '#1A1A1A'
+  );
+
+  setColor(
+    'bgColor',
+    '#FFFFFF'
+  );
+
+  setColor(
+    'artistColor',
+    '#767676'
+  );
+
+  setColor(
+    'outlineColor',
+    '#E6E5E3'
+  );
+
+
+  player.dataset.pattern=
+    'none';
+
 
   patternTiles.forEach(t=>{
+
     t.classList.toggle(
       'active',
       t.dataset.pattern==='none'
     );
+
   });
 
+
   patternOpacityRange.value=35;
-  patternOpacityVal.textContent='35%';
+
+  patternOpacityVal.textContent=
+    '35%';
 
   root.style.setProperty(
     '--pattern-opacity',
     .35
   );
 
-  fontSelect.value="'Montserrat',sans-serif";
-  updateFont();
+
+  fontSelect.value=
+    "'Montserrat',sans-serif";
+
+
+  root.style.setProperty(
+    '--font-family',
+    fontSelect.value
+  );
+
+
+  fontPreviewSample.style.fontFamily=
+    fontSelect.value;
+
+  fontPreviewType.textContent=
+    'Montserrat';
+
 
   scaleRange.value=100;
-  root.style.setProperty('--scale',1);
-  scaleVal.textContent='100%';
+
+  root.style.setProperty(
+    '--scale',
+    1
+  );
+
+  scaleVal.textContent=
+    '100%';
+
 
   textScaleRange.value=100;
-  root.style.setProperty('--text-scale',1);
-  textScaleVal.textContent='100%';
+
+  root.style.setProperty(
+    '--text-scale',
+    1
+  );
+
+  textScaleVal.textContent=
+    '100%';
+
 
   photoSizeRange.value=190;
+
   setPhotoSize(190);
 
-  setPhotoShape('square');
 
-  setCornerStyle('curved');
+  setPhotoShape(
+    'square'
+  );
 
-  titleText.textContent='Title';
-  titleInput.value='Title';
+
+  setCornerStyle(
+    'curved'
+  );
+
+
+  titleText.textContent=
+    'Title';
+
+  titleInput.value=
+    'Title';
+
 
   shuffle=false;
   autoPlay=false;
 
-  localStorage.removeItem(storageKey('musicPlayerPhoto'));
+
+  /*
+     Reset photo as well.
+  */
+
+  try{
+
+    localStorage.removeItem(
+      storageKey(
+        'musicPlayerPhoto'
+      )
+    );
+
+  }catch(error){}
+
+
+  cover.innerHTML=`
+    <span class="cover-icon">
+      &#9835;
+    </span>
+    Image
+  `;
+
 
   saveSettings();
+
+
+  if(
+    playbackArea.innerHTML.trim()
+  ){
+
+    const shuffleBtn=
+      document.getElementById(
+        'shuffleBtn'
+      );
+
+    const autoBtn=
+      document.getElementById(
+        'autoBtn'
+      );
+
+    if(shuffleBtn){
+
+      shuffleBtn.classList.remove(
+        'active'
+      );
+
+    }
+
+    if(autoBtn){
+
+      autoBtn.classList.remove(
+        'active'
+      );
+
+    }
+
+  }
+
 };
 
 
-/* START */
+/* =========================================================
+   LOAD SAVED PHOTO
+   ========================================================= */
 
-async function init(){
+function loadSavedPhoto(){
 
   try{
-    await openDB();
-  }catch(e){
-    console.warn('IndexedDB unavailable',e);
-  }
 
-  loadSongs();
-  loadSettings();
+    const savedPhoto=
+      localStorage.getItem(
+        storageKey(
+          'musicPlayerPhoto'
+        )
+      );
 
-  const savedPhoto=
-    localStorage.getItem(storageKey('musicPlayerPhoto'));
-
-  if(savedPhoto){
+    if(!savedPhoto)return;
 
     cover.innerHTML='';
 
-    const img=document.createElement('img');
-    img.src=savedPhoto;
+    const img=
+      document.createElement(
+        'img'
+      );
 
-    cover.appendChild(img);
+    img.src=
+      savedPhoto;
+
+    cover.appendChild(
+      img
+    );
+
+  }catch(error){
+
+    console.warn(
+      'Could not load saved photo:',
+      error
+    );
+
   }
 
-  renderSongs();
 }
 
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+async function init(){
+
+  /*
+     Open database BEFORE loading/importing songs.
+  */
+
+  try{
+
+    await openDB();
+
+  }catch(error){
+
+    console.warn(
+      'IndexedDB unavailable:',
+      error
+    );
+
+  }
+
+
+  /*
+     Load this iframe's songs/settings only.
+  */
+
+  loadSongs();
+
+  loadSettings();
+
+  loadSavedPhoto();
+
+
+  /*
+     If the active index was invalid because the song list
+     changed, correct it.
+  */
+
+  if(
+    songs.length &&
+    (
+      activeIndex<0 ||
+      activeIndex>=songs.length
+    )
+  ){
+
+    activeIndex=0;
+
+  }
+
+
+  renderSongs();
+
+}
+
+
 init();
+
+
+/* =========================================================
+   CLEANUP
+   ========================================================= */
+
+window.addEventListener(
+  'beforeunload',
+  ()=>{
+
+    if(audio){
+
+      audio.pause();
+
+    }
+
+    if(audioURL){
+
+      URL.revokeObjectURL(
+        audioURL
+      );
+
+    }
+
+  }
+);
 
 </script>
 
 </body>
-</html>
+  </html>
