@@ -19,11 +19,14 @@
   --text-scale:1;
   --pattern-opacity:.35;
   --accent-color:#1a1a1a;
-  --photo-size:190px;
+  --photo-width:190px;
+  --photo-height:190px;
   --radius-player:8px;
   --radius-song:5px;
   --radius-btn:5px;
   --outline-color:#E6E5E3;
+  --player-width:100%;
+  --songlist-height:260px;
 }
 
 *{box-sizing:border-box}
@@ -46,7 +49,7 @@ body{
 }
 
 .player{
-  width:100%;
+  width:var(--player-width);
   transform:scale(var(--scale));
   transform-origin:top center;
   background:var(--bg-color);
@@ -152,8 +155,8 @@ body{
 
 .cover{
   margin:16px auto 8px;
-  width:var(--photo-size);
-  height:190px;
+  width:var(--photo-width);
+  height:var(--photo-height);
   border:1px solid var(--outline-color);
   border-radius:6px;
   display:flex;
@@ -256,7 +259,7 @@ body{
   display:flex;
   flex-direction:column;
   gap:6px;
-  max-height:260px;
+  max-height:var(--songlist-height);
   overflow-y:auto;
   scrollbar-width:thin;
 }
@@ -913,6 +916,24 @@ Settings
 </div>
 </div>
 
+<div class="setting-group">
+<label>Widget width</label>
+
+<div class="range-row">
+<input type="range" id="widgetWidthRange" min="40" max="100" value="100">
+<span id="widgetWidthVal">100%</span>
+</div>
+</div>
+
+<div class="setting-group">
+<label>Widget height (song list area)</label>
+
+<div class="range-row">
+<input type="range" id="widgetHeightRange" min="120" max="600" value="260">
+<span id="widgetHeightVal">260px</span>
+</div>
+</div>
+
 <hr>
 
 <div class="setting-group">
@@ -936,11 +957,20 @@ Settings
 </div>
 
 <div class="setting-group">
-<label>Photo size</label>
+<label>Photo width</label>
 
 <div class="range-row">
-<input type="range" id="photoSizeRange" min="120" max="250" value="190">
-<span id="photoSizeVal">190px</span>
+<input type="range" id="photoWidthRange" min="80" max="350" value="190">
+<span id="photoWidthVal">190px</span>
+</div>
+</div>
+
+<div class="setting-group">
+<label>Photo height</label>
+
+<div class="range-row">
+<input type="range" id="photoHeightRange" min="80" max="350" value="190">
+<span id="photoHeightVal">190px</span>
 </div>
 </div>
 
@@ -1128,8 +1158,11 @@ function collectSettings(){
     font:fontSelect.value,
     scale:Number(scaleRange.value)||100,
     textScale:Number(textScaleRange.value)||100,
+    widgetWidth:Number(widgetWidthRange.value)||100,
+    widgetHeight:Number(widgetHeightRange.value)||260,
     photoShape:cover.dataset.shape||'square',
-    photoSize:Number(photoSizeRange.value)||190,
+    photoWidth:Number(photoWidthRange.value)||190,
+    photoHeight:Number(photoHeightRange.value)||190,
     cornerStyle:player.dataset.corner||'curved',
     shuffle:!!shuffle,
     autoPlay:!!autoPlay
@@ -1198,10 +1231,19 @@ function applySettings(s){
   root.style.setProperty('--text-scale',Number(textScaleRange.value)/100);
   textScaleVal.textContent=textScaleRange.value+'%';
 
+  widgetWidthRange.value=Number(s.widgetWidth)||100;
+  root.style.setProperty('--player-width',widgetWidthRange.value+'%');
+  widgetWidthVal.textContent=widgetWidthRange.value+'%';
+
+  widgetHeightRange.value=Number(s.widgetHeight)||260;
+  root.style.setProperty('--songlist-height',widgetHeightRange.value+'px');
+  widgetHeightVal.textContent=widgetHeightRange.value+'px';
+
   setPhotoShape(s.photoShape||'square');
 
-  photoSizeRange.value=Number(s.photoSize)||190;
-  setPhotoSize(photoSizeRange.value);
+  photoWidthRange.value=Number(s.photoWidth)||Number(s.photoSize)||190;
+  photoHeightRange.value=Number(s.photoHeight)||Number(s.photoSize)||190;
+  setPhotoDimensions(photoWidthRange.value,photoHeightRange.value);
 
   setCornerStyle(s.cornerStyle||'curved');
 
@@ -1616,21 +1658,48 @@ textScaleRange.oninput=e=>{
   scheduleSave();
 };
 
+const widgetWidthRange=document.getElementById('widgetWidthRange');
+const widgetWidthVal=document.getElementById('widgetWidthVal');
+
+widgetWidthRange.oninput=e=>{
+  root.style.setProperty('--player-width',e.target.value+'%');
+  widgetWidthVal.textContent=e.target.value+'%';
+  scheduleSave();
+};
+
+const widgetHeightRange=document.getElementById('widgetHeightRange');
+const widgetHeightVal=document.getElementById('widgetHeightVal');
+
+widgetHeightRange.oninput=e=>{
+  root.style.setProperty('--songlist-height',e.target.value+'px');
+  widgetHeightVal.textContent=e.target.value+'px';
+  scheduleSave();
+};
+
 
 /* =========================================================
    PHOTO
    ========================================================= */
 
-const photoSizeRange=document.getElementById('photoSizeRange');
-const photoSizeVal=document.getElementById('photoSizeVal');
+const photoWidthRange=document.getElementById('photoWidthRange');
+const photoWidthVal=document.getElementById('photoWidthVal');
+const photoHeightRange=document.getElementById('photoHeightRange');
+const photoHeightVal=document.getElementById('photoHeightVal');
 
-function setPhotoSize(size){
-  root.style.setProperty('--photo-size',Number(size)+'px');
-  photoSizeVal.textContent=Number(size)+'px';
+function setPhotoDimensions(width,height){
+  root.style.setProperty('--photo-width',Number(width)+'px');
+  root.style.setProperty('--photo-height',Number(height)+'px');
+  photoWidthVal.textContent=Number(width)+'px';
+  photoHeightVal.textContent=Number(height)+'px';
 }
 
-photoSizeRange.oninput=e=>{
-  setPhotoSize(e.target.value);
+photoWidthRange.oninput=e=>{
+  setPhotoDimensions(e.target.value,photoHeightRange.value);
+  scheduleSave();
+};
+
+photoHeightRange.oninput=e=>{
+  setPhotoDimensions(photoWidthRange.value,e.target.value);
   scheduleSave();
 };
 
@@ -2262,8 +2331,17 @@ document.getElementById('resetBtn').onclick=()=>{
   root.style.setProperty('--text-scale',1);
   textScaleVal.textContent='100%';
 
-  photoSizeRange.value=190;
-  setPhotoSize(190);
+  widgetWidthRange.value=100;
+  root.style.setProperty('--player-width','100%');
+  widgetWidthVal.textContent='100%';
+
+  widgetHeightRange.value=260;
+  root.style.setProperty('--songlist-height','260px');
+  widgetHeightVal.textContent='260px';
+
+  photoWidthRange.value=190;
+  photoHeightRange.value=190;
+  setPhotoDimensions(190,190);
 
   setPhotoShape('square');
   setCornerStyle('curved');
