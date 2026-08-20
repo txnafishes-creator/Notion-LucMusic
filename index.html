@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Music Player</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Courgette&family=Elsie:wght@400;900&family=Gamja+Flower&family=Hachi+Maru+Pop&family=Just+Another+Hand&family=Montserrat:wght@400;500;600;700&family=Pathway+Gothic+One&family=Pixelify+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Pompiere&family=Press+Start+2P&family=Schoolbell&family=Sue+Ellen+Francisco&family=Yomogi&display=swap" rel="stylesheet">
@@ -12,13 +13,17 @@
   --title-color:#1a1a1a;
   --song-title-color:#1a1a1a;
   --artist-color:#767676;
-  --bg-color:#ffffff;
+  --bg-color:#fff;
   --font-family:'Montserrat',sans-serif;
   --scale:1;
   --text-scale:1;
   --pattern-opacity:.35;
   --accent-color:#1a1a1a;
-  --cover-size:170px;
+  --photo-size:190px;
+  --radius-player:8px;
+  --radius-song:5px;
+  --radius-btn:5px;
+  --outline-color:#E6E5E3;
 }
 
 *{box-sizing:border-box}
@@ -41,13 +46,12 @@ body{
 }
 
 .player{
-  width:290px;
+  width:320px;
   transform:scale(var(--scale));
   transform-origin:top center;
   background:var(--bg-color);
-  background-image:none;
-  border:1px solid #222;
-  border-radius:8px;
+  border:1px solid var(--outline-color);
+  border-radius:var(--radius-player);
   overflow:hidden;
   box-shadow:0 6px 18px rgba(0,0,0,.1);
   position:relative;
@@ -61,8 +65,10 @@ body{
 }
 
 .player[data-pattern="dots"]{
-  background-image:
-    radial-gradient(rgba(120,120,120,var(--pattern-opacity)) 1.4px,transparent 1.4px);
+  background-image:radial-gradient(
+    rgba(120,120,120,var(--pattern-opacity)) 1.4px,
+    transparent 1.4px
+  );
   background-size:16px 16px;
 }
 
@@ -73,7 +79,7 @@ body{
   align-items:center;
   justify-content:space-between;
   gap:10px;
-  border-bottom:1px solid #222;
+  border-bottom:1px solid var(--outline-color);
 }
 
 .header .title{
@@ -101,14 +107,13 @@ body{
   width:26px;
   height:26px;
   background:#fff;
-  border:1px solid #222;
-  border-radius:5px;
+  border:1px solid var(--outline-color);
+  border-radius:var(--radius-btn);
   display:flex;
   align-items:center;
   justify-content:center;
   cursor:pointer;
   font-size:14px;
-  line-height:1;
   user-select:none;
   flex-shrink:0;
 }
@@ -118,13 +123,11 @@ body{
   transform:rotate(45deg);
 }
 
-/* COVER */
-
 .cover{
   margin:16px auto 8px;
-  width:var(--cover-size);
-  height:var(--cover-size);
-  border:1px solid #222;
+  width:var(--photo-size);
+  height:190px;
+  border:1px solid var(--outline-color);
   border-radius:6px;
   display:flex;
   align-items:center;
@@ -135,46 +138,23 @@ body{
   background:#fafafa;
   flex-direction:column;
   gap:6px;
-  transition:border-radius .2s,clip-path .2s,width .15s,height .15s;
+  transition:.2s;
 }
 
-.cover.square{border-radius:0}
-.cover.rounded{border-radius:10px}
 .cover.circle{border-radius:50%}
+.cover.round-square{border-radius:25px}
 
 .cover.heart{
   border:none;
-  clip-path:polygon(
-    50% 100%,
-    8% 57%,
-    0% 39%,
-    2% 25%,
-    10% 12%,
-    23% 5%,
-    36% 7%,
-    50% 20%,
-    64% 7%,
-    77% 5%,
-    90% 12%,
-    98% 25%,
-    100% 39%,
-    92% 57%
-  );
-}
-
-.cover .cover-icon{
-  font-size:26px;
-  opacity:.5;
+  background:transparent;
+  clip-path:path("M85 155 C78 148 12 107 12 50 C12 17 55 7 85 40 C115 7 158 17 158 50 C158 107 92 148 85 155 Z");
 }
 
 .cover img{
   width:100%;
   height:100%;
   object-fit:cover;
-  display:block;
 }
-
-/* PLAYBACK */
 
 .scrub-wrap{
   padding:0 18px;
@@ -190,33 +170,31 @@ body{
 }
 
 .scrub{
-  -webkit-appearance:none;
   appearance:none;
   width:100%;
   height:2px;
-  background:#222;
+  background:var(--outline-color);
   border-radius:3px;
   outline:none;
   cursor:pointer;
+  accent-color:#9a9a9a;
 }
 
 .scrub::-webkit-slider-thumb{
-  -webkit-appearance:none;
+  appearance:none;
   width:12px;
   height:12px;
   border-radius:50%;
-  background:var(--accent-color);
+  background:#9a9a9a;
   cursor:pointer;
-  margin-top:-5px;
 }
 
 .scrub::-moz-range-thumb{
   width:12px;
   height:12px;
   border-radius:50%;
-  background:var(--accent-color);
+  background:#9a9a9a;
   border:none;
-  cursor:pointer;
 }
 
 .controls{
@@ -242,16 +220,9 @@ body{
 
 .controls button:hover{opacity:.6}
 
-.controls .play-btn{font-size:24px}
-.controls .toggle-btn{
-  font-size:18px;
-  color:#999;
-  font-weight:600;
-}
-
+.controls .play-btn{font-size:19px}
+.controls .toggle-btn{font-size:17px;color:#999}
 .controls .toggle-btn.active{color:var(--accent-color)}
-
-/* SONG LIST */
 
 .song-list{
   padding:0 14px 16px;
@@ -261,19 +232,11 @@ body{
   max-height:260px;
   overflow-y:auto;
   scrollbar-width:thin;
-  scrollbar-color:#d0d0d0 transparent;
-}
-
-.song-list::-webkit-scrollbar{width:6px}
-.song-list::-webkit-scrollbar-track{background:transparent}
-.song-list::-webkit-scrollbar-thumb{
-  background:#d0d0d0;
-  border-radius:3px;
 }
 
 .song{
-  border:1px solid #222;
-  border-radius:5px;
+  border:1px solid var(--outline-color);
+  border-radius:var(--radius-song);
   padding:8px 10px;
   display:flex;
   align-items:center;
@@ -288,9 +251,8 @@ body{
 .song.active{background:var(--header-color)}
 
 .song.dragging{
-  z-index:5;
   box-shadow:0 6px 14px rgba(0,0,0,.18);
-  cursor:grabbing;
+  opacity:.6;
 }
 
 .drag-handle{
@@ -298,9 +260,11 @@ body{
   height:18px;
   position:relative;
   flex-shrink:0;
+  cursor:grab;
+  touch-action:none;
 }
 
-.drag-handle::before{
+.drag-handle:before{
   content:'';
   position:absolute;
   top:1px;
@@ -320,7 +284,6 @@ body{
 .song .note{
   font-size:15px;
   color:var(--song-title-color);
-  flex-shrink:0;
 }
 
 .song-info{
@@ -328,6 +291,7 @@ body{
   flex-direction:column;
   min-width:0;
   text-align:left;
+  flex:1;
 }
 
 .song-name{
@@ -350,23 +314,22 @@ body{
 }
 
 .delete-song{
-  margin-left:auto;
+  display:none;
+  border:none;
+  background:#222;
+  color:#fff;
   width:22px;
   height:22px;
-  border:1px solid #222;
   border-radius:50%;
-  background:#fff;
-  color:#222;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  font-size:13px;
-  flex-shrink:0;
+  font-size:12px;
   cursor:pointer;
+  flex-shrink:0;
 }
 
-.song.delete-mode .delete-song{
+.song.long-pressed .delete-song{
   display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .empty-state{
@@ -399,13 +362,11 @@ body{
   cursor:pointer;
 }
 
-/* SETTINGS */
-
 .settings-overlay,
 .wheel-popover-overlay{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.35);
+  background:rgba(0,0,0,.4);
   display:none;
   align-items:center;
   justify-content:center;
@@ -413,9 +374,7 @@ body{
 }
 
 .settings-overlay.open,
-.wheel-popover-overlay.open{
-  display:flex;
-}
+.wheel-popover-overlay.open{display:flex}
 
 .settings-panel{
   background:#fff;
@@ -433,15 +392,13 @@ body{
   font-size:16px;
   display:flex;
   justify-content:space-between;
-  align-items:center;
 }
 
-.settings-panel h2 .close{
+.close{
   cursor:pointer;
-  font-size:16px;
-  color:#888;
-  background:none;
   border:none;
+  background:none;
+  color:#888;
 }
 
 .setting-group{margin-bottom:14px}
@@ -456,16 +413,15 @@ body{
   letter-spacing:.4px;
 }
 
-.setting-group input[type="text"]{
+.setting-group input[type=text],
+select{
   width:100%;
   padding:8px 9px;
   border:1px solid #ccc;
   border-radius:5px;
   font-size:13px;
+  background:#fff;
 }
-
-.setting-group select,
-.setting-group input[type="range"]{width:100%}
 
 .range-row{
   display:flex;
@@ -473,213 +429,14 @@ body{
   gap:8px;
 }
 
+.range-row input{flex:1}
+
 .range-row span{
   font-size:12px;
   color:#666;
   width:45px;
   text-align:right;
 }
-
-.settings-panel input[type="range"]{
-  accent-color:#8a8a8a;
-}
-
-select{
-  padding:7px 9px;
-  border-radius:5px;
-  border:1px solid #ccc;
-  font-size:13px;
-  background:#fff;
-}
-
-/* COLORS */
-
-.color-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px 12px;
-}
-
-.color-item{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  min-width:0;
-}
-
-.swatch-btn{
-  width:30px;
-  height:30px;
-  border-radius:50%;
-  border:2px solid #fff;
-  box-shadow:0 0 0 1px #d8d8d8;
-  cursor:pointer;
-  flex-shrink:0;
-}
-
-.color-item-text{
-  display:flex;
-  flex-direction:column;
-  gap:3px;
-  min-width:0;
-  flex:1;
-}
-
-.color-item-label{
-  font-size:10px;
-  color:#909090;
-  white-space:nowrap;
-}
-
-.hex-input{
-  width:100%;
-  font-family:monospace;
-  font-size:11.5px;
-  padding:4px 6px;
-  border:1px solid #ddd;
-  border-radius:4px;
-  text-transform:uppercase;
-}
-
-/* PATTERNS */
-
-.pattern-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-}
-
-.pattern-tile{
-  height:44px;
-  border-radius:6px;
-  border:1.5px solid #ddd;
-  background-color:#fff;
-  cursor:pointer;
-  position:relative;
-  display:flex;
-  align-items:flex-end;
-  justify-content:center;
-  padding-bottom:4px;
-}
-
-.pattern-tile.active{
-  border-color:#1a1a1a;
-  border-width:2px;
-}
-
-.pattern-tile-label{
-  font-size:9px;
-  color:#777;
-  background:rgba(255,255,255,.85);
-  padding:1px 5px;
-  border-radius:3px;
-}
-
-#patternGrid{
-  background-image:
-    linear-gradient(to right,rgba(0,0,0,.16) 1px,transparent 1px),
-    linear-gradient(to bottom,rgba(0,0,0,.16) 1px,transparent 1px);
-  background-size:9px 9px;
-}
-
-#patternDots{
-  background-image:radial-gradient(rgba(0,0,0,.28) 1.3px,transparent 1.3px);
-  background-size:8px 8px;
-}
-
-.pattern-opacity-row{
-  margin-top:10px;
-  display:none;
-}
-
-.pattern-opacity-row.visible{display:flex}
-
-/* PHOTO SHAPES */
-
-.shape-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:7px;
-}
-
-.shape-btn{
-  height:58px;
-  border:1.5px solid #ddd;
-  background:#fff;
-  border-radius:7px;
-  cursor:pointer;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:4px;
-}
-
-.shape-btn:hover{background:#f7f7f7}
-
-.shape-btn.active{
-  border:2px solid #222;
-}
-
-.shape-preview{
-  width:27px;
-  height:27px;
-  background:#aaa;
-}
-
-.shape-preview.square{border-radius:0}
-.shape-preview.rounded{border-radius:7px}
-.shape-preview.circle{border-radius:50%}
-
-.shape-preview.heart{
-  clip-path:polygon(
-    50% 100%,
-    8% 57%,
-    0% 39%,
-    2% 25%,
-    10% 12%,
-    23% 5%,
-    36% 7%,
-    50% 20%,
-    64% 7%,
-    77% 5%,
-    90% 12%,
-    98% 25%,
-    100% 39%,
-    92% 57%
-  );
-}
-
-.shape-btn span:last-child{
-  font-size:9px;
-  color:#777;
-}
-
-/* FONT */
-
-.font-preview{
-  margin-top:6px;
-  border:1px solid #eee;
-  border-radius:6px;
-  padding:10px 12px;
-  background:#fafafa;
-}
-
-#fontPreviewSample{
-  display:block;
-  font-size:20px;
-  color:#1a1a1a;
-}
-
-#fontPreviewType{
-  display:block;
-  font-family:Arial,sans-serif;
-  font-size:11px;
-  color:#999;
-  margin-top:6px;
-}
-
-/* IMPORT */
 
 .import-dropzone{
   border:1.5px dashed #bbb;
@@ -709,7 +466,135 @@ select{
   margin-top:2px;
 }
 
-.import-dropzone input[type="file"]{display:none}
+.import-dropzone input{display:none}
+
+.color-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px 12px;
+}
+
+.color-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.swatch-btn{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  border:2px solid #fff;
+  box-shadow:0 0 0 1px #d8d8d8;
+  cursor:pointer;
+  flex-shrink:0;
+}
+
+.color-item-text{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  min-width:0;
+  flex:1;
+}
+
+.color-item-label{
+  font-size:10px;
+  color:#909090;
+}
+
+.hex-input{
+  width:100%;
+  font-family:monospace;
+  font-size:11px;
+  padding:4px 6px;
+  border:1px solid #ddd;
+  border-radius:4px;
+}
+
+.pattern-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.pattern-tile{
+  height:44px;
+  border-radius:6px;
+  border:1.5px solid #ddd;
+  background:#fff;
+  cursor:pointer;
+  position:relative;
+}
+
+.pattern-tile.active{
+  border-color:var(--outline-color);
+  border-width:2px;
+}
+
+#patternGrid{
+  background-image:
+    linear-gradient(to right,rgba(0,0,0,.16) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(0,0,0,.16) 1px,transparent 1px);
+  background-size:9px 9px;
+}
+
+#patternDots{
+  background-image:radial-gradient(rgba(0,0,0,.28) 1.3px,transparent 1.3px);
+  background-size:8px 8px;
+}
+
+.pattern-tile-label{
+  font-size:9px;
+  color:#777;
+  background:rgba(255,255,255,.85);
+  padding:1px 5px;
+  border-radius:3px;
+  position:absolute;
+  bottom:4px;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+.photo-shape-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:6px;
+}
+
+.shape-btn{
+  padding:8px 3px;
+  border:1px solid #ddd;
+  border-radius:5px;
+  background:#fff;
+  font-size:10px;
+  cursor:pointer;
+}
+
+.shape-btn.active{
+  border:2px solid var(--outline-color);
+}
+
+.font-preview{
+  margin-top:6px;
+  border:1px solid #eee;
+  border-radius:6px;
+  padding:10px 12px;
+  background:#fafafa;
+}
+
+#fontPreviewSample{
+  display:block;
+  font-size:20px;
+}
+
+#fontPreviewType{
+  display:block;
+  font-family:Arial,sans-serif;
+  font-size:11px;
+  color:#999;
+  margin-top:6px;
+}
 
 .reset-btn{
   width:100%;
@@ -728,36 +613,12 @@ hr{
   margin:14px 0;
 }
 
-/* COLOR WHEEL */
-
 .wheel-popover{
   background:#fff;
   border-radius:10px;
   padding:16px;
   width:212px;
   box-shadow:0 14px 36px rgba(0,0,0,.3);
-  font-family:Arial,sans-serif;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:12px;
-}
-
-.wheel-popover-header{
-  width:100%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-size:12.5px;
-  font-weight:600;
-}
-
-.wheel-popover-header .close{
-  cursor:pointer;
-  font-size:14px;
-  color:#888;
-  background:none;
-  border:none;
 }
 
 .sv-box{
@@ -766,11 +627,9 @@ hr{
   height:130px;
   border-radius:8px;
   cursor:crosshair;
-  touch-action:none;
-  box-shadow:0 0 0 1px #222;
   background-image:
-    linear-gradient(to top,#000,rgba(0,0,0,0)),
-    linear-gradient(to right,#fff,rgba(255,255,255,0));
+    linear-gradient(to top,#000,transparent),
+    linear-gradient(to right,#fff,transparent);
 }
 
 .sv-marker{
@@ -779,44 +638,78 @@ hr{
   height:14px;
   border-radius:50%;
   border:2px solid #fff;
-  box-shadow:0 0 0 1px rgba(0,0,0,.5);
+  box-shadow:0 0 0 1px var(--outline-color);
   pointer-events:none;
   transform:translate(-50%,-50%);
 }
 
 .hue-slider{
   width:100%;
-  height:14px;
-  border-radius:7px;
-  outline:none;
-  cursor:pointer;
-  background:linear-gradient(
-    to right,
-    #ff0000 0%,#ffff00 17%,#00ff00 33%,
-    #00ffff 50%,#0000ff 67%,#ff00ff 83%,#ff0000 100%
-  );
+  margin:10px 0;
+  accent-color:#9a9a9a;
 }
 
 .wheel-hex-row{
-  width:100%;
   display:flex;
   align-items:center;
-  gap:6px;
+  gap:5px;
   border:1px solid #ddd;
   border-radius:6px;
-  padding:7px 10px;
-  background:#fafafa;
+  padding:7px;
 }
 
 .wheel-hex-row input{
   border:none;
   outline:none;
-  background:none;
-  font-family:monospace;
-  font-size:13px;
-  text-transform:uppercase;
   flex:1;
-  min-width:0;
+  font-family:monospace;
+}
+
+.song-edit{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.4);
+  align-items:center;
+  justify-content:center;
+  z-index:100;
+}
+
+.song-edit.open{display:flex}
+
+.song-edit-panel{
+  background:#fff;
+  width:280px;
+  padding:18px;
+  border-radius:10px;
+}
+
+.song-edit-panel h3{
+  margin:0 0 12px;
+}
+
+.song-edit-panel input{
+  width:100%;
+  padding:8px;
+  margin-bottom:8px;
+  border:1px solid #ccc;
+  border-radius:5px;
+}
+
+.song-edit-panel button{
+  width:100%;
+  padding:8px;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+  margin-top:5px;
+}
+
+.save-edit{background:#222;color:#fff}
+.cancel-edit{background:#eee}
+
+input[type="range"]{
+  accent-color:#9a9a9a;
 }
 </style>
 </head>
@@ -826,20 +719,16 @@ hr{
 <div class="player" id="player" data-pattern="none">
 
   <div class="header">
-    <div class="title" id="titleText"
-      contenteditable="true"
-      spellcheck="false">Title</div>
-
+    <div class="title" id="titleText" contenteditable="true" spellcheck="false">Title</div>
     <button class="menu-btn" id="menuBtn" title="Settings">&#10022;</button>
   </div>
 
-  <div class="cover rounded" id="cover">
+  <div class="cover" id="cover">
     <span class="cover-icon">&#9835;</span>
     Image
   </div>
 
   <div id="playbackArea"></div>
-
   <div class="song-list" id="songList"></div>
 
   <div class="empty-state" id="emptyState">
@@ -850,402 +739,482 @@ hr{
 
 </div>
 
+
 <div class="settings-overlay" id="settingsOverlay">
-
-  <div class="settings-panel">
-
-    <h2>
-      Settings
-      <button class="close" id="closeSettings">&#10005;</button>
-    </h2>
-
-    <div class="setting-group">
-      <label>Title</label>
-      <input type="text" id="titleInput" value="Title" maxlength="40">
-    </div>
-
-    <div class="setting-group">
-      <label>Import songs</label>
-
-      <label class="import-dropzone">
-        <span class="icon">&#9835;</span>
-        <span class="label">Click or drop audio files</span>
-        <span class="sub">Adds each one to the list</span>
-
-        <input
-          type="file"
-          id="songImport"
-          accept="audio/*"
-          multiple>
-      </label>
-    </div>
-
-    <div class="setting-group">
-      <label>Import photo</label>
-
-      <label class="import-dropzone">
-        <span class="icon">&#128247;</span>
-        <span class="label">Click or drop an image</span>
-        <span class="sub">Sets it as the album art</span>
-
-        <input
-          type="file"
-          id="photoImport"
-          accept="image/*">
-      </label>
-    </div>
-
-    <hr>
-
-    <div class="setting-group">
-      <label>Photo shape</label>
-
-      <div class="shape-grid">
-
-        <button class="shape-btn" data-shape="square">
-          <span class="shape-preview square"></span>
-          <span>Square</span>
-        </button>
-
-        <button class="shape-btn active" data-shape="rounded">
-          <span class="shape-preview rounded"></span>
-          <span>Round</span>
-        </button>
-
-        <button class="shape-btn" data-shape="circle">
-          <span class="shape-preview circle"></span>
-          <span>Circle</span>
-        </button>
-
-        <button class="shape-btn" data-shape="heart">
-          <span class="shape-preview heart"></span>
-          <span>Heart</span>
-        </button>
-
-      </div>
-    </div>
-
-    <div class="setting-group">
-      <label>Photo size</label>
-
-      <div class="range-row">
-        <input
-          type="range"
-          id="coverSizeRange"
-          min="120"
-          max="210"
-          value="170">
-
-        <span id="coverSizeVal">170px</span>
-      </div>
-    </div>
-
-    <hr>
-
-    <div class="setting-group">
-      <label>Colors</label>
-
-      <div class="color-grid">
-
-        <div class="color-item">
-          <button class="swatch-btn"
-            id="headerColorSwatch"
-            style="background:#8a8a8a"></button>
-
-          <div class="color-item-text">
-            <span class="color-item-label">Header bar</span>
-            <input class="hex-input"
-              id="headerColorHex"
-              value="#8A8A8A">
-          </div>
-        </div>
-
-        <div class="color-item">
-          <button class="swatch-btn"
-            id="titleColorSwatch"
-            style="background:#1a1a1a"></button>
-
-          <div class="color-item-text">
-            <span class="color-item-label">Title</span>
-            <input class="hex-input"
-              id="titleColorHex"
-              value="#1A1A1A">
-          </div>
-        </div>
-
-        <div class="color-item">
-          <button class="swatch-btn"
-            id="songTitleColorSwatch"
-            style="background:#1a1a1a"></button>
-
-          <div class="color-item-text">
-            <span class="color-item-label">Song title</span>
-            <input class="hex-input"
-              id="songTitleColorHex"
-              value="#1A1A1A">
-          </div>
-        </div>
-
-        <div class="color-item">
-          <button class="swatch-btn"
-            id="bgColorSwatch"
-            style="background:#ffffff"></button>
-
-          <div class="color-item-text">
-            <span class="color-item-label">Background</span>
-            <input class="hex-input"
-              id="bgColorHex"
-              value="#FFFFFF">
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="setting-group">
-
-      <label>Background pattern</label>
-
-      <div class="pattern-grid">
-
-        <button class="pattern-tile active"
-          data-pattern="none">
-          <span class="pattern-tile-label">None</span>
-        </button>
-
-        <button class="pattern-tile"
-          data-pattern="grid"
-          id="patternGrid">
-          <span class="pattern-tile-label">Grid</span>
-        </button>
-
-        <button class="pattern-tile"
-          data-pattern="dots"
-          id="patternDots">
-          <span class="pattern-tile-label">Dots</span>
-        </button>
-
-      </div>
-
-      <div class="range-row pattern-opacity-row"
-        id="patternOpacityRow">
-
-        <input
-          type="range"
-          id="patternOpacityRange"
-          min="10"
-          max="80"
-          value="35">
-
-        <span id="patternOpacityVal">35%</span>
-      </div>
-
-    </div>
-
-    <hr>
-
-    <div class="setting-group">
-
-      <label>Font</label>
-
-      <select id="fontSelect">
-
-        <optgroup label="Modern">
-          <option value="'Montserrat',sans-serif" selected>
-            Montserrat
-          </option>
-
-          <option value="'Pixelify Sans',sans-serif">
-            Pixelify Sans
-          </option>
-        </optgroup>
-
-        <optgroup label="Retro / Game">
-          <option value="'Press Start 2P',monospace">
-            Press Start 2P
-          </option>
-
-          <option value="'Pathway Gothic One',sans-serif">
-            Pathway Gothic One
-          </option>
-        </optgroup>
-
-        <optgroup label="Serif">
-          <option value="'Playfair Display',serif">
-            Playfair Display
-          </option>
-
-          <option value="'Elsie',serif">
-            Elsie
-          </option>
-        </optgroup>
-
-        <optgroup label="Handwritten">
-          <option value="'Amatic SC',cursive">Amatic SC</option>
-          <option value="'Courgette',cursive">Courgette</option>
-          <option value="'Sue Ellen Francisco',cursive">
-            Sue Ellen Francisco
-          </option>
-          <option value="'Just Another Hand',cursive">
-            Just Another Hand
-          </option>
-          <option value="'Gamja Flower',cursive">
-            Gamja Flower
-          </option>
-          <option value="'Hachi Maru Pop',cursive">
-            Hachi Maru Pop
-          </option>
-          <option value="'Pompiere',cursive">Pompiere</option>
-          <option value="'Schoolbell',cursive">Schoolbell</option>
-          <option value="'Yomogi',cursive">Yomogi</option>
-        </optgroup>
-
-      </select>
-
-      <div class="font-preview">
-        <span id="fontPreviewSample">Aa Bb — Song Title</span>
-        <span id="fontPreviewType">Montserrat</span>
-      </div>
-
-    </div>
-
-    <div class="setting-group">
-
-      <label>Player size</label>
-
-      <div class="range-row">
-
-        <input
-          type="range"
-          id="scaleRange"
-          min="60"
-          max="150"
-          value="100">
-
-        <span id="scaleVal">100%</span>
-
-      </div>
-
-    </div>
-
-    <div class="setting-group">
-
-      <label>Text size</label>
-
-      <div class="range-row">
-
-        <input
-          type="range"
-          id="textScaleRange"
-          min="70"
-          max="150"
-          value="100">
-
-        <span id="textScaleVal">100%</span>
-
-      </div>
-
-    </div>
-
-    <hr>
-
-    <button class="reset-btn" id="resetBtn">
-      Reset to defaults
-    </button>
-
-  </div>
+<div class="settings-panel">
+
+<h2>
+Settings
+<button class="close" id="closeSettings">&#10005;</button>
+</h2>
+
+<div class="setting-group">
+<label>Title</label>
+<input type="text" id="titleInput" value="Title" maxlength="40">
 </div>
+
+<div class="setting-group">
+<label>Import songs</label>
+<label class="import-dropzone">
+<span class="icon">&#9835;</span>
+<span class="label">Click or drop audio files</span>
+<span class="sub">Audio files are saved in this browser</span>
+<input type="file" id="songImport" accept="audio/*" multiple>
+</label>
+</div>
+
+<div class="setting-group">
+<label>Import photo</label>
+<label class="import-dropzone">
+<span class="icon">&#128247;</span>
+<span class="label">Click or drop an image</span>
+<span class="sub">Sets it as the album art</span>
+<input type="file" id="photoImport" accept="image/*">
+</label>
+</div>
+
+<hr>
+
+<div class="setting-group">
+<label>Colors</label>
+
+<div class="color-grid">
+
+<div class="color-item">
+<button class="swatch-btn" id="headerColorSwatch"></button>
+<div class="color-item-text">
+<span class="color-item-label">Header bar</span>
+<input class="hex-input" id="headerColorHex" value="#8A8A8A">
+</div>
+</div>
+
+<div class="color-item">
+<button class="swatch-btn" id="titleColorSwatch"></button>
+<div class="color-item-text">
+<span class="color-item-label">Title</span>
+<input class="hex-input" id="titleColorHex" value="#1A1A1A">
+</div>
+</div>
+
+<div class="color-item">
+<button class="swatch-btn" id="songTitleColorSwatch"></button>
+<div class="color-item-text">
+<span class="color-item-label">Song title</span>
+<input class="hex-input" id="songTitleColorHex" value="#1A1A1A">
+</div>
+</div>
+
+<div class="color-item">
+<button class="swatch-btn" id="bgColorSwatch"></button>
+<div class="color-item-text">
+<span class="color-item-label">Background</span>
+<input class="hex-input" id="bgColorHex" value="#FFFFFF">
+</div>
+</div>
+
+<div class="color-item">
+<button class="swatch-btn" id="artistColorSwatch"></button>
+<div class="color-item-text">
+<span class="color-item-label">Artist text</span>
+<input class="hex-input" id="artistColorHex" value="#767676">
+</div>
+</div>
+
+<div class="color-item">
+<button class="swatch-btn" id="outlineColorSwatch"></button>
+<div class="color-item-text">
+<span class="color-item-label">Outline</span>
+<input class="hex-input" id="outlineColorHex" value="#E6E5E3">
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="setting-group">
+<label>Background pattern</label>
+
+<div class="pattern-grid">
+<button class="pattern-tile active" data-pattern="none" id="patternNone">
+<span class="pattern-tile-label">None</span>
+</button>
+<button class="pattern-tile" data-pattern="grid" id="patternGrid">
+<span class="pattern-tile-label">Grid</span>
+</button>
+<button class="pattern-tile" data-pattern="dots" id="patternDots">
+<span class="pattern-tile-label">Dots</span>
+</button>
+</div>
+
+<div class="range-row">
+<input type="range" id="patternOpacityRange" min="10" max="80" value="35">
+<span id="patternOpacityVal">35%</span>
+</div>
+</div>
+
+<div class="setting-group">
+<label>Font</label>
+
+<select id="fontSelect">
+<option value="'Montserrat',sans-serif">Montserrat</option>
+<option value="'Pixelify Sans',sans-serif">Pixelify Sans</option>
+<option value="'Press Start 2P',monospace">Press Start 2P</option>
+<option value="'Pathway Gothic One',sans-serif">Pathway Gothic One</option>
+<option value="'Playfair Display',serif">Playfair Display</option>
+<option value="'Elsie',serif">Elsie</option>
+<option value="'Amatic SC',cursive">Amatic SC</option>
+<option value="'Courgette',cursive">Courgette</option>
+<option value="'Sue Ellen Francisco',cursive">Sue Ellen Francisco</option>
+<option value="'Just Another Hand',cursive">Just Another Hand</option>
+<option value="'Gamja Flower',cursive">Gamja Flower</option>
+<option value="'Hachi Maru Pop',cursive">Hachi Maru Pop</option>
+<option value="'Pompiere',cursive">Pompiere</option>
+<option value="'Schoolbell',cursive">Schoolbell</option>
+<option value="'Yomogi',cursive">Yomogi</option>
+</select>
+
+<div class="font-preview">
+<span id="fontPreviewSample">Aa Bb — Song Title</span>
+<span id="fontPreviewType">Montserrat</span>
+</div>
+</div>
+
+<div class="setting-group">
+<label>Player size</label>
+<div class="range-row">
+<input type="range" id="scaleRange" min="60" max="150" value="100">
+<span id="scaleVal">100%</span>
+</div>
+</div>
+
+<div class="setting-group">
+<label>Text size</label>
+<div class="range-row">
+<input type="range" id="textScaleRange" min="70" max="150" value="100">
+<span id="textScaleVal">100%</span>
+</div>
+</div>
+
+<hr>
+
+<div class="setting-group">
+<label>Corner style</label>
+
+<div class="photo-shape-grid" style="grid-template-columns:1fr 1fr">
+<button class="shape-btn active" id="cornerCurved" data-corner="curved">Curved</button>
+<button class="shape-btn" id="cornerSquare" data-corner="square">Square</button>
+</div>
+</div>
+
+<div class="setting-group">
+<label>Photo shape</label>
+
+<div class="photo-shape-grid">
+<button class="shape-btn active" data-shape="square">Square</button>
+<button class="shape-btn" data-shape="round-square">Round</button>
+<button class="shape-btn" data-shape="circle">Circle</button>
+<button class="shape-btn" data-shape="heart">Heart</button>
+</div>
+</div>
+
+<div class="setting-group">
+<label>Photo size</label>
+
+<div class="range-row">
+<input type="range" id="photoSizeRange" min="120" max="250" value="190">
+<span id="photoSizeVal">190px</span>
+</div>
+</div>
+
+<hr>
+
+<button class="reset-btn" id="resetBtn">Reset to defaults</button>
+
+</div>
+</div>
+
 
 <div class="wheel-popover-overlay" id="wheelOverlay">
+<div class="wheel-popover">
 
-  <div class="wheel-popover">
-
-    <div class="wheel-popover-header">
-      <span id="wheelPopoverTitle">Color</span>
-
-      <button class="close" id="wheelClose">
-        &#10005;
-      </button>
-    </div>
-
-    <div class="sv-box" id="svBox">
-      <div class="sv-marker" id="svMarker"></div>
-    </div>
-
-    <input
-      type="range"
-      class="hue-slider"
-      id="hueSlider"
-      min="0"
-      max="360"
-      value="0">
-
-    <div class="wheel-hex-row">
-      <span>#</span>
-
-      <input
-        type="text"
-        id="wheelHexInput"
-        maxlength="6">
-    </div>
-
-  </div>
+<div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600">
+<span id="wheelPopoverTitle">Color</span>
+<button class="close" id="wheelClose">&#10005;</button>
 </div>
+
+<div class="sv-box" id="svBox">
+<div class="sv-marker" id="svMarker"></div>
+</div>
+
+<input type="range" class="hue-slider" id="hueSlider" min="0" max="360" value="0">
+
+<div class="wheel-hex-row">
+<span>#</span>
+<input id="wheelHexInput" maxlength="6">
+</div>
+
+</div>
+</div>
+
+
+<div class="song-edit" id="songEdit">
+<div class="song-edit-panel">
+
+<h3>Edit song</h3>
+
+<input id="editSongName" placeholder="Song title">
+<input id="editArtistName" placeholder="Artist">
+
+<button class="save-edit" id="saveSongEdit">Save changes</button>
+<button class="cancel-edit" id="cancelSongEdit">Cancel</button>
+
+</div>
+</div>
+
 
 <script>
 
-/* =========================
-   BASIC ELEMENTS
-========================= */
-
 const root=document.documentElement;
-
-const playerEl=document.getElementById('player');
-const menuBtn=document.getElementById('menuBtn');
-const overlay=document.getElementById('settingsOverlay');
-const closeSettings=document.getElementById('closeSettings');
-const playbackArea=document.getElementById('playbackArea');
-const songListEl=document.getElementById('songList');
-const emptyState=document.getElementById('emptyState');
+const player=document.getElementById('player');
 const cover=document.getElementById('cover');
+const songList=document.getElementById('songList');
+const emptyState=document.getElementById('emptyState');
+const playbackArea=document.getElementById('playbackArea');
+
+/*
+  WIDGET ID
+  ---------
+  This value namespaces ALL storage (localStorage keys + the IndexedDB
+  database) so multiple copies of this widget on the same page don't
+  overwrite each other's songs/settings/photo.
+
+  It's derived automatically:
+  1. First choice: a fingerprint of this widget's own <iframe> (its id/
+     name/src, assigned by whatever embed tool you're using). Two
+     different embed blocks normally get two different iframes, so this
+     just works with zero editing when you duplicate the block.
+  2. Fallback: a random ID, saved in this frame's window.name so it
+     survives refreshes even if step 1 isn't available.
+*/
+function detectWidgetId(){
+
+  try{
+    const fe=window.frameElement;
+
+    if(fe){
+      const fingerprint=
+        fe.id||fe.name||fe.src||fe.getAttribute('data-block-id')||'';
+
+      if(fingerprint){
+        let hash=0;
+
+        for(let i=0;i<fingerprint.length;i++){
+          hash=((hash<<5)-hash+fingerprint.charCodeAt(i))|0;
+        }
+
+        return 'fe_'+Math.abs(hash);
+      }
+    }
+  }catch(e){
+    // frameElement inaccessible (cross-origin sandbox) - fall through
+  }
+
+  try{
+    if(window.name && window.name.indexOf('mp_id_')===0){
+      return window.name;
+    }
+
+    const generated=
+      'mp_id_'+Date.now().toString(36)+'_'+
+      Math.random().toString(36).slice(2,10);
+
+    window.name=generated;
+
+    return generated;
+  }catch(e){
+    return 'default';
+  }
+}
+
+const WIDGET_ID = detectWidgetId();
+
+function storageKey(base){
+  return base+'__'+WIDGET_ID;
+}
 
 let songs=[];
 let activeIndex=-1;
 let audio=null;
-let deleteTimer=null;
+let audioURL=null;
+let shuffle=false;
+let autoPlay=false;
+let editingIndex=-1;
 
-/* =========================
-   SETTINGS OPEN/CLOSE
-========================= */
+const DB_NAME='musicPlayerDB';
+const DB_VERSION=1;
+const STORE='audio';
 
-menuBtn.addEventListener('click',()=>{
-  overlay.classList.add('open');
-});
+let db;
 
-closeSettings.addEventListener('click',()=>{
-  overlay.classList.remove('open');
-});
+function openDB(){
+  return new Promise((resolve,reject)=>{
+    const request=indexedDB.open(DB_NAME,DB_VERSION);
 
-overlay.addEventListener('click',e=>{
-  if(e.target===overlay){
-    overlay.classList.remove('open');
+    request.onupgradeneeded=e=>{
+      const database=e.target.result;
+
+      if(!database.objectStoreNames.contains(STORE)){
+        database.createObjectStore(STORE,{keyPath:'id'});
+      }
+    };
+
+    request.onsuccess=e=>{
+      db=e.target.result;
+      resolve(db);
+    };
+
+    request.onerror=()=>reject(request.error);
+  });
+}
+
+function scopedAudioId(id){
+  return WIDGET_ID+'::'+id;
+}
+
+function saveAudioFile(id,file){
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction(STORE,'readwrite');
+
+    tx.objectStore(STORE).put({
+      id:scopedAudioId(id),
+      blob:file
+    });
+
+    tx.oncomplete=resolve;
+    tx.onerror=()=>reject(tx.error);
+  });
+}
+
+function getAudioFile(id){
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction(STORE,'readonly');
+    const req=tx.objectStore(STORE).get(scopedAudioId(id));
+
+    req.onsuccess=()=>resolve(req.result?.blob||null);
+    req.onerror=()=>reject(req.error);
+  });
+}
+
+function deleteAudioFile(id){
+  return new Promise(resolve=>{
+    const tx=db.transaction(STORE,'readwrite');
+    tx.objectStore(STORE).delete(scopedAudioId(id));
+    tx.oncomplete=resolve;
+  });
+}
+
+function saveSettings(){
+
+  localStorage.setItem(storageKey('musicPlayerSettings'),JSON.stringify({
+    title:titleText.textContent,
+    colors:{
+      header:getHex('headerColor'),
+      title:getHex('titleColor'),
+      song:getHex('songTitleColor'),
+      bg:getHex('bgColor'),
+      artist:getHex('artistColor'),
+      outline:getHex('outlineColor')
+    },
+    pattern:player.dataset.pattern,
+    patternOpacity:patternOpacityRange.value,
+    font:fontSelect.value,
+    scale:scaleRange.value,
+    textScale:textScaleRange.value,
+    photoShape:cover.dataset.shape||'square',
+    photoSize:photoSizeRange.value,
+    cornerStyle:player.dataset.corner||'curved',
+    shuffle,
+    autoPlay
+  }));
+}
+
+function loadSettings(){
+
+  const saved=localStorage.getItem(storageKey('musicPlayerSettings'));
+
+  if(!saved)return;
+
+  try{
+
+    const s=JSON.parse(saved);
+
+    titleText.textContent=s.title||'Title';
+    titleInput.value=s.title||'Title';
+
+    if(s.colors){
+      setColor('headerColor',s.colors.header||'#8A8A8A');
+      setColor('titleColor',s.colors.title||'#1A1A1A');
+      setColor('songTitleColor',s.colors.song||'#1A1A1A');
+      setColor('bgColor',s.colors.bg||'#FFFFFF');
+      setColor('artistColor',s.colors.artist||'#767676');
+      setColor('outlineColor',s.colors.outline||'#E6E5E3');
+    }
+
+    if(s.pattern){
+      player.dataset.pattern=s.pattern;
+
+      patternTiles.forEach(t=>{
+        t.classList.toggle(
+          'active',
+          t.dataset.pattern===s.pattern
+        );
+      });
+    }
+
+    patternOpacityRange.value=s.patternOpacity||35;
+    root.style.setProperty(
+      '--pattern-opacity',
+      patternOpacityRange.value/100
+    );
+    patternOpacityVal.textContent=patternOpacityRange.value+'%';
+
+    if(s.font){
+      fontSelect.value=s.font;
+      updateFont();
+    }
+
+    scaleRange.value=s.scale||100;
+    root.style.setProperty('--scale',scaleRange.value/100);
+    scaleVal.textContent=scaleRange.value+'%';
+
+    textScaleRange.value=s.textScale||100;
+    root.style.setProperty('--text-scale',textScaleRange.value/100);
+    textScaleVal.textContent=textScaleRange.value+'%';
+
+    setPhotoShape(s.photoShape||'square');
+
+    photoSizeRange.value=s.photoSize||190;
+    setPhotoSize(photoSizeRange.value);
+
+    setCornerStyle(s.cornerStyle||'curved');
+
+    shuffle=!!s.shuffle;
+    autoPlay=!!s.autoPlay;
+
+  }catch(e){
+    console.warn('Could not load settings',e);
   }
-});
+}
 
-document.getElementById('emptyAddBtn').addEventListener('click',()=>{
-  overlay.classList.add('open');
-  document.getElementById('songImport').click();
-});
 
-/* =========================
-   TITLE
-========================= */
+/* TITLE */
 
 const titleText=document.getElementById('titleText');
 const titleInput=document.getElementById('titleInput');
 
 titleText.addEventListener('input',()=>{
   titleInput.value=titleText.textContent;
+  saveSettings();
 });
 
 titleText.addEventListener('blur',()=>{
@@ -1254,6 +1223,7 @@ titleText.addEventListener('blur',()=>{
   }
 
   titleInput.value=titleText.textContent;
+  saveSettings();
 });
 
 titleText.addEventListener('keydown',e=>{
@@ -1265,115 +1235,117 @@ titleText.addEventListener('keydown',e=>{
 
 titleInput.addEventListener('input',()=>{
   titleText.textContent=titleInput.value||'Title';
+  saveSettings();
 });
 
-/* =========================
-   PHOTO SHAPE
-========================= */
 
-const shapeButtons=document.querySelectorAll('.shape-btn');
+/* SETTINGS OPEN */
 
-shapeButtons.forEach(button=>{
+document.getElementById('menuBtn').onclick=()=>{
+  document.getElementById('settingsOverlay').classList.add('open');
+};
 
-  button.addEventListener('click',()=>{
+document.getElementById('closeSettings').onclick=()=>{
+  document.getElementById('settingsOverlay').classList.remove('open');
+};
 
-    shapeButtons.forEach(b=>{
-      b.classList.remove('active');
-    });
+document.getElementById('settingsOverlay').onclick=e=>{
+  if(e.target.id==='settingsOverlay'){
+    e.currentTarget.classList.remove('open');
+  }
+};
 
-    button.classList.add('active');
+document.getElementById('emptyAddBtn').onclick=()=>{
+  document.getElementById('settingsOverlay').classList.add('open');
+  document.getElementById('songImport').click();
+};
 
-    cover.classList.remove(
-      'square',
-      'rounded',
-      'circle',
-      'heart'
-    );
 
-    cover.classList.add(button.dataset.shape);
+/* COLORS */
 
+function normalizeHex(v){
+
+  v=v.trim().replace('#','');
+
+  if(/^[0-9a-fA-F]{3}$/.test(v)){
+    v=v.split('').map(x=>x+x).join('');
+  }
+
+  if(/^[0-9a-fA-F]{6}$/.test(v)){
+    return '#'+v.toUpperCase();
+  }
+
+  return null;
+}
+
+const colorConfigs={
+  headerColor:{vars:['--header-color'],label:'Header bar'},
+  titleColor:{vars:['--title-color'],label:'Title'},
+  songTitleColor:{
+    vars:['--song-title-color','--accent-color'],
+    label:'Song title'
+  },
+  bgColor:{vars:['--bg-color'],label:'Background'},
+  artistColor:{vars:['--artist-color'],label:'Artist text'},
+  outlineColor:{vars:['--outline-color'],label:'Outline'}
+};
+
+function setColor(id,hex){
+
+  const cfg=colorConfigs[id];
+
+  cfg.vars.forEach(v=>{
+    root.style.setProperty(v,hex);
   });
 
-});
+  document.getElementById(id+'Swatch').style.background=hex;
+  document.getElementById(id+'Hex').value=hex;
+}
 
-/* =========================
-   PHOTO SIZE
-========================= */
+function getHex(id){
+  return document.getElementById(id+'Hex').value;
+}
 
-const coverSizeRange=
-  document.getElementById('coverSizeRange');
+Object.keys(colorConfigs).forEach(id=>{
 
-const coverSizeVal=
-  document.getElementById('coverSizeVal');
+  document.getElementById(id+'Swatch').onclick=()=>{
+    openWheel(id);
+  };
 
-coverSizeRange.addEventListener('input',e=>{
+  document.getElementById(id+'Hex').onchange=e=>{
+    const hex=normalizeHex(e.target.value);
 
-  const size=e.target.value;
+    if(hex){
+      setColor(id,hex);
+      saveSettings();
+    }
+  };
 
-  root.style.setProperty(
-    '--cover-size',
-    size+'px'
+  setColor(
+    id,
+    document.getElementById(id+'Hex').value
   );
-
-  coverSizeVal.textContent=size+'px';
-
 });
 
-/* =========================
-   PHOTO IMPORT
-========================= */
 
-const photoImport=
-  document.getElementById('photoImport');
-
-photoImport.addEventListener('change',e=>{
-
-  const file=e.target.files[0];
-
-  if(!file)return;
-
-  const url=URL.createObjectURL(file);
-
-  cover.innerHTML='';
-
-  const img=document.createElement('img');
-
-  img.src=url;
-
-  cover.appendChild(img);
-
-});
-
-/* =========================
-   COLORS
-========================= */
+/* COLOR WHEEL */
 
 function hexToRgb(hex){
 
   hex=hex.replace('#','');
 
-  if(hex.length===3){
-    hex=hex.split('').map(c=>c+c).join('');
-  }
-
-  const num=parseInt(hex,16);
-
   return{
-    r:(num>>16)&255,
-    g:(num>>8)&255,
-    b:num&255
+    r:parseInt(hex.slice(0,2),16),
+    g:parseInt(hex.slice(2,4),16),
+    b:parseInt(hex.slice(4,6),16)
   };
 }
 
 function rgbToHex(r,g,b){
 
-  return '#'+[r,g,b]
-    .map(x=>
-      Math.max(0,Math.min(255,Math.round(x)))
-      .toString(16)
-      .padStart(2,'0')
-    )
-    .join('');
+  return '#'+[r,g,b].map(v=>
+    Math.round(v).toString(16).padStart(2,'0')
+  ).join('').toUpperCase();
 }
 
 function rgbToHsv(r,g,b){
@@ -1388,27 +1360,26 @@ function rgbToHsv(r,g,b){
 
   let h=0;
 
-  if(d!==0){
-
+  if(d){
     if(max===r)h=((g-b)/d)%6;
     else if(max===g)h=(b-r)/d+2;
     else h=(r-g)/d+4;
 
     h*=60;
-
     if(h<0)h+=360;
   }
 
-  const s=max===0?0:d/max;
-  const v=max;
-
-  return{h,s,v};
+  return{
+    h,
+    s:max?d/max:0,
+    v:max
+  };
 }
 
 function hsvToRgb(h,s,v){
 
   const c=v*s;
-  const x=c*(1-Math.abs(((h/60)%2)-1));
+  const x=c*(1-Math.abs((h/60)%2-1));
   const m=v-c;
 
   let r=0,g=0,b=0;
@@ -1427,138 +1398,42 @@ function hsvToRgb(h,s,v){
   };
 }
 
-function normalizeHex(val){
+const wheelOverlay=document.getElementById('wheelOverlay');
+const svBox=document.getElementById('svBox');
+const svMarker=document.getElementById('svMarker');
+const hueSlider=document.getElementById('hueSlider');
+const wheelHex=document.getElementById('wheelHexInput');
 
-  let v=val.trim().replace('#','');
-
-  if(/^[0-9A-Fa-f]{3}$/.test(v)){
-    v=v.split('').map(c=>c+c).join('');
-  }
-
-  if(/^[0-9A-Fa-f]{6}$/.test(v)){
-    return '#'+v.toUpperCase();
-  }
-
-  return null;
-}
-
-const colorConfigs={
-
-  headerColor:{
-    vars:['--header-color'],
-    label:'Header bar'
-  },
-
-  titleColor:{
-    vars:['--title-color'],
-    label:'Title'
-  },
-
-  songTitleColor:{
-    vars:['--song-title-color','--accent-color'],
-    label:'Song title'
-  },
-
-  bgColor:{
-    vars:['--bg-color'],
-    label:'Background'
-  }
-
-};
-
-function setColor(id,hex){
-
-  const cfg=colorConfigs[id];
-
-  cfg.vars.forEach(v=>{
-    root.style.setProperty(v,hex);
-  });
-
-  document.getElementById(id+'Swatch').style.background=hex;
-
-  document.getElementById(id+'Hex').value=
-    hex.toUpperCase();
-}
-
-Object.keys(colorConfigs).forEach(id=>{
-
-  document.getElementById(id+'Swatch')
-    .addEventListener('click',()=>{
-      openWheel(id);
-    });
-
-  document.getElementById(id+'Hex')
-    .addEventListener('change',e=>{
-
-      const normalized=normalizeHex(e.target.value);
-
-      if(normalized){
-        setColor(id,normalized);
-      }
-
-    });
-
-});
-
-/* =========================
-   COLOR WHEEL
-========================= */
-
-const wheelOverlay=
-  document.getElementById('wheelOverlay');
-
-const svBox=
-  document.getElementById('svBox');
-
-const svMarker=
-  document.getElementById('svMarker');
-
-const hueSlider=
-  document.getElementById('hueSlider');
-
-const wheelHexInput=
-  document.getElementById('wheelHexInput');
-
-const wheelPopoverTitle=
-  document.getElementById('wheelPopoverTitle');
-
-const wheelState={
+let wheelState={
+  id:null,
   h:0,
   s:0,
-  v:1,
-  activeId:null
+  v:1
 };
 
 function openWheel(id){
 
-  wheelState.activeId=id;
+  wheelState.id=id;
 
-  wheelPopoverTitle.textContent=
-    colorConfigs[id].label;
-
-  const currentHex=
-    document.getElementById(id+'Hex').value||'#000000';
-
-  const {r,g,b}=hexToRgb(currentHex);
-
-  const hsv=rgbToHsv(r,g,b);
+  const hsv=rgbToHsv(
+    ...Object.values(
+      hexToRgb(getHex(id))
+    )
+  );
 
   wheelState.h=hsv.h;
   wheelState.s=hsv.s;
   wheelState.v=hsv.v||1;
 
-  hueSlider.value=Math.round(wheelState.h);
+  hueSlider.value=wheelState.h;
+  wheelHex.value=getHex(id).replace('#','');
 
-  wheelHexInput.value=
-    currentHex.replace('#','').toUpperCase();
-
-  updateSvBoxHue();
-  updateSvMarker();
+  updateWheel();
 
   wheelOverlay.classList.add('open');
 }
 
-function updateSvBoxHue(){
+function updateWheel(){
 
   const rgb=hsvToRgb(
     wheelState.h,
@@ -1568,491 +1443,527 @@ function updateSvBoxHue(){
 
   svBox.style.backgroundColor=
     rgbToHex(rgb.r,rgb.g,rgb.b);
-}
 
-function updateSvMarker(){
+  svMarker.style.left=(wheelState.s*100)+'%';
+  svMarker.style.top=((1-wheelState.v)*100)+'%';
 
-  svMarker.style.left=
-    wheelState.s*100+'%';
-
-  svMarker.style.top=
-    (1-wheelState.v)*100+'%';
-}
-
-function applyWheelColor(){
-
-  const rgb=hsvToRgb(
+  const c=hsvToRgb(
     wheelState.h,
     wheelState.s,
     wheelState.v
   );
 
-  const hex=rgbToHex(
-    rgb.r,
-    rgb.g,
-    rgb.b
-  );
-
-  wheelHexInput.value=
-    hex.replace('#','').toUpperCase();
-
   setColor(
-    wheelState.activeId,
-    hex
+    wheelState.id,
+    rgbToHex(c.r,c.g,c.b)
   );
+
+  saveSettings();
 }
 
-let svDragging=false;
-
-function handleSvPointer(e){
+function handleSV(e){
 
   const rect=svBox.getBoundingClientRect();
 
-  let x=(e.clientX-rect.left)/rect.width;
-  let y=(e.clientY-rect.top)/rect.height;
+  wheelState.s=Math.max(
+    0,
+    Math.min(
+      1,
+      (e.clientX-rect.left)/rect.width
+    )
+  );
 
-  x=Math.max(0,Math.min(1,x));
-  y=Math.max(0,Math.min(1,y));
+  wheelState.v=Math.max(
+    0,
+    Math.min(
+      1,
+      1-(e.clientY-rect.top)/rect.height
+    )
+  );
 
-  wheelState.s=x;
-  wheelState.v=1-y;
-
-  updateSvMarker();
-  applyWheelColor();
+  updateWheel();
 }
 
+let svDown=false;
+
 svBox.addEventListener('pointerdown',e=>{
-  svDragging=true;
+  svDown=true;
   svBox.setPointerCapture(e.pointerId);
-  handleSvPointer(e);
+  handleSV(e);
 });
 
 svBox.addEventListener('pointermove',e=>{
-  if(svDragging)handleSvPointer(e);
+  if(svDown)handleSV(e);
 });
 
 svBox.addEventListener('pointerup',()=>{
-  svDragging=false;
+  svDown=false;
 });
 
-hueSlider.addEventListener('input',e=>{
+hueSlider.oninput=e=>{
+  wheelState.h=Number(e.target.value);
+  updateWheel();
+};
 
-  wheelState.h=parseFloat(e.target.value);
+wheelHex.onchange=()=>{
+  const hex=normalizeHex(wheelHex.value);
 
-  updateSvBoxHue();
-  applyWheelColor();
+  if(!hex)return;
 
-});
+  setColor(wheelState.id,hex);
 
-wheelHexInput.addEventListener('change',()=>{
-
-  const normalized=
-    normalizeHex(wheelHexInput.value);
-
-  if(!normalized)return;
-
-  const {r,g,b}=hexToRgb(normalized);
-
-  const hsv=rgbToHsv(r,g,b);
+  const rgb=hexToRgb(hex);
+  const hsv=rgbToHsv(rgb.r,rgb.g,rgb.b);
 
   wheelState.h=hsv.h;
   wheelState.s=hsv.s;
   wheelState.v=hsv.v;
 
-  hueSlider.value=
-    Math.round(wheelState.h);
+  hueSlider.value=hsv.h;
+  svMarker.style.left=(hsv.s*100)+'%';
+  svMarker.style.top=((1-hsv.v)*100)+'%';
 
-  updateSvBoxHue();
-  updateSvMarker();
+  saveSettings();
+};
 
-  setColor(
-    wheelState.activeId,
-    normalized
-  );
+document.getElementById('wheelClose').onclick=()=>{
+  wheelOverlay.classList.remove('open');
+};
 
-});
 
-document.getElementById('wheelClose')
-  .addEventListener('click',()=>{
-    wheelOverlay.classList.remove('open');
-  });
+/* PATTERN */
 
-wheelOverlay.addEventListener('click',e=>{
-  if(e.target===wheelOverlay){
-    wheelOverlay.classList.remove('open');
-  }
-});
-
-/* =========================
-   PATTERN
-========================= */
-
-const patternTiles=
-  document.querySelectorAll('.pattern-tile');
-
-const patternOpacityRow=
-  document.getElementById('patternOpacityRow');
-
-const patternOpacityRange=
-  document.getElementById('patternOpacityRange');
-
-const patternOpacityVal=
-  document.getElementById('patternOpacityVal');
+const patternTiles=document.querySelectorAll('.pattern-tile');
+const patternOpacityRange=document.getElementById('patternOpacityRange');
+const patternOpacityVal=document.getElementById('patternOpacityVal');
 
 patternTiles.forEach(tile=>{
-
-  tile.addEventListener('click',()=>{
+  tile.onclick=()=>{
+    player.dataset.pattern=tile.dataset.pattern;
 
     patternTiles.forEach(t=>{
-      t.classList.remove('active');
+      t.classList.toggle(
+        'active',
+        t===tile
+      );
     });
 
-    tile.classList.add('active');
-
-    playerEl.dataset.pattern=
-      tile.dataset.pattern;
-
-    patternOpacityRow.classList.toggle(
-      'visible',
-      tile.dataset.pattern!=='none'
-    );
-
-  });
-
+    saveSettings();
+  };
 });
 
-patternOpacityRange.addEventListener('input',e=>{
-
+patternOpacityRange.oninput=e=>{
   root.style.setProperty(
     '--pattern-opacity',
     e.target.value/100
   );
 
-  patternOpacityVal.textContent=
-    e.target.value+'%';
+  patternOpacityVal.textContent=e.target.value+'%';
 
-});
+  saveSettings();
+};
 
-/* =========================
-   FONT
-========================= */
 
-const fontSelect=
-  document.getElementById('fontSelect');
+/* FONT */
 
-const fontPreviewSample=
-  document.getElementById('fontPreviewSample');
-
-const fontPreviewType=
-  document.getElementById('fontPreviewType');
+const fontSelect=document.getElementById('fontSelect');
+const fontPreviewSample=document.getElementById('fontPreviewSample');
+const fontPreviewType=document.getElementById('fontPreviewType');
 
 function updateFont(){
 
-  const selected=
-    fontSelect.options[
-      fontSelect.selectedIndex
-    ];
-
-  const font=selected.value;
-
   root.style.setProperty(
     '--font-family',
-    font
+    fontSelect.value
   );
 
-  fontPreviewSample.style.fontFamily=font;
+  fontPreviewSample.style.fontFamily=
+    fontSelect.value;
 
   fontPreviewType.textContent=
-    selected.textContent.trim();
+    fontSelect.options[
+      fontSelect.selectedIndex
+    ].textContent.trim();
+
+  saveSettings();
 }
 
-fontSelect.addEventListener(
-  'change',
-  updateFont
-);
+fontSelect.onchange=updateFont;
 
-updateFont();
 
-/* =========================
-   PLAYER SIZE
-========================= */
+/* SIZE */
 
-const scaleRange=
-  document.getElementById('scaleRange');
+const scaleRange=document.getElementById('scaleRange');
+const scaleVal=document.getElementById('scaleVal');
 
-const scaleVal=
-  document.getElementById('scaleVal');
-
-scaleRange.addEventListener('input',e=>{
-
+scaleRange.oninput=e=>{
   root.style.setProperty(
     '--scale',
     e.target.value/100
   );
 
-  scaleVal.textContent=
-    e.target.value+'%';
+  scaleVal.textContent=e.target.value+'%';
 
-});
+  saveSettings();
+};
 
-/* =========================
-   TEXT SIZE
-========================= */
+const textScaleRange=document.getElementById('textScaleRange');
+const textScaleVal=document.getElementById('textScaleVal');
 
-const textScaleRange=
-  document.getElementById('textScaleRange');
-
-const textScaleVal=
-  document.getElementById('textScaleVal');
-
-textScaleRange.addEventListener('input',e=>{
-
+textScaleRange.oninput=e=>{
   root.style.setProperty(
     '--text-scale',
     e.target.value/100
   );
 
-  textScaleVal.textContent=
-    e.target.value+'%';
+  textScaleVal.textContent=e.target.value+'%';
 
+  saveSettings();
+};
+
+
+/* PHOTO */
+
+const photoSizeRange=document.getElementById('photoSizeRange');
+const photoSizeVal=document.getElementById('photoSizeVal');
+
+function setPhotoSize(size){
+
+  root.style.setProperty(
+    '--photo-size',
+    size+'px'
+  );
+
+  photoSizeVal.textContent=size+'px';
+}
+
+photoSizeRange.oninput=e=>{
+  setPhotoSize(e.target.value);
+  saveSettings();
+};
+
+function setCornerStyle(style){
+
+  if(style==='square'){
+    root.style.setProperty('--radius-player','0px');
+    root.style.setProperty('--radius-song','0px');
+    root.style.setProperty('--radius-btn','0px');
+  }else{
+    root.style.setProperty('--radius-player','8px');
+    root.style.setProperty('--radius-song','5px');
+    root.style.setProperty('--radius-btn','5px');
+  }
+
+  player.dataset.corner=style;
+
+  document.getElementById('cornerCurved')
+    .classList.toggle('active',style!=='square');
+
+  document.getElementById('cornerSquare')
+    .classList.toggle('active',style==='square');
+}
+
+document.getElementById('cornerCurved').onclick=()=>{
+  setCornerStyle('curved');
+  saveSettings();
+};
+
+document.getElementById('cornerSquare').onclick=()=>{
+  setCornerStyle('square');
+  saveSettings();
+};
+
+function setPhotoShape(shape){
+
+  cover.classList.remove(
+    'circle',
+    'round-square',
+    'heart'
+  );
+
+  if(shape!=='square'){
+    cover.classList.add(shape);
+  }
+
+  cover.dataset.shape=shape;
+
+  document.querySelectorAll('.shape-btn')
+    .forEach(btn=>{
+      btn.classList.toggle(
+        'active',
+        btn.dataset.shape===shape
+      );
+    });
+}
+
+document.querySelectorAll('.shape-btn').forEach(btn=>{
+  btn.onclick=()=>{
+    setPhotoShape(btn.dataset.shape);
+    saveSettings();
+  };
 });
 
-/* =========================
-   INDEXEDDB
-   SAVES ACTUAL AUDIO FILES
-========================= */
+document.getElementById('photoImport').onchange=e=>{
 
-const DB_NAME='musicPlayerDB';
-const DB_VERSION=1;
-const STORE='songs';
+  const file=e.target.files[0];
 
-let db=null;
+  if(!file)return;
 
-function openDB(){
+  const reader=new FileReader();
 
-  return new Promise((resolve,reject)=>{
+  reader.onload=()=>{
+    cover.innerHTML='';
 
-    const request=
-      indexedDB.open(DB_NAME,DB_VERSION);
+    const img=document.createElement('img');
+    img.src=reader.result;
 
-    request.onupgradeneeded=e=>{
+    cover.appendChild(img);
 
-      const database=e.target.result;
+    localStorage.setItem(
+      storageKey('musicPlayerPhoto'),
+      reader.result
+    );
+  };
 
-      if(!database.objectStoreNames.contains(STORE)){
-        database.createObjectStore(
-          STORE,
-          {keyPath:'id'}
-        );
-      }
+  reader.readAsDataURL(file);
+};
 
-    };
 
-    request.onsuccess=e=>{
-      db=e.target.result;
-      resolve(db);
-    };
-
-    request.onerror=()=>{
-      reject(request.error);
-    };
-
-  });
-
-}
-
-function saveSong(song){
-
-  return new Promise((resolve,reject)=>{
-
-    const transaction=
-      db.transaction(STORE,'readwrite');
-
-    transaction.objectStore(STORE)
-      .put(song);
-
-    transaction.oncomplete=resolve;
-    transaction.onerror=()=>{
-      reject(transaction.error);
-    };
-
-  });
-
-}
-
-function deleteSavedSong(id){
-
-  return new Promise(resolve=>{
-
-    const transaction=
-      db.transaction(STORE,'readwrite');
-
-    transaction.objectStore(STORE)
-      .delete(id);
-
-    transaction.oncomplete=resolve;
-
-  });
-
-}
-
-function loadSavedSongs(){
-
-  return new Promise((resolve,reject)=>{
-
-    const transaction=
-      db.transaction(STORE,'readonly');
-
-    const request=
-      transaction.objectStore(STORE).getAll();
-
-    request.onsuccess=()=>{
-      resolve(request.result||[]);
-    };
-
-    request.onerror=()=>{
-      reject(request.error);
-    };
-
-  });
-
-}
-
-/* =========================
-   AUDIO PLAYER
-========================= */
+/* AUDIO */
 
 function formatTime(seconds){
 
-  if(!Number.isFinite(seconds)){
-    return '0:00';
-  }
+  if(!isFinite(seconds))return '0:00';
 
-  seconds=Math.floor(seconds);
+  const mins=Math.floor(seconds/60);
+  const secs=Math.floor(seconds%60);
 
-  const minutes=Math.floor(seconds/60);
-
-  const secs=String(
-    seconds%60
-  ).padStart(2,'0');
-
-  return minutes+':'+secs;
+  return mins+':'+
+    String(secs).padStart(2,'0');
 }
 
-function buildPlaybackArea(){
+function getMetadata(file){
+
+  let raw=file.name.replace(
+    /\.[^/.]+$/,
+    ''
+  );
+
+  let artist='Unknown artist';
+  let name=raw;
+
+  if(raw.includes(' - ')){
+
+    const parts=raw.split(' - ');
+
+    artist=parts.shift().trim();
+    name=parts.join(' - ').trim();
+  }
+
+  return{name,artist};
+}
+
+async function addAudioFile(file){
+
+  const meta=getMetadata(file);
+
+  const id=
+    Date.now()+'_'+
+    Math.random().toString(36).slice(2);
+
+  await saveAudioFile(id,file);
+
+  songs.push({
+    id,
+    name:meta.name,
+    artist:meta.artist
+  });
+
+  saveSongs();
+
+  if(activeIndex===-1){
+    activeIndex=0;
+  }
+
+  renderSongs();
+}
+
+document.getElementById('songImport').onchange=async e=>{
+
+  const files=Array.from(e.target.files);
+
+  for(const file of files){
+    await addAudioFile(file);
+  }
+
+  e.target.value='';
+};
+
+
+/* SONG STORAGE */
+
+function saveSongs(){
+
+  localStorage.setItem(
+    storageKey('musicPlayerSongs'),
+    JSON.stringify(songs)
+  );
+}
+
+function loadSongs(){
+
+  try{
+    songs=JSON.parse(
+      localStorage.getItem(
+        storageKey('musicPlayerSongs')
+      )
+    )||[];
+  }catch{
+    songs=[];
+  }
+}
+
+
+/* PLAYER */
+
+function buildPlayback(){
 
   playbackArea.innerHTML=`
 
-    <div class="scrub-wrap">
+  <div class="scrub-wrap">
 
-      <div class="time-row">
-        <span id="curTime">0:00</span>
-        <span id="totalTime">0:00</span>
-      </div>
-
-      <input
-        type="range"
-        class="scrub"
-        min="0"
-        max="100"
-        value="0">
-
+    <div class="time-row">
+      <span id="curTime">0:00</span>
+      <span id="totalTime">0:00</span>
     </div>
 
-    <div class="controls">
+    <input
+      type="range"
+      class="scrub"
+      id="scrub"
+      min="0"
+      max="100"
+      value="0"
+    >
 
-      <button
-        class="toggle-btn"
-        id="shuffleBtn"
-        title="Shuffle">⇄</button>
+  </div>
 
-      <button
-        id="prevBtn"
-        title="Previous">&#9198;</button>
+  <div class="controls">
 
-      <button
-        class="play-btn"
-        id="playBtn"
-        title="Play">&#9654;</button>
+    <button
+      class="toggle-btn"
+      id="shuffleBtn"
+      title="Shuffle"
+    >⇄</button>
 
-      <button
-        id="nextBtn"
-        title="Next">&#9197;</button>
+    <button
+      id="prevBtn"
+      title="Previous"
+    >&#9198;</button>
 
-      <button
-        class="toggle-btn"
-        id="repeatBtn"
-        title="Auto play">↺</button>
+    <button
+      class="play-btn"
+      id="playBtn"
+      title="Play"
+    >&#9654;</button>
 
-    </div>
+    <button
+      id="nextBtn"
+      title="Next"
+    >&#9197;</button>
+
+    <button
+      class="toggle-btn"
+      id="autoBtn"
+      title="Auto play"
+    >↺</button>
+
+  </div>
   `;
 
-  document.getElementById('shuffleBtn')
-    .addEventListener('click',e=>{
-      e.currentTarget.classList.toggle('active');
-    });
+  document.getElementById('shuffleBtn').onclick=()=>{
 
-  document.getElementById('repeatBtn')
-    .addEventListener('click',e=>{
-      e.currentTarget.classList.toggle('active');
-    });
+    shuffle=!shuffle;
 
-  document.getElementById('prevBtn')
-    .addEventListener('click',()=>{
-      stepSong(-1);
-    });
+    document
+      .getElementById('shuffleBtn')
+      .classList.toggle(
+        'active',
+        shuffle
+      );
 
-  document.getElementById('nextBtn')
-    .addEventListener('click',()=>{
-      stepSong(1);
-    });
+    saveSettings();
+  };
 
-  document.getElementById('playBtn')
-    .addEventListener('click',togglePlay);
+  document.getElementById('autoBtn').onclick=()=>{
 
-  document.querySelector('.scrub')
-    .addEventListener('input',e=>{
+    autoPlay=!autoPlay;
 
-      if(!audio)return;
+    document
+      .getElementById('autoBtn')
+      .classList.toggle(
+        'active',
+        autoPlay
+      );
 
-      if(Number.isFinite(audio.duration)){
+    saveSettings();
+  };
 
-        audio.currentTime=
-          (e.target.value/100)*
-          audio.duration;
+  document.getElementById('prevBtn').onclick=()=>{
+    stepSong(-1);
+  };
 
-      }
+  document.getElementById('nextBtn').onclick=()=>{
+    stepSong(1);
+  };
 
-    });
+  document.getElementById('playBtn').onclick=()=>{
+    togglePlay();
+  };
 
+  document.getElementById('scrub').oninput=e=>{
+
+    if(audio){
+      audio.currentTime=
+        (e.target.value/100)*
+        audio.duration;
+    }
+  };
+
+  document
+    .getElementById('shuffleBtn')
+    .classList.toggle('active',shuffle);
+
+  document
+    .getElementById('autoBtn')
+    .classList.toggle('active',autoPlay);
 }
 
-/* =========================
-   LOAD SONG
-========================= */
+async function loadActiveSong(shouldPlay=false){
 
-function loadSong(index,autoplay=false){
+  if(activeIndex<0||activeIndex>=songs.length)return;
 
-  if(!songs[index])return;
-
-  activeIndex=index;
-
-  if(audio){
-
-    audio.pause();
-
-    URL.revokeObjectURL(
-      audio.src
-    );
-
+  if(!playbackArea.innerHTML.trim()){
+    buildPlayback();
   }
 
-  const song=songs[index];
+  const song=songs[activeIndex];
 
-  audio=new Audio();
+  if(audio){
+    audio.pause();
+  }
 
-  audio.src=
-    URL.createObjectURL(song.file);
+  if(audioURL){
+    URL.revokeObjectURL(audioURL);
+  }
+
+  const blob=await getAudioFile(song.id);
+
+  if(!blob)return;
+
+  audioURL=URL.createObjectURL(blob);
+
+  audio=new Audio(audioURL);
 
   audio.preload='metadata';
 
@@ -2066,333 +1977,186 @@ function loadSong(index,autoplay=false){
 
   audio.addEventListener('timeupdate',()=>{
 
-    const current=audio.currentTime;
-    const duration=audio.duration;
+    if(!audio)return;
 
     document.getElementById('curTime')
       .textContent=
-      formatTime(current);
+      formatTime(audio.currentTime);
 
-    document.getElementById('totalTime')
-      .textContent=
-      formatTime(duration);
+    const scrub=document.getElementById('scrub');
 
-    if(Number.isFinite(duration)){
-
-      document.querySelector('.scrub').value=
-        (current/duration)*100;
-
+    if(audio.duration){
+      scrub.value=
+        (audio.currentTime/audio.duration)*100;
     }
-
   });
 
   audio.addEventListener('ended',()=>{
 
-    const repeat=
-      document.getElementById('repeatBtn')
-        .classList.contains('active');
-
-    if(repeat){
-      audio.currentTime=0;
-      audio.play();
-      return;
+    if(autoPlay){
+      stepSong(1,true);
+    }else{
+      document.getElementById('playBtn')
+        .innerHTML='&#9654;';
     }
-
-    nextSong(true);
-
   });
+
+  document.getElementById('playBtn')
+    .innerHTML='&#9654;';
 
   renderSongs();
 
-  if(autoplay){
+  if(shouldPlay){
+    await audio.play();
 
-    audio.play().then(()=>{
-      updatePlayButton(true);
-    }).catch(()=>{});
-
+    document.getElementById('playBtn')
+      .innerHTML='&#10074;&#10074;';
   }
-
 }
 
-/* =========================
-   PLAY / PAUSE
-========================= */
-
-function togglePlay(){
-
-  if(!songs.length)return;
+async function togglePlay(){
 
   if(!audio){
-    loadSong(activeIndex,true);
+    await loadActiveSong(true);
     return;
   }
 
   if(audio.paused){
+    await audio.play();
 
-    audio.play()
-      .then(()=>{
-        updatePlayButton(true);
-      })
-      .catch(()=>{});
-
+    document.getElementById('playBtn')
+      .innerHTML='&#10074;&#10074;';
   }else{
-
     audio.pause();
 
-    updatePlayButton(false);
-
+    document.getElementById('playBtn')
+      .innerHTML='&#9654;';
   }
-
 }
 
-function updatePlayButton(playing){
-
-  const btn=
-    document.getElementById('playBtn');
-
-  if(!btn)return;
-
-  btn.innerHTML=
-    playing
-      ? '&#10074;&#10074;'
-      : '&#9654;';
-}
-
-/* =========================
-   NEXT / PREVIOUS
-========================= */
-
-function nextSong(autoplay=false){
+function stepSong(direction,playAfter=false){
 
   if(!songs.length)return;
 
-  const shuffle=
-    document.getElementById('shuffleBtn')
-      ?.classList.contains('active');
+  if(shuffle && direction>0){
 
-  let next;
+    if(songs.length>1){
 
-  if(shuffle && songs.length>1){
+      let next;
 
-    do{
-      next=Math.floor(
-        Math.random()*songs.length
-      );
-    }while(next===activeIndex);
+      do{
+        next=Math.floor(
+          Math.random()*songs.length
+        );
+      }while(next===activeIndex);
+
+      activeIndex=next;
+
+    }
 
   }else{
-
-    next=
-      (activeIndex+1)%songs.length;
-
-  }
-
-  loadSong(next,autoplay);
-}
-
-function stepSong(dir){
-
-  if(!songs.length)return;
-
-  let next=
-    (activeIndex+dir+songs.length)
-    %songs.length;
-
-  loadSong(next,false);
-}
-
-/* =========================
-   SONG NAME
-========================= */
-
-function cleanFilename(filename){
-
-  return filename
-    .replace(/\.[^/.]+$/,'')
-    .trim();
-}
-
-function parseFilename(filename){
-
-  const raw=cleanFilename(filename);
-
-  if(raw.includes(' - ')){
-
-    const parts=
-      raw.split(' - ');
-
-    return{
-      artist:parts[0].trim()||'Unknown artist',
-      name:parts.slice(1)
-        .join(' - ')
-        .trim()||raw
-    };
-
-  }
-
-  return{
-    artist:'Unknown artist',
-    name:raw
-  };
-}
-
-/* =========================
-   IMPORT SONGS
-========================= */
-
-const songImport=
-  document.getElementById('songImport');
-
-songImport.addEventListener('change',e=>{
-
-  handleSongFiles(e.target.files);
-
-  e.target.value='';
-
-});
-
-async function handleSongFiles(files){
-
-  for(const file of Array.from(files)){
-
-    const parsed=
-      parseFilename(file.name);
-
-    const song={
-      id:
-        Date.now()+
-        '-' +
-        Math.random()
-          .toString(36)
-          .slice(2),
-
-      name:parsed.name,
-
-      artist:parsed.artist,
-
-      file:file
-    };
-
-    songs.push(song);
-
-    await saveSong(song);
-
-    if(activeIndex===-1){
-      activeIndex=0;
-    }
-
-  }
-
-  if(!playbackArea.innerHTML.trim()){
-    buildPlaybackArea();
-  }
-
-  renderSongs();
-
-}
-
-/* =========================
-   LONG PRESS DELETE
-========================= */
-
-function startDeleteTimer(div,index){
-
-  deleteTimer=setTimeout(()=>{
-
-    div.classList.add('delete-mode');
-
-  },600);
-
-}
-
-function cancelDeleteTimer(){
-
-  clearTimeout(deleteTimer);
-}
-
-function setupLongPress(div,index){
-
-  div.addEventListener(
-    'pointerdown',
-    e=>{
-
-      if(
-        e.target.classList.contains(
-          'delete-song'
-        )
-      )return;
-
-      startDeleteTimer(div,index);
-
-    }
-  );
-
-  div.addEventListener(
-    'pointerup',
-    cancelDeleteTimer
-  );
-
-  div.addEventListener(
-    'pointercancel',
-    cancelDeleteTimer
-  );
-
-  div.addEventListener(
-    'pointerleave',
-    cancelDeleteTimer
-  );
-
-}
-
-/* =========================
-   DELETE SONG
-========================= */
-
-async function deleteSong(index){
-
-  if(!songs[index])return;
-
-  const id=songs[index].id;
-
-  if(
-    audio &&
-    index===activeIndex
-  ){
-
-    audio.pause();
-
-    audio.src='';
-
-    audio=null;
-
-  }
-
-  await deleteSavedSong(id);
-
-  songs.splice(index,1);
-
-  if(songs.length===0){
-
-    activeIndex=-1;
-
-  }else if(index===activeIndex){
 
     activeIndex=
-      Math.min(index,songs.length-1);
+      (activeIndex+direction+songs.length)
+      %songs.length;
+  }
 
-  }else if(index<activeIndex){
+  loadActiveSong(playAfter);
+}
 
-    activeIndex--;
 
+/* DRAG TO REORDER */
+
+let draggedId=null;
+
+function startDrag(songId){
+
+  draggedId=songId;
+
+  document.body.style.userSelect='none';
+
+  const el=songList.querySelector(
+    `[data-song-id="${songId}"]`
+  );
+
+  if(el)el.classList.add('dragging');
+}
+
+document.addEventListener('pointermove',e=>{
+
+  if(!draggedId)return;
+
+  const target=document.elementFromPoint(
+    e.clientX,
+    e.clientY
+  );
+
+  const overEl=target && target.closest('.song');
+
+  if(!overEl)return;
+
+  const overId=overEl.dataset.songId;
+
+  if(overId===draggedId)return;
+
+  const fromIndex=songs.findIndex(
+    s=>s.id===draggedId
+  );
+
+  const toIndex=songs.findIndex(
+    s=>s.id===overId
+  );
+
+  if(fromIndex===-1||toIndex===-1)return;
+
+  const activeSongId=
+    activeIndex>=0 && activeIndex<songs.length
+      ?songs[activeIndex].id
+      :null;
+
+  const[moved]=songs.splice(fromIndex,1);
+  songs.splice(toIndex,0,moved);
+
+  if(activeSongId){
+    activeIndex=songs.findIndex(
+      s=>s.id===activeSongId
+    );
   }
 
   renderSongs();
 
-}
+  const newEl=songList.querySelector(
+    `[data-song-id="${draggedId}"]`
+  );
 
-/* =========================
-   RENDER SONGS
-========================= */
+  if(newEl)newEl.classList.add('dragging');
+});
+
+document.addEventListener('pointerup',()=>{
+
+  if(!draggedId)return;
+
+  draggedId=null;
+
+  document.body.style.userSelect='';
+
+  saveSongs();
+  renderSongs();
+});
+
+document.addEventListener('pointercancel',()=>{
+
+  if(!draggedId)return;
+
+  draggedId=null;
+
+  document.body.style.userSelect='';
+
+  renderSongs();
+});
+
+
+/* SONG LIST */
 
 function renderSongs(){
 
@@ -2401,29 +2165,29 @@ function renderSongs(){
   emptyState.style.display=
     hasSongs?'none':'block';
 
-  songListEl.style.display=
+  songList.style.display=
     hasSongs?'flex':'none';
 
   playbackArea.style.display=
     hasSongs?'block':'none';
 
-  if(hasSongs &&
-     playbackArea.innerHTML.trim()===''){
+  if(!hasSongs)return;
 
-    buildPlaybackArea();
-
+  if(!playbackArea.innerHTML.trim()){
+    buildPlayback();
   }
 
-  songListEl.innerHTML='';
+  songList.innerHTML='';
 
-  songs.forEach((song,i)=>{
+  songs.forEach((song,index)=>{
 
-    const div=
-      document.createElement('div');
+    const div=document.createElement('div');
 
     div.className=
       'song'+
-      (i===activeIndex?' active':'');
+      (index===activeIndex?' active':'');
+
+    div.dataset.songId=song.id;
 
     div.innerHTML=`
 
@@ -2441,7 +2205,8 @@ function renderSongs(){
 
       <button
         class="delete-song"
-        title="Delete">×</button>
+        title="Delete"
+      >&#10005;</button>
     `;
 
     div.querySelector('.song-name')
@@ -2450,174 +2215,226 @@ function renderSongs(){
     div.querySelector('.artist-name')
       .textContent=song.artist;
 
-    const deleteBtn=
-      div.querySelector('.delete-song');
+    let pressTimer;
 
-    deleteBtn.addEventListener(
-      'click',
-      e=>{
-        e.stopPropagation();
-        deleteSong(i);
-      }
-    );
+    div.addEventListener('pointerdown',e=>{
 
-    div.addEventListener('click',()=>{
+      if(e.target.closest('.delete-song'))return;
+      if(e.target.closest('.drag-handle'))return;
 
-      if(div.classList.contains('delete-mode')){
-        div.classList.remove('delete-mode');
-        return;
-      }
+      pressTimer=setTimeout(()=>{
 
-      if(activeIndex!==i){
+        div.classList.add('long-pressed');
 
-        loadSong(i,false);
-
-      }
+      },600);
 
     });
 
-    setupLongPress(div,i);
+    div.querySelector('.drag-handle')
+      .addEventListener('pointerdown',e=>{
 
-    songListEl.appendChild(div);
+        e.preventDefault();
+        e.stopPropagation();
 
+        startDrag(song.id);
+      });
+
+    div.addEventListener('pointerup',()=>{
+      clearTimeout(pressTimer);
+    });
+
+    div.addEventListener('pointercancel',()=>{
+      clearTimeout(pressTimer);
+    });
+
+    div.querySelector('.delete-song').onclick=async e=>{
+
+      e.stopPropagation();
+
+      await deleteSong(index);
+    };
+
+    div.addEventListener('dblclick',e=>{
+
+      if(e.target.closest('.delete-song'))return;
+
+      openSongEditor(index);
+    });
+
+    div.onclick=async e=>{
+
+      if(e.target.closest('.delete-song'))return;
+      if(e.target.closest('.drag-handle'))return;
+
+      if(div.classList.contains('long-pressed'))return;
+
+      activeIndex=index;
+
+      await loadActiveSong(false);
+    };
+
+    songList.appendChild(div);
   });
-
 }
 
-/* =========================
-   LOAD SAVED DATA
-========================= */
+async function deleteSong(index){
 
-async function initialize(){
+  const id=songs[index].id;
 
-  try{
+  await deleteAudioFile(id);
 
-    await openDB();
+  songs.splice(index,1);
 
-    songs=await loadSavedSongs();
+  if(!songs.length){
 
-    if(songs.length){
+    activeIndex=-1;
 
-      activeIndex=0;
-
-      buildPlaybackArea();
-
+    if(audio){
+      audio.pause();
+      audio=null;
     }
 
-    renderSongs();
+    playbackArea.innerHTML='';
 
-  }catch(error){
+  }else{
 
-    console.error(
-      'Could not load saved songs:',
-      error
-    );
-
-    renderSongs();
-
+    if(activeIndex>=songs.length){
+      activeIndex=songs.length-1;
+    }
   }
 
+  saveSongs();
+  renderSongs();
 }
 
-initialize();
 
-/* =========================
-   RESET
-========================= */
+/* EDIT SONG */
 
-document.getElementById('resetBtn')
-  .addEventListener('click',()=>{
+const songEdit=document.getElementById('songEdit');
+const editSongName=document.getElementById('editSongName');
+const editArtistName=document.getElementById('editArtistName');
 
-    setColor(
-      'headerColor',
-      '#8A8A8A'
+function openSongEditor(index){
+
+  editingIndex=index;
+
+  editSongName.value=songs[index].name;
+  editArtistName.value=songs[index].artist;
+
+  songEdit.classList.add('open');
+}
+
+document.getElementById('saveSongEdit').onclick=()=>{
+
+  if(editingIndex<0)return;
+
+  songs[editingIndex].name=
+    editSongName.value.trim()||'Untitled';
+
+  songs[editingIndex].artist=
+    editArtistName.value.trim()||'Unknown artist';
+
+  saveSongs();
+  renderSongs();
+
+  songEdit.classList.remove('open');
+};
+
+document.getElementById('cancelSongEdit').onclick=()=>{
+  songEdit.classList.remove('open');
+};
+
+
+/* RESET */
+
+document.getElementById('resetBtn').onclick=()=>{
+
+  setColor('headerColor','#8A8A8A');
+  setColor('titleColor','#1A1A1A');
+  setColor('songTitleColor','#1A1A1A');
+  setColor('bgColor','#FFFFFF');
+  setColor('artistColor','#767676');
+  setColor('outlineColor','#E6E5E3');
+
+  player.dataset.pattern='none';
+
+  patternTiles.forEach(t=>{
+    t.classList.toggle(
+      'active',
+      t.dataset.pattern==='none'
     );
-
-    setColor(
-      'titleColor',
-      '#1A1A1A'
-    );
-
-    setColor(
-      'songTitleColor',
-      '#1A1A1A'
-    );
-
-    setColor(
-      'bgColor',
-      '#FFFFFF'
-    );
-
-    playerEl.dataset.pattern='none';
-
-    patternTiles.forEach(t=>{
-      t.classList.toggle(
-        'active',
-        t.dataset.pattern==='none'
-      );
-    });
-
-    patternOpacityRow
-      .classList.remove('visible');
-
-    root.style.setProperty(
-      '--pattern-opacity',
-      .35
-    );
-
-    patternOpacityRange.value=35;
-    patternOpacityVal.textContent='35%';
-
-    fontSelect.value=
-      "'Montserrat',sans-serif";
-
-    updateFont();
-
-    root.style.setProperty(
-      '--scale',
-      1
-    );
-
-    scaleRange.value=100;
-    scaleVal.textContent='100%';
-
-    root.style.setProperty(
-      '--text-scale',
-      1
-    );
-
-    textScaleRange.value=100;
-    textScaleVal.textContent='100%';
-
-    root.style.setProperty(
-      '--cover-size',
-      '170px'
-    );
-
-    coverSizeRange.value=170;
-    coverSizeVal.textContent='170px';
-
-    cover.classList.remove(
-      'square',
-      'circle',
-      'heart'
-    );
-
-    cover.classList.add('rounded');
-
-    shapeButtons.forEach(b=>{
-      b.classList.toggle(
-        'active',
-        b.dataset.shape==='rounded'
-      );
-    });
-
-    titleText.textContent='Title';
-    titleInput.value='Title';
-
   });
+
+  patternOpacityRange.value=35;
+  patternOpacityVal.textContent='35%';
+
+  root.style.setProperty(
+    '--pattern-opacity',
+    .35
+  );
+
+  fontSelect.value="'Montserrat',sans-serif";
+  updateFont();
+
+  scaleRange.value=100;
+  root.style.setProperty('--scale',1);
+  scaleVal.textContent='100%';
+
+  textScaleRange.value=100;
+  root.style.setProperty('--text-scale',1);
+  textScaleVal.textContent='100%';
+
+  photoSizeRange.value=190;
+  setPhotoSize(190);
+
+  setPhotoShape('square');
+
+  setCornerStyle('curved');
+
+  titleText.textContent='Title';
+  titleInput.value='Title';
+
+  shuffle=false;
+  autoPlay=false;
+
+  localStorage.removeItem(storageKey('musicPlayerPhoto'));
+
+  saveSettings();
+};
+
+
+/* START */
+
+async function init(){
+
+  try{
+    await openDB();
+  }catch(e){
+    console.warn('IndexedDB unavailable',e);
+  }
+
+  loadSongs();
+  loadSettings();
+
+  const savedPhoto=
+    localStorage.getItem(storageKey('musicPlayerPhoto'));
+
+  if(savedPhoto){
+
+    cover.innerHTML='';
+
+    const img=document.createElement('img');
+    img.src=savedPhoto;
+
+    cover.appendChild(img);
+  }
+
+  renderSongs();
+}
+
+init();
 
 </script>
 
 </body>
-  </html>
+</html>
